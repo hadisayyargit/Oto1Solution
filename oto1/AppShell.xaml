@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    x:Class="oto1.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:oto1"
+    Shell.FlyoutBehavior="Disabled"
+    Title="oto1"
+    FlowDirection="RightToLeft"  >
+
+    <Shell.ToolbarItems   >
+        <ToolbarItem IconImageSource="user1.png"  Order="Default" Priority="0"  x:Name="toolbaritemUser" Clicked="toolbaritemUser_Clicked" />
+        <ToolbarItem IconImageSource="basket1.png" Text="1" Order="Primary" Priority="1" x:Name="toolbaritemBasket" Clicked="toolbaritemBasket_Clicked"/>
+        <ToolbarItem Text="3"                     Order="Primary" Priority="2"  />
+        <ToolbarItem IconImageSource="dotnet_bot.svg" Text="یاور هوشمند" Order="Primary" Priority="3" x:Name="toolbaritemSmartChat"  Clicked="toolbaritemSmartChat_Clicked"/>
+        <ToolbarItem Text="خروج"     Order="Secondary" Priority="4" x:Name="toolbaritemLogoff"  Clicked="toolbaritemLogoff_Clicked"    />
+
+    </Shell.ToolbarItems>
+
+
+    <TabBar x:Name="tabbarShell">
+
+        <ShellContent              
+            Title="خانه"  x:Name="tabHome"
+            ContentTemplate="{DataTemplate local:HomePage}"
+                Icon="home1.png"                       
+            Route="HomePage" />
+
+
+        <ShellContent 
+                Title="درخواستها"
+                   x:Name="tabRequests"
+                     Icon="basket1.png"
+                ContentTemplate="{DataTemplate local:Requests}"
+                Route="Requests" />
+
+        <ShellContent
+        Title="پروفایل"
+            x:Name="tabProfile"
+            Icon="user4.png"
+        ContentTemplate="{DataTemplate local:MyProfile}"
+        Route="MyProfile" />
+
+
+        <ShellContent 
+                Title="سفارشات"
+                   x:Name="tabOrders"
+                     Icon="orders64.png"
+                ContentTemplate="{DataTemplate local:Orders}"
+                Route="Orders" />
+
+
+
+    </TabBar>
+</Shell>

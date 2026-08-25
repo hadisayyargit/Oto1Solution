@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="oto1.Requests"
+             Title="myRequests" FlowDirection="RightToLeft">
+
+
+    <!--<FlexLayout  Direction="Row" Wrap="Wrap" 
+                 VerticalOptions="Start"      HorizontalOptions="Center"  Margin="5" HeightRequest="600">-->
+
+    <Grid  RowDefinitions="40,40,40,40,20,*,auto" ColumnDefinitions="*,auto" HeightRequest="600" VerticalOptions="Start">
+
+
+
+        <RadioButton  x:Name="rdoPart"  Grid.Row="0" Grid.Column="0"  ControlTemplate="{x:Static RadioButton.DefaultTemplate}" IsChecked="True" CheckedChanged="RadioButton_CheckedChanged">
+            <RadioButton.Content>
+                <Label Text="خرید قطعه/روانکار"    />
+            </RadioButton.Content>
+        </RadioButton>
+        <Image Source="oil3.png"  Grid.Row="0" Grid.Column="1" WidthRequest="170" HeightRequest="50"/>
+
+
+        <RadioButton x:Name="rdoLocationService" Grid.Row="1" Grid.Column="0"  ControlTemplate="{x:Static RadioButton.DefaultTemplate}" CheckedChanged="RadioButton_CheckedChanged">
+            <RadioButton.Content>
+                <Label Text="خدمات در محل مشتری" />
+            </RadioButton.Content>
+        </RadioButton>
+        <Image Source="mechanic2.png"  Grid.Row="1" Grid.Column="1"  WidthRequest="170" HeightRequest="50"/>
+
+        <RadioButton x:Name="rdoSiteService" Grid.Row="2" Grid.Column="0" ControlTemplate="{x:Static RadioButton.DefaultTemplate}" CheckedChanged="RadioButton_CheckedChanged">
+            <RadioButton.Content>
+                <StackLayout Orientation="Horizontal">
+                    <Label Text="خدمات حضوری در محل سرویس دهنده"  />
+                </StackLayout>
+            </RadioButton.Content>
+        </RadioButton>
+        <Image Source="fourservices2.png"  Grid.Row="2" Grid.Column="1" WidthRequest="170" HeightRequest="50"/>
+
+        <RadioButton x:Name="rdoTowing" Grid.Row="3" Grid.Column="0"  ControlTemplate="{x:Static RadioButton.DefaultTemplate}" CheckedChanged="RadioButton_CheckedChanged">
+            <RadioButton.Content>
+                <StackLayout Orientation="Horizontal">
+                    <Label Text="جابجایی خودرو"  />
+
+                </StackLayout>
+            </RadioButton.Content>
+        </RadioButton>
+        <Image Source="towtruck1.png"  Grid.Row="3" Grid.Column="1" WidthRequest="170" />
+
+
+        <Frame Grid.Row="5"  Grid.ColumnSpan="2" Margin="10">
+            <ListView  x:Name="listviewServiceItemType" ItemsSource="{Binding CustomerServiceItemViewModel}" IsVisible="True"  ItemSelected="listviewServiceItemType_ItemSelected">
+
+            <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Grid Padding="10">
+
+                                <Image Grid.Column="0" Source="{Binding ThumbnailPhotoFile}"   HeightRequest="40"    WidthRequest="60" Opacity="{Binding tmp_OpacityControl}"   IsEnabled="{Binding IsActive}"/>
+                                <Label Grid.Column="1"  Text="{Binding ServiceItemTypeName}"                   FontAttributes="Bold"  IsEnabled="{Binding tmp_IsActiveControl}"/>
+                            </Grid>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+
+        </Frame>
+
+        <Button x:Name="btnNextStep"  Text="ادامه"  Grid.Row="6" Grid.Column="1" Clicked="btnNextStep_Clicked" WidthRequest="100" ></Button>
+
+
+
+
+    
+    </Grid>
+  
+    <!--<ListView x:Name="list1" IsVisible="True">
+                <ListView.ItemsSource>
+                    <x:Array x:Name="nn" Type="{x:Type x:String}">
+                        <x:String>تعویض روغن</x:String>
+                        <x:String>تعویض باتری</x:String>
+                        <x:String>پنچرگیری</x:String>
+                        <x:String>بنزین</x:String>
+                    </x:Array>
+
+                </ListView.ItemsSource>
+                        
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Grid Padding="10">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <Image Grid.RowSpan="2" Source="oil2.png"   Aspect="AspectFill" HeightRequest="60"    WidthRequest="60" />
+                                <Label Grid.Column="1"  Text="{Binding nn}"                   FontAttributes="Bold" />
+                            </Grid>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>-->
+
+</ContentPage>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="oto1.MyCars"
+             Title="MyCars" FlowDirection="RightToLeft">
+
+    <StackLayout>
+        <ActivityIndicator x:Name="activityIndicator"
+                   IsVisible="True"
+                   IsRunning="True"
+                   Color="Orange"                  
+                           />
+
+
+        <Grid RowDefinitions="50,auto,auto,auto,*,auto" ColumnDefinitions="auto,auto"         >
+            <Label Text="نام خودرو:" Grid.Row="0" Grid.Column="0"></Label>
+            <Picker x:Name="pickerCar" Title="خودروی خود را انتخاب کنید" Grid.Row="0" Grid.Column="1"  ItemDisplayBinding="{Binding FName}"  />
+            <Label Text="پلاک:" Grid.Row="1" Grid.Column="0"></Label>
+            <Entry Placeholder="پلاک را وارد کنید:" Grid.Row="1" Grid.Column="1" x:Name="txtPlaque"></Entry>
+            
+            <Button Text="پاک کردن فرم"   x:Name="btnClear" Clicked="btnClear_Clicked"  Grid.Row="2" Grid.Column="0" WidthRequest="100"></Button>
+            <Button Text="قبول"   x:Name="btnUpdate" Clicked="btnUpdate_Clicked"  Grid.Row="2" Grid.Column="1" WidthRequest="100"></Button>
+            
+            <CollectionView x:Name="collectionviewCars" SelectionChanged="collectionviewCars_SelectionChanged" Grid.Row="3" Grid.ColumnSpan="2" SelectionMode="Single">
+
+                <CollectionView.ItemsLayout>
+                    <GridItemsLayout Orientation="Vertical" Span="3" VerticalItemSpacing="0" HorizontalItemSpacing="0" />
+                </CollectionView.ItemsLayout>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <StackLayout Margin="20" Padding="20" BackgroundColor="LightGray">
+                            <Image Source="{Binding ThumbnailPhotoString}" HeightRequest="60" WidthRequest="60" HorizontalOptions="Center"></Image>
+                            <Label Text="{Binding FName}" FontSize="Medium"></Label>
+                            <Label Text="{Binding Plaque}" FontSize="Small" BackgroundColor="Blue"></Label>
+                        </StackLayout>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+        </Grid>
+
+
+    </StackLayout>
+
+
+</ContentPage>

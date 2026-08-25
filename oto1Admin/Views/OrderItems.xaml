@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="oto1.OrderItems"
+             Title="اقلام سفارش">
+    <VerticalStackLayout>
+        <!--<Label  x:Name="labelServiceId"
+            Text="{Binding ServiceId}" 
+            VerticalOptions="Center" 
+            HorizontalOptions="Center" />-->
+
+        <CollectionView x:Name="collectionviewOrderItems"  SelectionMode="None" >
+            <CollectionView.ItemsLayout>
+                <GridItemsLayout Orientation="Vertical" Span="1" VerticalItemSpacing="0" HorizontalItemSpacing="0" />
+            </CollectionView.ItemsLayout>
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Frame Padding="4">
+                        <Grid RowDefinitions="auto,auto,auto,auto,auto" ColumnDefinitions=".3*,.7*" Margin="10" Padding="10"  RowSpacing="5" ColumnSpacing="10">
+                            <Image Source="{Binding ThumbnailPhotoFile}" Grid.Row="0" Grid.Column="0"  Grid.RowSpan="3" BackgroundColor="Transparent" VerticalOptions="Start" ></Image>
+                            <Label Text="{Binding PartName}"             Grid.Row="0" Grid.Column="1" FontSize="Medium" TextColor="Blue"></Label>
+
+                            <Label   Grid.Row="1" Grid.Column="1" FontSize="Micro" >
+
+                                <Label.FormattedText>
+                                    <FormattedString>
+
+                                        <Span Text="ردیف سفارش: "   />
+                                        <Span Text="{Binding ServiceItemId}"  />
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
+
+                            <Label Text="{Binding ServiceItemStatusName}"  Grid.Row="2" Grid.Column="1" FontSize="Medium"  TextColor="DarkBlue"  ></Label>
+                            <Label Text="{Binding Quantity,StringFormat=' تعداد: {0:D}'}" Grid.Row="3" Grid.Column="1"  x:Name="lblQuantity" VerticalOptions="Center" FontSize="Small" FontFamily="BYekan" Margin="4"></Label>
+                            <Label Text="{Binding NetAmount}"  Grid.Row="4" Grid.Column="1" FontSize="Medium"  TextColor="DarkBlue"  FontAttributes="Bold" FlowDirection="RightToLeft" FontFamily="BYekan"></Label>
+                            
+
+
+                        </Grid>
+                    </Frame>
+                </DataTemplate>
+                </CollectionView.ItemTemplate>
+        </CollectionView>
+    </VerticalStackLayout>
+</ContentPage>

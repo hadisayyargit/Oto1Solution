@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="oto1.SignUp"
+             Title="SignUp" >
+    <Grid RowDefinitions="auto,auto,auto,auto,auto,auto,auto,auto" ColumnDefinitions=".70*,.30*" Padding="10" >
+        <Image Source="user5.png" x:Name="imgUser" Grid.RowSpan="5" Grid.Row="0" Grid.Column="1"/>
+        <Entry x:Name="txtFName"    Placeholder="نام پارسی"  Grid.Row="0" Grid.Column="0" FlowDirection="RightToLeft" />
+        <Entry x:Name="txtLName"    Placeholder="نام لاتین"  Grid.Row="1" Grid.Column="0" FlowDirection="RightToLeft"/>
+        <Entry x:Name="txtUsername" Placeholder="شناسه کاربر(شماره تلفن همراه یا رایانامه یا کد ملی)"   Grid.Row="2" Grid.Column="0" FlowDirection="LeftToRight"/>
+        <Entry x:Name="txtPassword" Placeholder="گذرواژه" IsPassword="True"  Grid.Row="3" Grid.Column="0" FlowDirection="LeftToRight"/>
+        <Button Text="ثبت نام" x:Name="btnSignUp" Clicked="btnSignUp_Clicked" Grid.Row="4" Grid.Column="0"/>
+        <Button Text="انتخاب عکس..." Grid.Row="5" Grid.Column="1"  HorizontalOptions="End" BackgroundColor="DarkSlateGray" Clicked="btnSelectImage_Clicked"/>
+        <ActivityIndicator x:Name="activityIndicator"  IsVisible="True"  IsRunning="False"     Color="Maroon"  Grid.Row="6"/>
+    </Grid>
+</ContentPage>

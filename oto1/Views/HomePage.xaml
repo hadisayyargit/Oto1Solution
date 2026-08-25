@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="oto1.HomePage"
+             Title="HomePage" FlowDirection="RightToLeft">
+
+    <VerticalStackLayout
+            Spacing="5"
+            Padding="5,5"
+            VerticalOptions="Start">
+
+        <Image Source="logo28.png" 
+                                       Aspect="AspectFill"
+                                       HeightRequest="100"
+                                       WidthRequest="150"
+                                       HorizontalOptions="Center" />
+
+        <Label  Text="OTO1"
+                SemanticProperties.HeadingLevel="Level1"
+                FontSize="32"
+                HorizontalOptions="Center" />
+        
+        
+        <Grid RowDefinitions="auto" ColumnDefinitions=".3*,*,.3*" >
+            <ImageButton  Grid.Column="0"
+                 Source="fourservices1.png"
+                 Clicked="btnSpecialServices_Clicked"
+                         x:Name="btnSpecialServices"
+                         CommandParameter="goldservices"
+                 Aspect="AspectFit"
+                 HeightRequest="90"
+                 BackgroundColor="Transparent"
+                 SemanticProperties.Description="خدمات ویژه" />
+            <VerticalStackLayout Grid.Column="1" >
+            <Label
+                       
+
+                Text="بازارگاه خدمات یکپارچه خودرویی"      
+                SemanticProperties.HeadingLevel="Level2"
+                SemanticProperties.Description="Welcome to OTO1 App"
+                FontSize="18"
+                HorizontalOptions="Center" />
+            <Label
+         
+      
+                Text="version:۱.۱۱"
+                SemanticProperties.HeadingLevel="Level1"
+                FontSize="16"
+                HorizontalOptions="Center" />
+                
+            </VerticalStackLayout>
+        </Grid>
+
+        <CarouselView ItemsSource="{Binding SlideList}" x:Name="mainCarouselView" >
+            <CarouselView.ItemTemplate>
+                <DataTemplate>
+                    <StackLayout>
+                        <Frame HasShadow="True" 
+                          BorderColor="Transparent"
+                          CornerRadius="5"
+                        
+                          Padding="5"
+                          HeightRequest="200"
+                              
+                          HorizontalOptions="Center"
+                          VerticalOptions="CenterAndExpand">
+                            <StackLayout>
+
+                                <Label Text="{Binding FName}" 
+                                  FontAttributes="Bold"
+                                  FontSize="10"
+                                  HorizontalOptions="Center"
+                                  VerticalOptions="Center" />
+                                <ImageButton Source="{Binding ThumbnailPhotoFile}" 
+                                             Clicked="ImageButton_Clicked"
+                                  Aspect="AspectFit"
+                                  HeightRequest="150"
+                                  WidthRequest="200"
+                                  
+                                  HorizontalOptions="Center" />
+
+                            </StackLayout>
+                        </Frame>
+                    </StackLayout>
+                </DataTemplate>
+            </CarouselView.ItemTemplate>
+        </CarouselView>
+
+        <Grid ColumnDefinitions="*,200,*" RowDefinitions="*,*" ColumnSpacing="5" RowSpacing="5" >
+
+            <VerticalStackLayout  Grid.Row="0" Grid.Column="0" HorizontalOptions="Center"  >
+                <ImageButton
+                 Source="basket1.png"
+                 Clicked="btnAutoPartsSales_Clicked"
+                 Aspect="AspectFit"
+                 HeightRequest="90"
+                 BackgroundColor="Transparent"
+                 SemanticProperties.Description="فروشگاه" />
+                <Label       
+            Text="فروشگاه"
+            FontSize="10"
+            HorizontalOptions="Center" />
+            </VerticalStackLayout>
+
+            <VerticalStackLayout  Grid.Row="0" Grid.Column="2" HorizontalOptions="End"  >
+                <!--<ImageButton Grid.Row="0" Grid.Column="1"
+                 Source="car_xxl.png"
+                 Clicked="btnMyRequests_Clicked"
+                         CommandParameter="locationservices"
+                 Aspect="AspectFit"
+                 HeightRequest="90"
+                 BackgroundColor="Transparent"
+                 
+                 SemanticProperties.Description="خدمات در محل مشتری" />-->
+                <ImageButton
+                 Source="mechanic1.png"
+                         x:Name="btnLocationServices"
+                 Clicked="btnLocationServices_Clicked"
+              
+                 Aspect="AspectFit"
+                 HeightRequest="90"
+                 BackgroundColor="Transparent"
+                 
+                 SemanticProperties.Description="خدمات در محل مشتری" />
+                <Label       
+            Text="خدمات در محل"
+            FontSize="10"
+            HorizontalOptions="Center" />
+            </VerticalStackLayout>
+
+            <VerticalStackLayout  Grid.Row="1" Grid.Column="0">
+                <ImageButton
+                 Source="fourservices3.png"
+                         x:Name="btnSiteServices"
+                 Clicked="btnSiteServices_Clicked"
+                 Aspect="AspectFit"
+                 HeightRequest="90"
+                 BackgroundColor="Transparent"
+                 SemanticProperties.Description="خدمات در سایت" />
+                <Label       
+            Text="خدمات در سایت"
+            FontSize="10"
+            HorizontalOptions="Center" />
+            </VerticalStackLayout>
+
+            <VerticalStackLayout  Grid.Row="1" Grid.Column="2">
+                <ImageButton x:Name="btnTowing"
+                 Source="tow1.png"
+                 Clicked="btnTowing_Clicked"                         
+                 Aspect="AspectFit"
+                 HeightRequest="90"
+                 BackgroundColor="Transparent"
+                 SemanticProperties.Description="حمل خودرو" />
+                <Label       
+            Text="حمل خودر"
+            FontSize="10"
+            HorizontalOptions="Center" />
+            </VerticalStackLayout>
+        </Grid>
+
+
+    </VerticalStackLayout>
+</ContentPage>

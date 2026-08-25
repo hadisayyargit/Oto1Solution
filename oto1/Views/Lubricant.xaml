@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="oto1.Lubricant"
+             Title="انتخاب روغن موتور"  FlowDirection="RightToLeft">
+
+    <Grid RowDefinitions="auto,auto,auto,auto,*,auto" ColumnDefinitions=".5*,.5*"    Padding="8" RowSpacing="8"  Margin="4"  >
+        <ActivityIndicator x:Name="activityIndicator" Grid.Row="0"                    IsVisible="True"  IsRunning="False"      Color="Orange"     />
+        <Picker x:Name="pickerCar" Title="نام خودرو:" Grid.Row="0" Grid.Column="0" ItemsSource="{Binding cars}" ItemDisplayBinding="{Binding FName}"  SelectedIndexChanged="pickerCar_SelectedIndexChanged" >        </Picker>
+        <Picker x:Name="pickerManufacturer" Title="نام سازنده:" Grid.Row="0" Grid.Column="1" ItemsSource="{Binding Manufacturers}" ItemDisplayBinding="{Binding FName}" SelectedIndexChanged="pickerManufacturer_SelectedIndexChanged" >        </Picker>
+        <Entry Placeholder="درجه گرانروی(ویسکوزیته):" Grid.Row="1" Grid.Column="0" x:Name="txtViscosity"></Entry>
+        <Entry Placeholder="سطح کارایی:" Grid.Row="1" Grid.Column="1" x:Name="txtPerformanceLevel"></Entry>
+        <Picker x:Name="pickerProduct" Title="نام روغن:" Grid.Row="2" Grid.Column="0" ItemsSource="{Binding Products}" ItemDisplayBinding="{Binding FName}" SelectedIndexChanged="pickerProduct_SelectedIndexChanged" >        </Picker>
+        <Picker x:Name="pickerVendor" Title="تامین کننده:" Grid.Row="2" Grid.Column="1" ItemsSource="{Binding Vendors}" ItemDisplayBinding="{Binding FName}" SelectedIndexChanged="pickerVendor_SelectedIndexChanged" >        </Picker>
+    
+        <Button Text="پیدا کن"   x:Name="btnSearch" Clicked="btnSearch_Clicked" Grid.Row="3" Grid.Column="1"  />
+
+        <CollectionView x:Name="collectionviewProducts" Grid.Row="4" Grid.ColumnSpan="2" SelectionMode="None" >
+            <CollectionView.ItemsLayout>
+                <GridItemsLayout Orientation="Vertical" Span="2" VerticalItemSpacing="8" HorizontalItemSpacing="8" />
+            </CollectionView.ItemsLayout>
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Frame Padding="4">
+                        <Grid RowDefinitions="*,30,30,30,30" ColumnDefinitions=".3*,.7*"  BackgroundColor="MistyRose">
+                            <Image Source="{Binding PhotoFileName}" Grid.Row="0" Grid.Column="0" Grid.RowSpan="4" BackgroundColor="Transparent" VerticalOptions="Start" ></Image>
+                            <Label Text="{Binding FName}"           Grid.Row="0" Grid.Column="1" FontSize="Small" TextColor="Blue"></Label>
+                            <Label Text="{Binding VendorName}"      Grid.Row="1" Grid.Column="1" FontSize="Micro" ></Label>
+                            <Label Text="{Binding PriceAmount}"     Grid.Row="2" Grid.Column="1" FontSize="Small" TextDecorations="Strikethrough"  FontAttributes="Italic"  ></Label>
+                            <Label Text="{Binding NetAmount}"       Grid.Row="3" Grid.Column="1" FontSize="Medium"  TextColor="DarkBlue"  FontAttributes="Bold"></Label>
+
+
+                            <StackLayout Orientation="Horizontal" Grid.Row="4" Grid.Column="1" >
+                                <Button Text="+" HeightRequest="40" x:Name="btnAdd" Command="{Binding IncreaseCommand}"></Button>
+                                <Label Text="{Binding Quantity}" x:Name="lblQuantity" VerticalOptions="Center"></Label>
+                                <Button Text="-" HeightRequest="40" x:Name="btnSubtract" Command="{Binding DecreaseCommand}" ></Button>
+                            </StackLayout>
+
+                        </Grid>
+                    </Frame>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+        <ImageButton Source="basket3.png" WidthRequest="50" HeightRequest="50"  x:Name="btnAddToBasket"  Clicked="btnAddToBasket_Clicked" Grid.Row="5" Grid.Column="0"  />
+        <ImageButton Source="eraser1.png" x:Name="btnClear"  Grid.Row="5" Grid.Column="1"  Clicked="btnClear_Clicked"/>
+
+    </Grid>
+    
+    
+</ContentPage>

@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:persian="clr-namespace:MauiPersianToolkit.Controls;assembly=MauiPersianToolkit"
+             x:Class="oto1.Orders"
+             Title="Orders">
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem IconImageSource="recurring2_48.png"  Order="Primary"   Priority="5" Clicked="toolbaritemRefresh_Clicked" />
+
+        <ToolbarItem Text="همه ماشینها"                   Order="Secondary" Priority="6" Clicked="mnuAllCars_Clicked" ></ToolbarItem>
+    </ContentPage.ToolbarItems>
+
+    <ScrollView>
+    <VerticalStackLayout>
+
+
+        <persian:DatePicker PlaceHolder="تاریخ شروع" SelectedPersianDate="{Binding PersianBeginDate}" 
+              CalendarOption="{Binding CalendarOption}" DisplayFormat="yyyy/MM/dd" 
+              OnChangeDateCommand="{Binding OnChangeDateCommand}"
+                x:Name="dtPickerBegin"          />
+        <persian:DatePicker PlaceHolder="تاریخ پایان" SelectedPersianDate="{Binding PersianDate}" 
+              CalendarOption="{Binding CalendarOption}" DisplayFormat="yyyy/MM/dd" 
+              OnChangeDateCommand="{Binding OnChangeDateCommand}"    x:Name="dtPickerEnd" />
+
+
+
+        <ActivityIndicator x:Name="activityIndicator"  IsVisible="True"       IsRunning="False"     HeightRequest="20"     Color="Maroon" />
+
+        
+            
+            <CollectionView x:Name="collectionviewOrders"  SelectionMode="Single" ItemsSource="{Binding myGroupServices}" IsGrouped="true" BackgroundColor="LightYellow">
+                <CollectionView.ItemsLayout>
+                    <GridItemsLayout Orientation="Vertical" Span="1" VerticalItemSpacing="0" HorizontalItemSpacing="0" />
+                </CollectionView.ItemsLayout>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate >
+
+                        <SwipeView>
+
+                            <FlexLayout>
+                              
+                               
+                                    <Image Source="{Binding ThumbnailPhotoFile}" WidthRequest="50" HeightRequest="50" ></Image>
+
+                            
+                                </FlexLayout>
+                            </SwipeView>
+                 
+
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+                <CollectionView.GroupHeaderTemplate>
+                    <DataTemplate>
+
+                        <Grid RowDefinitions="auto,auto,auto,auto" ColumnDefinitions=".6*,.4*" Margin="10" Padding="10" BackgroundColor="LightYellow">
+                            <Label Text="{Binding VendorName}"            Grid.Row="0" Grid.Column="0"   FontSize="Micro"></Label>
+                            <Label Text="{Binding ServiceId, StringFormat='شماره سفارش: {0:D}'}" Grid.Row="0" Grid.Column="1" Margin="0,0,0,10" FontAttributes="Bold" FontFamily="BYekan"/>
+                          
+                            <Label Text="{Binding ServiceTypeName}"   Grid.Row="1" Grid.Column="0" ></Label>
+                            <Label Text="{Binding TicketDateTimeJalali, StringFormat='{0:D}'}"    Grid.Row="1" Grid.Column="1" FontFamily="BYekan"></Label>
+
+                            <Label Text="{Binding ServiceStatusName}"     Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" FontSize="Small" TextColor="Red"></Label>
+
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.GroupHeaderTemplate>
+                <CollectionView.GroupFooterTemplate>
+                    <DataTemplate>
+                        <Grid RowDefinitions="auto,auto" ColumnDefinitions=".5*,.5*" ColumnSpacing="10" RowSpacing="10">
+                            <Label Text="{Binding TotalAmount}" Grid.Row="0" Grid.Column="0" Margin="10,10,0,10"  TextColor="Blue" FontAttributes="Bold"  FontSize="Large" FontFamily="BYekan"/>
+                            <Button Text="اقلام..."          Grid.Row="0" Grid.Column="1"   WidthRequest="150" Clicked="btnServiceItems_Clicked"></Button>
+                            <BoxView Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" HeightRequest="1" Color="Silver"/>
+                        </Grid>
+                    </DataTemplate>
+
+
+                </CollectionView.GroupFooterTemplate>
+            </CollectionView>
+
+
+
+
+
+
+
+
+
+
+            <!-- TreeView with Multiple Selection -->
+            <!--
+        <persianControls:TreeView x:Name="treeView"
+                                  SelectionMode="Multiple" />
+
+        -->
+            <!-- TabView -->
+            <!--
+        <persianControls:TabView x:Name="tabView">
+            <persianControls:TabViewItem Title="Tab 1">
+                <Label Text="Content for Tab 1" />
+            </persianControls:TabViewItem>
+            <persianControls:TabViewItem Title="Tab 2">
+                <Label Text="Content for Tab 2" />
+            </persianControls:TabViewItem>
+        </persianControls:TabView>
+
+        -->
+            <!-- SlideButton -->
+            <!--
+        <persianControls:SlideButton x:Name="slideButton"
+                                     Text="Slide to Confirm" />
+
+        -->
+            <!-- Picker with Multiple Selection -->
+            <!--
+        <persianControls:Picker x:Name="multiPicker"
+                                SelectionMode="Multiple" />
+
+        -->
+            <!-- Expander -->
+            <!--
+        <persianControls:Expander x:Name="expander"
+                                  IsExpanded="False"
+                                  Header="Click to expand">
+            <Label Text="This is the expandable content" />
+        </persianControls:Expander>
+
+        -->
+            <!-- Entry and Editor -->
+            <!--
+        <persianControls:Entry Placeholder="Enter text here" />
+        <persianControls:Editor Placeholder="Enter more detailed text here" />-->
+
+
+
+        
+
+    </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

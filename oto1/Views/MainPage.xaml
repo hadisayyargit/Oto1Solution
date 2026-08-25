@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<TabbedPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="oto1.MainPage"
+             xmlns:local="clr-namespace:oto1"
+             xmlns:android="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.AndroidSpecific;assembly=Microsoft.Maui.Controls"
+             android:TabbedPage.ToolbarPlacement="Bottom"                        
+             android:TabbedPage.IsSmoothScrollEnabled="false"
+             FlowDirection="RightToLeft">
+    <TabbedPage.ToolbarItems>
+        <ToolbarItem IconImageSource="user1.png"   Order="Default" Priority="0"  x:Name="toolbaritemUser" Clicked="toolbaritemUser_Clicked" />
+        <ToolbarItem IconImageSource="basket1.png" Text="1" android:Button.UseDefaultPadding="True"   Order="Primary" Priority="0" x:Name="toolbaritemBasket" Clicked="toolbaritemBasket_Clicked" SemanticProperties.Hint="Basket"/>
+        <ToolbarItem IconImageSource="dotnet_bot.svg" Text="یاور هوشمند" Order="Primary" Priority="0" x:Name="toolbaritemSmartChat"  Clicked="toolbaritemSmartChat_Clicked"/>
+        <ToolbarItem Text="خروج"   IconImageSource="delete_xxl.png"  Order="Secondary" Priority="10" x:Name="toolbaritemLogoff"    Clicked="toolbaritemLogoff_Clicked"  />
+    </TabbedPage.ToolbarItems>
+
+    <TabbedPage.Children>
+    <local:HomePage Title="خانه" IconImageSource="home1.png"/>
+    
+    <!--<local:RequestTabbedPage Title="درخواستها" IconImageSource="basket1.png"/>-->
+        <local:Requests Title="درخواستها" IconImageSource="basket1.png"/>
+
+    <local:MyProfile Title="پروفایل" IconImageSource="user4.png"/>
+
+        <local:Orders Title="سفارشات" IconImageSource="orders64.png"/>
+    
+    <!--<NavigationPage Title="یاور هوشمند" IconImageSource="dotnet_bot.svg">
+        <x:Arguments>
+            <local:SmartChat Title="Three" />
+        </x:Arguments>
+    </NavigationPage>-->
+    </TabbedPage.Children>
+
+</TabbedPage>

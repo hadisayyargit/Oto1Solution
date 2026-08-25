@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="oto1.PaymentPage"
+             Title="پرداخت"  FlowDirection="RightToLeft">
+
+    <ScrollView>
+        <Grid RowDefinitions="auto,auto,auto,auto,auto,auto" ColumnDefinitions=".3*,.7*" Margin="10" Padding="10" BackgroundColor="LightGray" RowSpacing="5">
+            <Frame Grid.Row="0" Grid.ColumnSpan="2">
+                <Grid RowDefinitions="auto" ColumnDefinitions=".3*,.7*" >
+                    <Label Text="سرویس دهنده" Grid.Row="0" Grid.Column="0" FontSize="Micro" ></Label>
+                    <Label Text="{Binding VendorPname}" Grid.Column="1" FontSize="Small" Grid.Row="0" TextColor="CadetBlue"></Label>
+
+                   </Grid>
+            </Frame>
+            <Frame Grid.Row="1" Grid.ColumnSpan="2">
+                <Grid RowDefinitions="auto,auto,auto" ColumnDefinitions=".3*,.7*" >
+                    <Label Text="نشانی"                  Grid.Row="0" Grid.Column="0" FontSize="Micro" ></Label>
+                    <Label Text="{Binding AddressPname}" Grid.Row="0" Grid.Column="1" FontSize="Small"  TextColor="CadetBlue" x:Name="txtLocationName"></Label>
+                    <Label Text="{Binding TicketDateTimeJalali}"   Grid.Row="1" Grid.Column="1" FontSize="Small" FontFamily="BYekan" FlowDirection="RightToLeft"  TextColor="CadetBlue"></Label>
+                </Grid>
+            </Frame>
+            <Frame Grid.Row="2" Grid.ColumnSpan="2">
+
+                <VerticalStackLayout>
+                    <Label   >
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="تعداد اقلام:"  FontSize="Small" />
+                                <Span Text="{Binding ItemCount}"  FontSize="Small" TextColor="ForestGreen"/>
+                            </FormattedString>
+                        </Label.FormattedText>
+
+                    </Label>
+
+
+                    <CollectionView   x:Name="collectionviewParts" >
+                        <CollectionView.ItemsLayout>
+                            <GridItemsLayout Orientation="Horizontal"   />
+                        </CollectionView.ItemsLayout>
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <SwipeView>
+
+                                    <FlexLayout>
+
+                                        <Image Source="{Binding ThumbnailPhotoFile}" WidthRequest="40" HeightRequest="40" ></Image>
+                                    </FlexLayout>
+                                </SwipeView>
+
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+
+                </VerticalStackLayout>
+            </Frame>
+
+            <Frame Grid.Row="3" Grid.ColumnSpan="2">
+                <StackLayout Orientation="Horizontal">
+                    <Entry Placeholder="کد تخفیف" x:Name="txtDiscountCode" FontSize="Small"  TextColor="Red" WidthRequest="200"></Entry>
+                    <Button Text="بررسی کد تخفیف"></Button>
+                </StackLayout>
+            </Frame>
+
+            <Frame Grid.Row="4" Grid.ColumnSpan="2" >
+                <VerticalStackLayout>
+                    <Label Text="درگاه پرداخت" Grid.Row="0"  FontSize="Small" ></Label>
+                    <RadioButton Content="بانک..." Value="0" FontSize="Small" IsChecked="True"></RadioButton>
+                    <RadioButton Content="کیف پول" Value="0" FontSize="Small"></RadioButton>
+                    <RadioButton Content="تارا" Value="0" FontSize="Small"></RadioButton>
+                </VerticalStackLayout>
+            </Frame>
+
+
+            <Frame Grid.Row="5" Grid.ColumnSpan="2">
+
+                <Grid RowDefinitions="auto,auto,auto,auto,auto" ColumnDefinitions=".4*,.3*,.3*" ColumnSpacing="8">
+
+                    <Label Text="مجموع:" Grid.Row="0" Grid.Column="0" FontSize="Small" />
+                    <Label Text="{Binding SumNetAmount}"  Grid.Row="0" Grid.Column="1" FontSize="Small" FontFamily="BYekan" TextColor="ForestGreen"/>
+
+                    <Label Text="هزینه خدمات:"  Grid.Row="1" Grid.Column="0" FontSize="Small"/>
+                    <Label Text="{Binding ExtraAmount}"           Grid.Row="1" Grid.Column="1" FontSize="Small" FontFamily="BYekan" TextColor="ForestGreen"/>
+
+                    <Label Text="هزینه ارسال:"  Grid.Row="2" Grid.Column="0" FontSize="Small"/>
+                    <Label Text="{Binding ShippingAmount}"           Grid.Row="2" Grid.Column="1" FontSize="Small" FontFamily="BYekan" TextColor="ForestGreen"/>
+
+                    <Label Text="تخفیف:"        Grid.Row="3" Grid.Column="0" FontSize="Small"/>
+                    <Label Text="{Binding DiscountAmount}"           Grid.Row="3" Grid.Column="1" FontSize="Small" FontFamily="BYekan" TextColor="ForestGreen"/>
+
+                    <Label Text="{Binding TotalAmount} " Grid.Row="4" Grid.Column="0" TextColor="Maroon" FontAttributes="Bold" FontSize="Medium" FontFamily="BYekan"></Label>
+                    <Button Text="پرداخت" Grid.Row="4" Grid.Column="1" Clicked="btnPay_Clicked"></Button>
+                    <Button Text="انصراف" Grid.Row="4" Grid.Column="2" Clicked="btnReturn_Clicked"></Button>
+
+
+
+                </Grid>
+            </Frame>
+
+        </Grid>
+
+    </ScrollView>
+</ContentPage>

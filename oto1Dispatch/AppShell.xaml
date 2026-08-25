@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    x:Class="oto1.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:oto1"
+    Shell.FlyoutBehavior="Disabled"
+    Title="oto1Dispatch"
+    FlowDirection="RightToLeft"    >
+
+    <Shell.ToolbarItems   >
+        <ToolbarItem IconImageSource="user1.png"  Order="Default" Priority="0"  x:Name="toolbaritemUser" Clicked="toolbaritemUser_Clicked" />
+        <ToolbarItem Text="خروج"     Order="Secondary" Priority="10" x:Name="toolbaritemLogoff" Clicked="toolbaritemLogoff_Clicked"   />
+
+    </Shell.ToolbarItems>
+
+
+    <TabBar x:Name="tabbarShell">
+
+        <ShellContent  Title="خانه"  ContentTemplate="{DataTemplate local:HomePage}"  Icon="home1.png" Route="HomePage" x:Name="tabHome" />
+
+        <ShellContent  Title="سفارشات رسیده"  Icon="carmechanic.png" x:Name="tabNewRequests"    ContentTemplate="{DataTemplate local:Basket  }"   />
+
+        <ShellContent  Title="پروفایل"   Icon="user2.png"      ContentTemplate="{DataTemplate local:MyProfile}"  x:Name="tabProfile"  />
+        <ShellContent  Title="گزارشات"   Icon="report64.png"   ContentTemplate="{DataTemplate local:Orders}"  />
+
+    </TabBar>
+
+</Shell>
+

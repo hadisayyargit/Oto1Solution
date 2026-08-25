@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="oto1.HomePage"
+             Title="" FlowDirection="RightToLeft" BackgroundColor="Bisque">
+
+    <VerticalStackLayout
+            Spacing="20"
+            Padding="30,10"
+            VerticalOptions="Start">
+
+
+        <Image Source="oto1vendor.png" 
+                                       Aspect="AspectFill"
+                                       HeightRequest="200"
+                                       WidthRequest="200"
+                                       HorizontalOptions="Center" />
+        <Label
+                Text="OTO1"
+                SemanticProperties.HeadingLevel="Level1"
+                FontSize="32"
+                HorizontalOptions="Center" />
+
+        
+        <Label
+                
+                Text="بازارگاه خدمات یکپارچه خودرویی-نسخه تامین کننده"      
+                SemanticProperties.HeadingLevel="Level2"
+                SemanticProperties.Description="Welcome to dot net Multi platform App U I"
+                FontSize="18"
+                HorizontalOptions="Center" />
+        <Label
+                Text="version:۱.۱۰"
+                SemanticProperties.HeadingLevel="Level1"
+                FontSize="16"
+                HorizontalOptions="Center" />
+
+        <!--<Label Text="آخرین درخواستها" TextColor="Maroon" FontSize="Medium"></Label>
+        <CarouselView ItemsSource="{Binding SlideList}" x:Name="mainCarouselView" >
+            <CarouselView.ItemTemplate>
+                <DataTemplate>
+                    <StackLayout>
+                        <Frame HasShadow="True" BackgroundColor="LightGoldenrodYellow"
+                          BorderColor="Transparent"
+                          CornerRadius="5"
+                        
+                          Padding="5"
+                          HeightRequest="200"
+                              
+                          HorizontalOptions="Center"
+                          VerticalOptions="CenterAndExpand">
+                            <StackLayout>
+                                
+                                <Label Text="{Binding FName}" 
+                                  FontAttributes="Bold"
+                                  FontSize="10"
+                                  HorizontalOptions="Center"
+                                  VerticalOptions="Center" />
+                                <ImageButton Source="{Binding ThumbnailPhotoFile}" 
+                                             Clicked="ImageButton_Clicked"
+                                  Aspect="AspectFit"
+                                  HeightRequest="150"
+                                  WidthRequest="200"
+                                  
+                                  HorizontalOptions="Center" />
+
+                            </StackLayout>
+                        </Frame>
+                    </StackLayout>
+                </DataTemplate>
+            </CarouselView.ItemTemplate>
+        </CarouselView>-->
+
+
+        <Button x:Name="btnMyRequests" Text="خدمات" Clicked="btnMyRequests_Clicked" />
+    </VerticalStackLayout>
+</ContentPage>

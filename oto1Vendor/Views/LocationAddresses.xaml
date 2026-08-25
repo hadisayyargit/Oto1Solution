@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="oto1.myLocationAddresses"
+             Title="myLocationAddresses">
+    
+    <VerticalStackLayout VerticalOptions="Start">
+        <CollectionView  Grid.Row="4" Grid.ColumnSpan="3" x:Name="collectionviewLocations" SelectionMode="Single"  SelectionChanged="collectionviewLocations_SelectionChanged">
+            <CollectionView.ItemsLayout>
+                <GridItemsLayout Orientation="Horizontal"  VerticalItemSpacing="0" HorizontalItemSpacing="0" />
+            </CollectionView.ItemsLayout>
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <SwipeView>
+                        <SwipeView.BottomItems>
+                            <SwipeItems>
+                                <SwipeItem BackgroundColor="Red" IconImageSource="delete_xxl" Clicked="SwipeItem_Clicked"></SwipeItem>
+                            </SwipeItems>
+                        </SwipeView.BottomItems>
+                        <FlexLayout Margin="10">
+                            <Label Text="{Binding FName}"  ></Label>
+                        </FlexLayout>
+                    </SwipeView>
+
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+        <Button Text="انتخاب با نقشه" ImageSource="location_xxl.png" x:Name="btnMap" WidthRequest="200" HeightRequest="70" Clicked="btnMap_Clicked"></Button>
+        
+    </VerticalStackLayout>
+    
+</ContentPage>

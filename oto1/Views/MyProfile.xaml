@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="oto1.MyProfile"
+             Title="MyProfile" FlowDirection="RightToLeft">
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem IconImageSource="recurring2_48.png"  Order="Primary"   Priority="5" Clicked="toolbaritemRefresh_Clicked" />
+
+        <ToolbarItem Text="نشانیهای من"               Order="Secondary" Priority="3" Clicked="mnuMyLocation_Clicked"/>
+        <ToolbarItem Text="ماشینهای من"               Order="Secondary" Priority="4" Clicked="mnuMyCars_Clicked"/>
+        <ToolbarItem Text="تامین کنندگان برگزیده من"  Order="Secondary" Priority="5" />
+        <ToolbarItem Text="اصلاح مشخصات من"            Order="Secondary" Priority="6" Clicked="mnuProfileEdit_Clicked"/>
+        <ToolbarItem Text="تغییر گذرواژه"             Order="Secondary" Priority="7" Clicked="mnuPassword_Clicked"/>
+        <ToolbarItem Text="کیف پول من"                Order="Secondary" Priority="8" Clicked="mnuWallet_Clicked"/>
+        <ToolbarItem Text="حسابهای من"                Order="Secondary" Priority="8" />
+    </ContentPage.ToolbarItems>
+    
+    <Grid RowDefinitions="auto,auto,auto" ColumnDefinitions=".40*,.60*"  Margin="10">
+        <Label Text="" Grid.Row="0" Grid.Column="0" x:Name="labelUsername"></Label>
+        <Image Source="user5.png" x:Name="imgUser" Grid.Row="0" Grid.Column="1"/>
+        
+        
+        <Frame Grid.Row="2" Grid.ColumnSpan="2" IsVisible="False" x:Name="frameProfile" >
+            <Grid RowDefinitions="auto,auto,auto,auto,auto,auto,auto,auto" ColumnDefinitions=".30*,.70*" Padding="10" >
+                <Button Text="انتخاب عکس..."     Grid.Row="0" Grid.Column="1"  HorizontalOptions="End" BackgroundColor="DarkSlateGray" Clicked="btnSelectImage_Clicked"/>
+                <Label Text="نام پارسی"          Grid.Row="1" Grid.Column="0"/>
+                <Entry x:Name="txtFName"         Grid.Row="1" Grid.Column="1"   Text="{Binding FName}" FlowDirection="RightToLeft"  />
+                <Label Text="نام لاتین"           Grid.Row="2" Grid.Column="0"/>
+                <Entry x:Name="txtLName"         Grid.Row="2" Grid.Column="1"  Text="{Binding LName}" FlowDirection="LeftToRight"/>
+                <Label Text="تلفن همراه"         Grid.Row="3" Grid.Column="0"/>
+                <Entry x:Name="txtMobile"        Grid.Row="3" Grid.Column="1" Text="{Binding Mobilephone}" FlowDirection="LeftToRight"/>
+                <Label Text="کد ملی"             Grid.Row="4" Grid.Column="0"/>
+                <Entry x:Name="txtNationnalCode" Grid.Row="4" Grid.Column="1" Text="{Binding NationalCode}" FlowDirection="LeftToRight"/>
+
+                <Button Text="تایید"             Grid.Row="5" Grid.Column="0" Clicked="btnUpdateCustomer_Clicked" />
+                <Button Text="انصراف"            Grid.Row="5" Grid.Column="1" Clicked="btnCancel_Clicked" BackgroundColor="Maroon" WidthRequest="180" />
+            </Grid>
+        </Frame>
+        
+        
+        <Frame Grid.Row="2" Grid.ColumnSpan="2" IsVisible="False" x:Name="framePassword" >
+
+            <Grid RowDefinitions="auto,auto,auto,auto" ColumnDefinitions=".50*,.50*" Padding="10" >
+                <Entry x:Name="txtPassword" Placeholder="گذرواژه قدیم"              IsPassword="True"  Grid.Row="0" FlowDirection="LeftToRight"/>
+                <Entry x:Name="txtNewPassword" Placeholder="گذرواژه جدید"           IsPassword="True"  Grid.Row="1" FlowDirection="LeftToRight"/>
+                <Entry x:Name="txtConfirmPassword" Placeholder="تکرار گذرواژه جدید" IsPassword="True"  Grid.Row="2" FlowDirection="LeftToRight"/>
+
+                <Button Text="تایید"             Grid.Row="3" Grid.Column="0" Clicked="btnSavePassword_Clicked" />
+                <Button Text="انصراف"            Grid.Row="3" Grid.Column="1" Clicked="btnCancel_Clicked" BackgroundColor="Maroon" />
+            </Grid>
+        </Frame>
+    </Grid>
+</ContentPage>

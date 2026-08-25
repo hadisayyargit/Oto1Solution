@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="oto1.Baskets" Title="سبد خرید" FlowDirection="RightToLeft"
+            >
+
+
+    <ScrollView>
+
+        <VerticalStackLayout >
+            <ActivityIndicator x:Name="activityIndicator" IsVisible="False" IsRunning="False" Color="BlueViolet"/>
+            <Label  Text="سبد خرید" VerticalOptions="Center" HorizontalOptions="Start" />
+            <Label Text="X"   BackgroundColor="Blue"   TextColor="White"     HorizontalTextAlignment="Center"   VerticalTextAlignment="Center"   HeightRequest="60"   >
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer x:Name="TapNavigateBack"  Tapped="TapNavigateBack_Tapped" />
+                </Label.GestureRecognizers>
+            </Label>
+            
+            <CollectionView x:Name="collectionviewBasket"  SelectionMode="Single" ItemsSource="{Binding myGroupServices}" IsGrouped="true">
+                <CollectionView.ItemsLayout>
+                    <GridItemsLayout Orientation="Vertical" Span="1" VerticalItemSpacing="0" HorizontalItemSpacing="0" />
+                </CollectionView.ItemsLayout>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid RowDefinitions="auto,auto,auto,auto" ColumnDefinitions=".3*,.7*" Margin="10" Padding="10"  RowSpacing="5" ColumnSpacing="10">
+                            <Image Source="{Binding ThumbnailPhotoFile}" Grid.Row="0" Grid.Column="0"  Grid.RowSpan="3" BackgroundColor="Transparent" VerticalOptions="Start" ></Image>
+                            <Label Text="{Binding PartName}"             Grid.Row="0" Grid.Column="1" FontSize="Medium" TextColor="Blue"></Label>
+                            
+                            <Label   Grid.Row="1" Grid.Column="1" FontSize="Micro" >
+
+                                <Label.FormattedText>
+                                    <FormattedString>
+
+                                        <Span Text="ردیف سفارش: "   />
+                                        <Span Text="{Binding ServiceItemId}"  />
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
+
+
+                            <Label Text="{Binding NetAmount}"  Grid.Row="2" Grid.Column="1" FontSize="Medium"  TextColor="DarkBlue"  FontAttributes="Bold" FlowDirection="RightToLeft" FontFamily="BYekan"></Label>
+
+
+                            <StackLayout Orientation="Horizontal" Grid.Row="3" Grid.Column="0" >
+                                <Button Text="+" HeightRequest="40" x:Name="btnAdd" Command="{Binding IncreaseCommand}" BackgroundColor="Crimson" ></Button>
+                                <Label  Text="{Binding Quantity}" x:Name="lblQuantity" VerticalOptions="Center" FontSize="Large" FontFamily="BYekan" Margin="4"></Label>
+                                <Button Text="-" HeightRequest="40" x:Name="btnSubtract" Command="{Binding DecreaseCommand}" BackgroundColor="Crimson"></Button>
+                               
+                            </StackLayout>
+                
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+                <CollectionView.GroupHeaderTemplate>
+                    <DataTemplate>
+                        <Grid RowDefinitions="auto,auto" ColumnDefinitions=".5*,.5*"  ColumnSpacing="10" RowSpacing="10" Margin="10" Padding="10" >
+                            <Label Text="{Binding VendorName}"  Grid.Row="0" Grid.Column="0" FontAttributes="Bold" TextColor="Red"></Label>
+                            <Label Text="{Binding ServiceId, StringFormat='شماره سفارش: {0:D}'}" Grid.Row="0" Grid.Column="1" Margin="0,0,0,10" FontAttributes="Bold" FontFamily="BYekan"/>
+                            <Label Text="{Binding ServiceTypeName}"   Grid.Row="1" Grid.Column="0" ></Label>
+                            <Label Text="{Binding TicketDateTimeJalali, StringFormat='{0:D}'}"    Grid.Row="1" Grid.Column="1" FontFamily="BYekan"></Label>
+                            
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.GroupHeaderTemplate>
+                <CollectionView.GroupFooterTemplate>
+                    <DataTemplate>
+                        <Grid RowDefinitions="auto,auto,auto" ColumnDefinitions=".5*,.5*" ColumnSpacing="10" RowSpacing="10">
+                            <Button Text="حذف سبد"           Grid.Row="1" Grid.Column="0" x:Name="btnDelete"  WidthRequest="150" Clicked="btnDelete_Clicked"></Button>
+                            <Button Text="نهایی کردن سفارش"  Grid.Row="1" Grid.Column="1"  x:Name="btnNext"  Clicked="btnNext_Clicked"  WidthRequest="150"></Button>
+                            <BoxView Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" HeightRequest="1" Color="Silver"/>
+                        </Grid>
+                    </DataTemplate>
+                
+     
+                </CollectionView.GroupFooterTemplate>
+            </CollectionView>
+          
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

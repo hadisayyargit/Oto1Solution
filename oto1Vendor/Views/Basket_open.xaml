@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:persian="clr-namespace:MauiPersianToolkit.Controls;assembly=MauiPersianToolkit"
+             x:Class="oto1.Basket_open"
+             Title="Basket" BackgroundColor="Khaki">
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem IconImageSource="recurring2_48.png"  Order="Primary"   Priority="5" Clicked="toolbaritemRefresh_Clicked" />
+
+    </ContentPage.ToolbarItems>
+
+    <ScrollView>
+        <VerticalStackLayout BackgroundColor="Khaki">
+
+
+            <ActivityIndicator x:Name="activityIndicator"  IsVisible="True"       IsRunning="False"     HeightRequest="20"     Color="Maroon" />
+
+
+
+            <CollectionView x:Name="collectionviewOrders"  SelectionMode="Single" ItemsSource="{Binding myGroupServices}" IsGrouped="true" BackgroundColor="Khaki">
+                <CollectionView.ItemsLayout>
+                    <GridItemsLayout Orientation="Vertical" Span="1" VerticalItemSpacing="0" HorizontalItemSpacing="0" />
+                </CollectionView.ItemsLayout>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate >
+
+                        <SwipeView>
+
+                            <FlexLayout>
+                                <Image Source="{Binding ThumbnailPhotoFile}" WidthRequest="50" HeightRequest="50" ></Image>
+                                <!--<Label Text="aa"></Label>-->
+                            </FlexLayout>
+                        </SwipeView>
+
+
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+                <CollectionView.GroupHeaderTemplate>
+                    <DataTemplate>
+
+
+                
+                        <Grid RowDefinitions="auto,auto,auto,auto" ColumnDefinitions=".6*,.4*" Margin="10" Padding="10" BackgroundColor="Khaki">
+                            <Label Text="{Binding CustomerName}"            Grid.Row="0" Grid.Column="0"   FontSize="Medium" TextColor="Red"></Label>
+                            <Label Text="{Binding CustomerAddress}"         Grid.Row="1" Grid.Column="0"   FontSize="Micro"></Label>
+                            <Label Text="{Binding ServiceId, StringFormat='شماره سفارش: {0:D}'}" Grid.Row="0" Grid.Column="1" Margin="0,0,0,10" FontAttributes="Bold" FontFamily="BYekan"/>
+
+                            <Label Text="{Binding ServiceTypeName}"   Grid.Row="2" Grid.Column="0" ></Label>
+                            <Label Text="{Binding TicketDateTimeJalali, StringFormat='{0:D}'}"    Grid.Row="2" Grid.Column="1" FontFamily="BYekan"></Label>
+
+                            <Label Text="{Binding ServiceStatusName}"     Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" FontSize="Micro" TextColor="Blue"></Label>
+          
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.GroupHeaderTemplate>
+                <CollectionView.GroupFooterTemplate>
+                    <DataTemplate>
+                        <Grid RowDefinitions="auto,auto" ColumnDefinitions=".5*,.5*" ColumnSpacing="10" RowSpacing="10">
+                            <Label Text="{Binding TotalAmount}" Grid.Row="0" Grid.Column="0" Margin="10,10,0,10"  TextColor="Blue" FontAttributes="Bold"  FontSize="Large" FontFamily="BYekan"/>
+                            <Button Text="اقلام..."          Grid.Row="0" Grid.Column="1"   WidthRequest="150" Clicked="btnServiceItems_Clicked"></Button>
+                            <BoxView Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" HeightRequest="1" Color="Silver"/>
+                        </Grid>
+                    </DataTemplate>
+
+
+                </CollectionView.GroupFooterTemplate>
+            </CollectionView>
+
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>
