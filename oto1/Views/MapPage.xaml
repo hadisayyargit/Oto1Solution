@@ -8,11 +8,11 @@
                FlowDirection="RightToLeft"           
              >
 
-    <Grid RowDefinitions="50,*,50,50,auto"   ColumnDefinitions=".25*,*,.25*" Padding="5" Margin="5" ColumnSpacing="5" RowSpacing="10" HeightRequest="600" VerticalOptions="Start"     >
+    <Grid RowDefinitions="50,*,50,50,auto"   ColumnDefinitions=".25*,0.25*,.25*,.25*" Padding="5" Margin="5" ColumnSpacing="5" RowSpacing="10" HeightRequest="600" VerticalOptions="Start"     >
         <Label  Text="کجا هستی؟" HorizontalTextAlignment="Center"   Grid.Row="0" FontSize="Title" Grid.ColumnSpan="4"></Label>
 
 
-        <StackLayout x:Name="stack1" Grid.Row="1" Grid.ColumnSpan="3" >
+        <StackLayout x:Name="stack1" Grid.Row="1" Grid.ColumnSpan="4" >
 
             <maps:Map x:Name="mymap"  MapClicked="mymap_MapClicked" HorizontalOptions="CenterAndExpand"  />
             <!--<ImageButton Source="pin_8_xxl.png" WidthRequest="32" HeightRequest="48" Clicked="ImageButtonRefreshMap_Clicked"></ImageButton>-->
@@ -20,9 +20,9 @@
             <SearchBar Placeholder="جستجو" SearchButtonPressed="SearchBar_SearchButtonPressed"></SearchBar>
         </StackLayout>
 
-        <Entry x:Name="txtPName"      Grid.Row="2" Grid.Column="0" Placeholder="عنوان" ></Entry>
-        <Entry x:Name="txtAddress"    Grid.Row="2" Placeholder="نشانی"  Grid.Column="1"  ></Entry>
-        <ImageButton x:Name="btnAddLocation" Grid.Row="2" Grid.Column="2" Source="star7_32.png" Background="transparent"    Clicked="btnAddLocation_Clicked" ></ImageButton>
+        <Entry x:Name="txtPName"    Placeholder="عنوان"  Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" ></Entry>
+        <Entry x:Name="txtAddress"  Placeholder="نشانی"  Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="1" ></Entry>
+        <ImageButton x:Name="btnAddLocation"             Grid.Row="2" Grid.Column="3" Grid.ColumnSpan="1" Source="star7_32.png" Background="transparent"    Clicked="btnAddLocation_Clicked" ></ImageButton>
 
        
         <!--<Label Text="X"   BackgroundColor="Black"   TextColor="White"     HorizontalTextAlignment="Center"   VerticalTextAlignment="Center"     Grid.Row="3" Grid.Column="2" FontSize="Medium">
@@ -30,9 +30,9 @@
                 <TapGestureRecognizer x:Name="TapNavigateBack" Tapped="TapNavigateBack_Tapped"/>
             </Label.GestureRecognizers>
         </Label>-->
-        <CollectionView  Grid.Row="3" Grid.ColumnSpan="3" x:Name="collectionviewLocations" SelectionMode="Single"  SelectionChanged="collectionviewLocations_SelectionChanged">
+        <CollectionView  Grid.Row="3"  Grid.Column="0" Grid.ColumnSpan="4" x:Name="collectionviewLocations" SelectionMode="Single"  SelectionChanged="collectionviewLocations_SelectionChanged">
             <CollectionView.ItemsLayout>
-                <GridItemsLayout Orientation="Horizontal"  VerticalItemSpacing="10" HorizontalItemSpacing="10" />
+                <GridItemsLayout Orientation="Horizontal"  VerticalItemSpacing="5" HorizontalItemSpacing="5" />
             </CollectionView.ItemsLayout>
             <CollectionView.ItemTemplate>
                 <DataTemplate>
@@ -51,7 +51,8 @@
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
-        <Button x:Name="btnNextStep"         Grid.Row="4" Grid.Column="0" Text="ادامه" Grid.ColumnSpan="2" Clicked="btnNextStep_Clicked"></Button>
+        <Button x:Name="btnBeforeStep"  Grid.Row="4" Grid.Column="0" Text="بازگشت" Grid.ColumnSpan="2" Clicked="btnBeforeStep_Clicked"></Button>
+        <Button x:Name="btnNextStep"    Grid.Row="4" Grid.Column="2" Text="ادامه" Grid.ColumnSpan="2" Clicked="btnNextStep_Clicked"></Button>
 
     </Grid>
 

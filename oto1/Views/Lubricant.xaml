@@ -4,16 +4,18 @@
              x:Class="oto1.Lubricant"
              Title="انتخاب روغن موتور"  FlowDirection="RightToLeft">
 
-    <Grid RowDefinitions="auto,auto,auto,auto,*,auto" ColumnDefinitions=".5*,.5*"    Padding="8" RowSpacing="8"  Margin="4"  >
+    <Grid RowDefinitions="auto,auto,auto,auto,*,auto" ColumnDefinitions="0.5*,0.5*"    Padding="5"  Margin="5" ColumnSpacing="5" RowSpacing="5"   >
         <ActivityIndicator x:Name="activityIndicator" Grid.Row="0"                    IsVisible="True"  IsRunning="False"      Color="Orange"     />
-        <Picker x:Name="pickerCar" Title="نام خودرو:" Grid.Row="0" Grid.Column="0" ItemsSource="{Binding cars}" ItemDisplayBinding="{Binding FName}"  SelectedIndexChanged="pickerCar_SelectedIndexChanged" >        </Picker>
+        <Picker x:Name="pickerCar" Title="نام خودرو:"  Grid.Row="0" Grid.Column="0" ItemsSource="{Binding cars}" ItemDisplayBinding="{Binding FName}"  SelectedIndexChanged="pickerCar_SelectedIndexChanged" ></Picker>
         <Picker x:Name="pickerManufacturer" Title="نام سازنده:" Grid.Row="0" Grid.Column="1" ItemsSource="{Binding Manufacturers}" ItemDisplayBinding="{Binding FName}" SelectedIndexChanged="pickerManufacturer_SelectedIndexChanged" >        </Picker>
         <Entry Placeholder="درجه گرانروی(ویسکوزیته):" Grid.Row="1" Grid.Column="0" x:Name="txtViscosity"></Entry>
         <Entry Placeholder="سطح کارایی:" Grid.Row="1" Grid.Column="1" x:Name="txtPerformanceLevel"></Entry>
-        <Picker x:Name="pickerProduct" Title="نام روغن:" Grid.Row="2" Grid.Column="0" ItemsSource="{Binding Products}" ItemDisplayBinding="{Binding FName}" SelectedIndexChanged="pickerProduct_SelectedIndexChanged" >        </Picker>
+        <Picker x:Name="pickerProduct" Title="نام روغن:"   Grid.Row="2" Grid.Column="0" ItemsSource="{Binding Products}" ItemDisplayBinding="{Binding FName}" SelectedIndexChanged="pickerProduct_SelectedIndexChanged" >        </Picker>
         <Picker x:Name="pickerVendor" Title="تامین کننده:" Grid.Row="2" Grid.Column="1" ItemsSource="{Binding Vendors}" ItemDisplayBinding="{Binding FName}" SelectedIndexChanged="pickerVendor_SelectedIndexChanged" >        </Picker>
-    
-        <Button Text="پیدا کن"   x:Name="btnSearch" Clicked="btnSearch_Clicked" Grid.Row="3" Grid.Column="1"  />
+
+        <Button  Text="بازگشت" x:Name="btnBeforeStep"           Grid.Row="3" Grid.Column="0"  Clicked="btnBeforeStep_Clicked"></Button>
+        <Button Text="پیدا کن" x:Name="btnSearch"               Grid.Row="3" Grid.Column="1"  Clicked="btnSearch_Clicked"  />
+
 
         <CollectionView x:Name="collectionviewProducts" Grid.Row="4" Grid.ColumnSpan="2" SelectionMode="None" >
             <CollectionView.ItemsLayout>

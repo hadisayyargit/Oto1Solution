@@ -204,4 +204,11 @@ public partial class Lubricant : ContentPage
     {
 
     }
+    private async void btnBeforeStep_Clicked(object sender, EventArgs e)
+    {
+        await Navigation.PopAsync();
+
+    }
+
+    
 }

@@ -102,7 +102,7 @@
             HorizontalOptions="Center" />
             </VerticalStackLayout>
 
-            <VerticalStackLayout  Grid.Row="0" Grid.Column="2" HorizontalOptions="End"  >
+            <VerticalStackLayout  Grid.Row="0" Grid.Column="2" >
                 <!--<ImageButton Grid.Row="0" Grid.Column="1"
                  Source="car_xxl.png"
                  Clicked="btnMyRequests_Clicked"
@@ -119,6 +119,7 @@
               
                  Aspect="AspectFit"
                  HeightRequest="90"
+
                  BackgroundColor="Transparent"
                  
                  SemanticProperties.Description="خدمات در محل مشتری" />
@@ -137,8 +138,8 @@
                  HeightRequest="90"
                  BackgroundColor="Transparent"
                  SemanticProperties.Description="خدمات در سایت" />
-                <Label       
-            Text="خدمات در سایت"
+                <Label   
+                Text="خدمات در سایت"
             FontSize="10"
             HorizontalOptions="Center" />
             </VerticalStackLayout>
