@@ -1,8 +1,16 @@
-﻿
+﻿using CommunityToolkit.Mvvm.Messaging;
+using CommunityToolkit.Mvvm.Messaging.Messages;
+using oto1.Services;
+
 namespace oto1;
 
 public partial class AppShell : Shell
 {
+    public class UserToolbarMessage : ValueChangedMessage<string>
+    {
+        public UserToolbarMessage(string value) : base(value) { }
+    }
+
     public AppShell()
     {
         InitializeComponent();
@@ -10,12 +18,19 @@ public partial class AppShell : Shell
         this.Navigating += OnNavigating;
         this.Navigated += OnNavigated;
 
-        ///<HADI 14050503></HADI>
-        //MessagingCenter.Subscribe<SignInPage, string>(this, "updateUserToolbarItem", (sender, item) =>
-        //{
-        //    updateUserToolbarItem(item);
 
-        //});
+        // ثبت‌نام برای دریافت پیام (داخل سازنده)
+        WeakReferenceMessenger.Default.Register<UserToolbarMessage>(this, (r, m) =>
+        {
+            // از MainThread استفاده می‌کنیم تا UI حتماً به‌روز شود
+            MainThread.BeginInvokeOnMainThread(() =>
+            {
+                if (m.Value == "updateUserToolbarItem")
+                {
+                    updateUserToolbarItem(m.Value);
+                }
+            });
+        });
 
     }
 
@@ -34,18 +49,22 @@ public partial class AppShell : Shell
         // انجام عملیات مورد نظر با استفاده از currentTab
     }
 
-    private void updateUserToolbarItem(string s)
+    private async void updateUserToolbarItem(string s)
     {
 
         if (GlobalClass.m_UserId == "" || GlobalClass.m_PersonId == null)
             toolbaritemUser.IconImageSource = "user5.png";
         else
-            toolbaritemUser.IconImageSource = "https://khordadnet.ir/mysites/oto1/assets/person/a" + GlobalClass.m_PersonId.ToString() + ".png";
+        {
+            string fileUrl = "https://khordadnet.ir/mysites/oto1/assets/person/a" + GlobalClass.m_PersonId.ToString() + ".png";
+            bool fileExists = await NetClass.CheckNetFileExists(fileUrl);
+            if (fileExists) toolbaritemUser.IconImageSource = fileUrl;
+        }
 
     }
 
 
-    private void toolbaritemUser_Clicked(object sender, EventArgs e)
+    private async void toolbaritemUser_Clicked(object sender, EventArgs e)
     {
         if (GlobalClass.m_UserId == "" || GlobalClass.m_UserId == null)
         {
@@ -54,7 +73,12 @@ public partial class AppShell : Shell
         }
         else
         {
-            toolbaritemLogoff_Clicked(this, null);
+            bool answer = await DisplayAlert("هشدار", "از حساب خود خارج می‌شوی؟", "آره", "نه");
+
+            if (answer == true)
+            {
+                toolbaritemLogoff_Clicked(this, null);
+            }
         }
     }
 

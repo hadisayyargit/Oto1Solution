@@ -24,6 +24,12 @@ public partial class Orders : ContentPage
 
     private async void RefreshForm()
     {
+        if (GlobalClass.m_UserId == "" || GlobalClass.m_UserId == null)
+        {
+            await DisplayAlert("هشدار", "به عنوان کاربر معتبر وارد برنامه نشده‌ای", "ok");
+            return;
+        }
+
         activityIndicator.IsRunning = true;
         activityIndicator.IsVisible = true;
 
@@ -35,9 +41,9 @@ public partial class Orders : ContentPage
         long serviceid = -1;
         long customerid = -1;
         int postmanid = -1;
-        int vendorid = GlobalClass.m_VendorId;
+        int vendorid = -1;
 
-        string ticketdatetimeBegin = "2024-01-01";
+        string ticketdatetimeBegin = DateTime.Today.ToString("yyyy-MM-dd");
         string ticketdatetimeEnd = DateTime.Today.ToString("yyyy-MM-dd");
 
 

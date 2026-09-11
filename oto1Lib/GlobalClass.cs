@@ -33,7 +33,7 @@ namespace oto1
         }
         public enum enumUserRole : byte
         {
-            userrole_admin = 0, userrole_customer = 1, userrole_vendor = 2, userrole_postman = 3, userrole_NoSelect = 255
+            userrole_admin = 5, userrole_customer = 1, userrole_vendor = 2, userrole_postman = 3, userrole_NoSelect = 255
         }
 
         public static decimal? m_Latitude;

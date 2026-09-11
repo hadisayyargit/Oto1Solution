@@ -12,7 +12,13 @@
 
     <ScrollView>
         <VerticalStackLayout>
-
+            <persian:DatePicker PlaceHolder="تاریخ شروع" SelectedPersianDate="{Binding PersianBeginDate}" 
+              CalendarOption="{Binding CalendarOption}" DisplayFormat="yyyy/MM/dd" 
+              OnChangeDateCommand="{Binding OnChangeDateCommand}"
+                x:Name="dtPickerBegin"          />
+            <persian:DatePicker PlaceHolder="تاریخ پایان" SelectedPersianDate="{Binding PersianDate}" 
+              CalendarOption="{Binding CalendarOption}" DisplayFormat="yyyy/MM/dd" 
+              OnChangeDateCommand="{Binding OnChangeDateCommand}"    x:Name="dtPickerEnd" />
 
             <ActivityIndicator x:Name="activityIndicator"  IsVisible="True"       IsRunning="False"     HeightRequest="20"     Color="Maroon" />
 

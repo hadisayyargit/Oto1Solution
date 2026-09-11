@@ -1,10 +1,16 @@
-﻿
+﻿using CommunityToolkit.Mvvm.Messaging;
+using CommunityToolkit.Mvvm.Messaging.Messages;
 using oto1.Services;
 
 namespace oto1;
 
 public partial class AppShell : Shell
 {
+    public class UserToolbarMessage : ValueChangedMessage<string>
+    {
+        public UserToolbarMessage(string value) : base(value) { }
+    }
+
     public AppShell()
     {
         InitializeComponent();
@@ -26,8 +32,19 @@ public partial class AppShell : Shell
 
         //});
 
-    }
+        WeakReferenceMessenger.Default.Register<UserToolbarMessage>(this, (r, m) =>
+        {
+            // از MainThread استفاده می‌کنیم تا UI حتماً به‌روز شود
+            MainThread.BeginInvokeOnMainThread(() =>
+            {
+                if (m.Value == "updateUserToolbarItem")
+                {
+                    updateUserToolbarItem(m.Value);
+                }
+            });
+        });
 
+    }
 
     private void OnNavigating(object sender, ShellNavigatingEventArgs e)
     {

@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Maui.Alerts;
+using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Maui;
 using Microsoft.Maui.Controls;
 using oto1;
@@ -36,21 +37,13 @@ public partial class SignInPage : ContentPage
 
             await toast.Show();
 
-
-
-
             await AuthorizeUser(username);
 
             if (GlobalClass.m_VendorId != 0)
             {
                 toast = Toast.Make("دسترسی شما شناسایی شد", CommunityToolkit.Maui.Core.ToastDuration.Long, 12);
                 await toast.Show();
-
-                ///updating appshell toolbar
-                ///
-                ///<HADI 14050503></HADI>
-                //MessagingCenter.Send(this, "updateUserToolbarItem", "");
-
+                WeakReferenceMessenger.Default.Send(new AppShell.UserToolbarMessage("updateUserToolbarItem"));
 
                 myactivityIndicator.IsRunning = false;
                 await Navigation.PopAsync();

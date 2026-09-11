@@ -1,12 +1,12 @@
 ﻿using oto1;
 using oto1.Models;
 using oto1.Services;
+using Microsoft.Maui.Controls;
 
 namespace oto1;
 
 public partial class Basket_open : ContentPage
 {
-    //public ServiceController MyServiceController { get; set; }
 
     public CustomerServiceController myCustomerServiceController { get; set; }
 
@@ -24,6 +24,27 @@ public partial class Basket_open : ContentPage
 
     private async void RefreshForm()
     {
+        ///<hadi>
+         /// خط پایین حتما باید باشد وگرنه 
+         /// tab
+         /// قبلی رو در نظر میگیره
+         /// </hadi>
+        await Task.Delay(50);
+
+        var currentRoute = Shell.Current.CurrentState.Location.ToString();
+
+
+        if (currentRoute.Contains("newrequest"))
+        { }
+        else if (currentRoute.Contains("sending"))
+        { }
+        else if (currentRoute.Contains("refused"))
+        { }
+        else if (currentRoute.Contains("rejected"))
+        { }
+        else if (currentRoute.Contains("done"))
+        { }
+
         activityIndicator.IsRunning = true;
         activityIndicator.IsVisible = true;
 

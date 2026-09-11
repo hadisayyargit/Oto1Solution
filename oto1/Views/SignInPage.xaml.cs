@@ -8,7 +8,6 @@ using oto1.Models;
 using oto1.Services;
 using static System.Net.Mime.MediaTypeNames;
 
-
 namespace oto1;
 
 public partial class SignInPage : ContentPage
@@ -22,9 +21,8 @@ public partial class SignInPage : ContentPage
         InitializeComponent();
     }
 
-    private async void btnSignIn_Clicked(object sender, EventArgs e)
+    private async void btnSignIn_Clicked(object sender, EventArgs e)    
     {
-
         AppUserModel myUser = new AppUserModel();
         string username = txtUsername.Text;
         string password = txtPassword.Text;

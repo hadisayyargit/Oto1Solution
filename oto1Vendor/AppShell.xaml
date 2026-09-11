@@ -22,8 +22,12 @@
         <ShellContent  Title="خانه"  ContentTemplate="{DataTemplate local:HomePage}"  Icon="home1.png" Route="HomePage" x:Name="tabHome" />
 
         <Tab Icon="orders64.png" Title="خدمات"  x:Name="tabRequest">
-            <local:Basket Title="سفارشات رسیده" IconImageSource="carmechanic.png" x:Name="tabNewRequests" />
-            <ShellContent  Title="سفارشات باز"    Icon="car_xxl.png" x:Name="tabTodayRequests"  ContentTemplate="{DataTemplate local:Basket_open }"   />
+            <ShellContent  Title="سفارشات رسیده" Icon="carmechanic.png" x:Name="tabNewRequests" Route="newrequest" ContentTemplate="{DataTemplate local:Basket }"  />
+            <ShellContent  Title="رد شده"    Icon="car_xxl.png" x:Name="tabRefusal"             Route="refused" ContentTemplate="{DataTemplate local:Basket_open }"   />
+            <ShellContent  Title="ارسال شده"    Icon="car_xxl.png" x:Name="tabSending"          Route="sending"   ContentTemplate="{DataTemplate local:Basket_open }"   />
+            <ShellContent  Title="برگشت خورده"    Icon="car_xxl.png" x:Name="tabReject"         Route="rejected"  ContentTemplate="{DataTemplate local:Basket_open }"   />
+            <ShellContent  Title="تایید و بسته شده"    Icon="car_xxl.png" x:Name="tabDone"      Route="done" ContentTemplate="{DataTemplate local:Basket_open }"   />
+            
         </Tab>
 
         <ShellContent  Title="پروفایل"   Icon="user2.png"      ContentTemplate="{DataTemplate local:MyProfile}"  x:Name="tabProfile"  />

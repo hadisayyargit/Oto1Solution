@@ -24,6 +24,7 @@
         </Tab>
 
         <ShellContent  Title="پروفایل"   Icon="user2.png"      ContentTemplate="{DataTemplate local:MyProfile}"  x:Name="tabProfile"  />
+        <ShellContent  Title="مدیریت"    Icon="management.png"  ContentTemplate="{DataTemplate local:MyProfile}"  x:Name="tabAdministration"  />
         <ShellContent  Title="گزارشات"   Icon="report64.png"   ContentTemplate="{DataTemplate local:Orders}"  />
 
     </TabBar>

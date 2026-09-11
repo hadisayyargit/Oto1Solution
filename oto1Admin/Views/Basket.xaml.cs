@@ -24,6 +24,13 @@ public partial class Basket : ContentPage
 
     private async void RefreshForm()
     {
+
+        if (GlobalClass.m_UserId == "" || GlobalClass.m_UserId == null)
+        {
+            DisplayAlert("هشدار", "به عنوان کاربر معتبر وارد برنامه نشده‌ای", "ok");
+            return;
+        }
+
         activityIndicator.IsRunning = true;
         activityIndicator.IsVisible = true;
 
@@ -35,12 +42,31 @@ public partial class Basket : ContentPage
         long serviceid = -1;
         long customerid = -1;
         int postmanid = -1;
-        int vendorid = GlobalClass.m_VendorId;
+        int vendorid = -1;
         string servicestatusserie = ((byte)GlobalClass.enumServiceStatus.servicestatus_Payment).ToString()
             + "," + ((byte)GlobalClass.enumServiceStatus.servicestatus_Pending).ToString();
 
-        string ticketdatetimeBegin = "2024-01-01";
+        //string ticketdatetimeBegin = "2024-01-01";
+        string ticketdatetimeBegin = DateTime.Today.AddDays(-7).ToString("yyyy-MM-dd");
         string ticketdatetimeEnd = DateTime.Today.ToString("yyyy-MM-dd");
+
+        var d1 = dtPickerBegin.SelectedPersianDate;
+        var d2 = dtPickerEnd.SelectedPersianDate;
+
+        if (d1 != null)
+        {
+            System.Globalization.PersianCalendar pc = new System.Globalization.PersianCalendar();
+
+            string[] ss = d1.ToString().Split("/");
+            ticketdatetimeBegin = pc.ToDateTime(int.Parse(ss[0]), int.Parse(ss[1]), int.Parse(ss[2]), 0, 0, 0, 0).ToString("yyyy-MM-dd");
+        }
+        if (d2 != null)
+        {
+            System.Globalization.PersianCalendar pc = new System.Globalization.PersianCalendar();
+
+            string[] ss = d2.ToString().Split("/");
+            ticketdatetimeEnd = pc.ToDateTime(int.Parse(ss[0]), int.Parse(ss[1]), int.Parse(ss[2]), 0, 0, 0, 0).ToString("yyyy-MM-dd");
+        }
 
         try
         {

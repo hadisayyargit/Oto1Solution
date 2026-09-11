@@ -7,7 +7,7 @@ namespace oto1;
 
 public partial class AppShell : Shell
 {
-    // تعریف کلاس پیام (درون AppShell یا فایل جداگانه)
+  
     public class UserToolbarMessage : ValueChangedMessage<string>
     {
         public UserToolbarMessage(string value) : base(value) { }
