@@ -98,8 +98,7 @@ namespace oto1.Services
             try
             {
                 CustomerModel myCustomer = new CustomerModel();
-
-                string fullurl = this.baseUrl + $"/GetCustomerByUserId?userid={userid}";
+                string fullurl = this.baseUrl + $"/GetCustomerByUserId?userid/{userid}";
                 HttpClient myhttpclient = new HttpClient();
 
                 myhttpclient.BaseAddress = new Uri(fullurl);
@@ -226,6 +225,7 @@ namespace oto1.Services
             }
 
         }
+         
 
         public async Task<List<PersonModel>> GetAllPersons()
         {
@@ -260,6 +260,39 @@ namespace oto1.Services
             }
 
         }
+
+        public async Task<List<PersonModel>> GetAllPersonsByUserRole(byte userrole)
+        {
+            try
+            {
+                List<PersonModel> personlist = new List<PersonModel>();
+                string fullurl = this.baseUrl + $"/GetAllPersonsByUserRole/{userrole}";
+                HttpClient myhttpclient = new HttpClient();
+
+
+                myhttpclient.BaseAddress = new Uri(fullurl);
+                myhttpclient.Timeout = TimeSpan.FromSeconds(30);
+                HttpResponseMessage myhttpresponsemessage = await myhttpclient.GetAsync("");
+                if (myhttpresponsemessage.IsSuccessStatusCode)
+                {
+                    string contentResponse = await myhttpresponsemessage.Content.ReadAsStringAsync();
+
+                    personlist = JsonConvert.DeserializeObject<List<PersonModel>>(contentResponse);
+
+
+                }
+
+                return await Task.FromResult(personlist.ToList());
+
+
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+
+        }
+
         public async Task<List<CarModel>> GetAllCars()
         {
 

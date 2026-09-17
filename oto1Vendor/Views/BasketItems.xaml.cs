@@ -25,7 +25,9 @@ public partial class BasketItems : ContentPage
     {
         base.OnAppearing();
 
-        persons =  await MyServiceController.GetAllPersons();
+        ServiceController MyServiceController = new ServiceController();
+
+        persons = await MyServiceController.GetAllPersonsByUserRole((byte)GlobalClass.enumUserRole.userrole_postman);
 
         RefreshForm();
         
@@ -86,6 +88,12 @@ public partial class BasketItems : ContentPage
 
         if (answer)
         {
+            if (pickerCourier.SelectedIndex<0)
+            {
+                await DisplayAlert("تایید", "لطفا پیک را انتخاب کن", "قبول");
+                return;
+            }
+
             var button = (Button)sender;
             // var servicesitems = (CustomerServiceGroupModel)button.BindingContext;
 

@@ -4,6 +4,8 @@ using Microsoft.CodeAnalysis.Operations;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 
+
+
 namespace Auto1API.Controllers
 {    
     [ApiController]
@@ -46,6 +48,8 @@ namespace Auto1API.Controllers
                 return null;
             }
         }
+
+
 
         [HttpGet(Name = "GetCustomerByUserId")]
         public CustomerModel GetCustomerByUserId(string userid)
@@ -282,10 +286,23 @@ namespace Auto1API.Controllers
         [HttpGet(Name = "GetAllPersons")]
         public IEnumerable<PersonModel> GetAllPersons()
         {
-
             return this.Auto1Context.Person.ToList();
         }
 
+
+        [HttpGet("{userrole}")]
+        public IEnumerable<PersonModel> GetAllPersonsByUserRole(byte userrole)
+        {
+            //return this.Auto1Context.Person.ToList();
+
+            var personusers = (from p in Auto1Context.Person
+                                      join u in Auto1Context.AppUser on p.UserId equals u.UserId
+                                      where u.UserRole == userrole
+                                      select p).ToList();
+            
+
+            return personusers;
+        }
         ////////////////////////////
         ///
         [HttpPost]
