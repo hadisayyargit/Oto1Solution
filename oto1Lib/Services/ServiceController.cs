@@ -227,7 +227,39 @@ namespace oto1.Services
 
         }
 
+        public async Task<List<PersonModel>> GetAllPersons()
+        {
 
+
+            try
+            {
+                List<PersonModel> personlist = new List<PersonModel>();
+                string fullurl = this.baseUrl + "/GetAllPersons";
+                HttpClient myhttpclient = new HttpClient();
+
+
+                myhttpclient.BaseAddress = new Uri(fullurl);
+                myhttpclient.Timeout = TimeSpan.FromSeconds(30);
+                HttpResponseMessage myhttpresponsemessage = await myhttpclient.GetAsync("");
+                if (myhttpresponsemessage.IsSuccessStatusCode)
+                {
+                    string contentResponse = await myhttpresponsemessage.Content.ReadAsStringAsync();
+
+                    personlist = JsonConvert.DeserializeObject<List<PersonModel>>(contentResponse);
+
+
+                }
+
+                return await Task.FromResult(personlist.ToList());
+
+
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+
+        }
         public async Task<List<CarModel>> GetAllCars()
         {
 

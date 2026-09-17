@@ -9,6 +9,7 @@ public partial class Basket : ContentPage
     //public ServiceController MyServiceController { get; set; }
 
     public CustomerServiceController myCustomerServiceController { get; set; }
+    public byte ServiceStatus { get; set; }
 
     public Basket()
     {
@@ -23,7 +24,27 @@ public partial class Basket : ContentPage
     }
 
     private async void RefreshForm()
-    {
+    {        ///<hadi>
+             /// خط پایین حتما باید باشد وگرنه 
+             /// tab
+             /// قبلی رو در نظر میگیره
+             /// </hadi>
+        await Task.Delay(50);
+
+        var currentRoute = Shell.Current.CurrentState.Location.ToString();
+
+
+        if (currentRoute.Contains("payment"))
+            this.ServiceStatus = (byte)GlobalClass.enumServiceStatus.servicestatus_Payment;
+        else if (currentRoute.Contains("sending"))
+            this.ServiceStatus = (byte)GlobalClass.enumServiceStatus.servicestatus_Sending;
+        else if (currentRoute.Contains("refused"))
+            this.ServiceStatus = (byte)GlobalClass.enumServiceStatus.servicestatus_Refusal;
+        else if (currentRoute.Contains("rejected"))
+            this.ServiceStatus = (byte)GlobalClass.enumServiceStatus.servicestatus_Reject;
+        else if (currentRoute.Contains("done"))
+            this.ServiceStatus = (byte)GlobalClass.enumServiceStatus.servicestatus_Done;
+
         activityIndicator.IsRunning = true;
         activityIndicator.IsVisible = true;
 
@@ -36,8 +57,15 @@ public partial class Basket : ContentPage
         long customerid = -1;
         int postmanid = -1;
         int vendorid = GlobalClass.m_VendorId;
-        string servicestatusserie = ((byte)GlobalClass.enumServiceStatus.servicestatus_Payment).ToString()
+        // string servicestatusserie = ((byte)GlobalClass.enumServiceStatus.servicestatus_Payment).ToString()
+        //    + "," + ((byte)GlobalClass.enumServiceStatus.servicestatus_Pending).ToString();
+
+       
+        string servicestatusserie = this.ServiceStatus.ToString();
+        if (this.ServiceStatus == (byte)GlobalClass.enumServiceStatus.servicestatus_Payment)
+            servicestatusserie = ((byte)GlobalClass.enumServiceStatus.servicestatus_Payment).ToString()
             + "," + ((byte)GlobalClass.enumServiceStatus.servicestatus_Pending).ToString();
+
 
         string ticketdatetimeBegin = "2024-01-01";
         string ticketdatetimeEnd = DateTime.Today.ToString("yyyy-MM-dd");
@@ -55,9 +83,11 @@ public partial class Basket : ContentPage
 
         if (myOrders != null && myOrders.Count > 0)
         {
-            /// voice
-            await TextToSpeech.SpeakAsync("Oto1");
-
+            if (this.ServiceStatus == (byte)GlobalClass.enumServiceStatus.servicestatus_Payment)
+            {
+                /// voice
+                await TextToSpeech.SpeakAsync("Oto1");
+            }
 
             foreach (var req in myOrders)
             {

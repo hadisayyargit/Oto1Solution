@@ -278,6 +278,14 @@ namespace Auto1API.Controllers
 
             return this.Auto1Context.Vendor.ToList();
         }
+
+        [HttpGet(Name = "GetAllPersons")]
+        public IEnumerable<PersonModel> GetAllPersons()
+        {
+
+            return this.Auto1Context.Person.ToList();
+        }
+
         ////////////////////////////
         ///
         [HttpPost]

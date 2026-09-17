@@ -10,6 +10,8 @@ public partial class BasketItems : ContentPage
     public long ServiceId { get; set; }
     public CustomerServiceController myCustomerServiceController { get; set; }
     List<CustomerServiceGroupModel> myGroupServices = new List<CustomerServiceGroupModel>();
+    List<PersonModel> persons = new List<PersonModel>();
+    ServiceController MyServiceController = new ServiceController();
 
     public BasketItems(long serviceid)
 	{
@@ -19,11 +21,14 @@ public partial class BasketItems : ContentPage
         RefreshForm();
     }
 
-    protected override void OnAppearing()
+    protected async override void OnAppearing()
     {
         base.OnAppearing();
 
+        persons =  await MyServiceController.GetAllPersons();
+
         RefreshForm();
+        
     }
 
 
@@ -31,6 +36,8 @@ public partial class BasketItems : ContentPage
     {
         activityIndicator.IsRunning = true;
         activityIndicator.IsVisible = true;
+
+        pickerCourier.ItemsSource = persons;
 
 
         this.myCustomerServiceController = new CustomerServiceController();
@@ -42,9 +49,17 @@ public partial class BasketItems : ContentPage
 
         List<CustomerServiceItemViewModel> myOrdersItems = new List<CustomerServiceItemViewModel>();
         myOrdersItems = await myCustomerServiceController.GetCustomerServiceItem(this.ServiceId);
-        if (myOrdersItems[0].ServiceStatus == (byte)GlobalClass.enumServiceStatus.servicestatus_Payment)
+        if (myOrdersItems[0].ServiceStatus == (byte)GlobalClass.enumServiceStatus.servicestatus_Payment ||
+            myOrdersItems[0].ServiceStatus == (byte)GlobalClass.enumServiceStatus.servicestatus_Pending)
         {
+            btnSend.IsVisible = true;
+            btnRefused.IsVisible = true;
             await myCustomerServiceController.UpdateCustomerServiceStatus(this.ServiceId, (byte)GlobalClass.enumServiceStatus.servicestatus_Pending);
+        }
+        else
+        {
+            btnSend.IsVisible = false;
+            btnRefused.IsVisible = false;
         }
 
         foreach (var item in myOrdersItems)
@@ -65,49 +80,54 @@ public partial class BasketItems : ContentPage
     }
 
 
-    private async void btnNext_Clicked(object sender, EventArgs e)
+    private async void btnSend_Clicked(object sender, EventArgs e)
     {
-        var button = (Button)sender;
-        // var servicesitems = (CustomerServiceGroupModel)button.BindingContext;
+        bool answer = await DisplayAlert("هشدار", "سفارش ارسال شود؟", "بله", "خیر");
 
-        var servicesitems = collectionviewBasket.ItemsSource;
-
-        this.myCustomerServiceController = new CustomerServiceController();
-
-        try
+        if (answer)
         {
-            foreach (CustomerServiceItemViewModel serviceitem in servicesitems)
+            var button = (Button)sender;
+            // var servicesitems = (CustomerServiceGroupModel)button.BindingContext;
+
+            var servicesitems = collectionviewBasket.ItemsSource;
+
+            this.myCustomerServiceController = new CustomerServiceController();
+
+            try
             {
-
-                try
-                {
-                    if (serviceitem.IsCheckBoxChecked)
-                    {
-                        await myCustomerServiceController.UpdateCustomerServiceItemStatus(serviceitem.ServiceItemId, (byte)GlobalClass.enumServiceItemStatus.serviceitemstatus_Done);
-
-                    }
-                    else
-                    {
-                        await myCustomerServiceController.UpdateCustomerServiceItemStatus(serviceitem.ServiceItemId, (byte)GlobalClass.enumServiceItemStatus.serviceitemstatus_Noexist);
-                    }
-                }
-                catch
+                foreach (CustomerServiceItemViewModel serviceitem in servicesitems)
                 {
 
+                    try
+                    {
+                        if (serviceitem.IsCheckBoxChecked)
+                        {
+                            await myCustomerServiceController.UpdateCustomerServiceItemStatus(serviceitem.ServiceItemId, (byte)GlobalClass.enumServiceItemStatus.serviceitemstatus_Done);
+
+                        }
+                        else
+                        {
+                            await myCustomerServiceController.UpdateCustomerServiceItemStatus(serviceitem.ServiceItemId, (byte)GlobalClass.enumServiceItemStatus.serviceitemstatus_Noexist);
+                        }
+                    }
+                    catch
+                    {
+
+                    }
                 }
+
+                await myCustomerServiceController.UpdateCustomerServiceStatus(this.ServiceId, (byte)GlobalClass.enumServiceStatus.servicestatus_Sending);
+                /// finding Nearset and available postman
+                int postmanid = 4;
+                await myCustomerServiceController.UpdateCustomerServicePostman(this.ServiceId, postmanid);
+
+
             }
-
-            await myCustomerServiceController.UpdateCustomerServiceStatus(this.ServiceId, (byte)GlobalClass.enumServiceStatus.servicestatus_Sending);
-            /// finding Nearset and available postman
-            int postmanid = 4;
-            await myCustomerServiceController.UpdateCustomerServicePostman(this.ServiceId,postmanid );
-
-
+            catch (Exception ex)
+            {
+            }
+            await Navigation.PopAsync();
         }
-        catch (Exception ex)
-        {
-        }
-        await Navigation.PopAsync();
     }
     //private async void btnUpdateServiceItem_Clicked(object sender, EventArgs e)
     //{
@@ -130,24 +150,30 @@ public partial class BasketItems : ContentPage
     {
 
         bool answer = await DisplayAlert("هشدار", "سفارش رد شود؟", "بله", "خیر");
-        
 
-            if (answer)
+        if (answer)
+        {
+            if (txtRemark.Text == ""||  txtRemark.Text ==null)
             {
-            try
+                await DisplayAlert("تایید", "لطفا توضیحات را وارد کن", "قبول");
+            }
+            else
             {
-                await myCustomerServiceController.UpdateCustomerServiceStatus(this.ServiceId, (byte)GlobalClass.enumServiceStatus.servicestatus_Refusal);
+                try
+                {
+                    await myCustomerServiceController.UpdateCustomerServiceStatus(this.ServiceId, (byte)GlobalClass.enumServiceStatus.servicestatus_Refusal);
 
-                await DisplayAlert("تایید", "سفارش رد شد", "قبول");
-                await Navigation.PopAsync();
-            }
-            catch
-            {
+                    await DisplayAlert("تایید", "سفارش رد شد", "قبول");
+                    await Navigation.PopAsync();
+                }
+                catch
+                {
 
+                }
             }
-            }
-        
-    
+        }
+
+
     }
 
     private void chkHasQuantity_CheckedChanged(object sender, CheckedChangedEventArgs e)
