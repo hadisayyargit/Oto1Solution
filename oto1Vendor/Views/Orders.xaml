@@ -22,10 +22,11 @@
         <persian:DatePicker PlaceHolder="تاریخ پایان" SelectedPersianDate="{Binding PersianDate}" 
               CalendarOption="{Binding CalendarOption}" DisplayFormat="yyyy/MM/dd" 
               OnChangeDateCommand="{Binding OnChangeDateCommand}"    x:Name="dtPickerEnd" />
+        
+            <Picker x:Name="pickerServiceStatus" Title="وضعیت سفارش:" ItemsSource="{Binding servicestatuslist}" ItemDisplayBinding="{Binding FName}" SelectedIndexChanged="pickerServiceStatus_SelectedIndexChanged" ></Picker>
 
 
-
-        <ActivityIndicator x:Name="activityIndicator"  IsVisible="True"       IsRunning="False"     HeightRequest="20"     Color="Maroon" />
+            <ActivityIndicator x:Name="activityIndicator"  IsVisible="True"       IsRunning="False"     HeightRequest="20"     Color="Maroon" />
 
         
             

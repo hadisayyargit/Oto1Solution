@@ -60,7 +60,7 @@
             </CollectionView>
             <Grid RowDefinitions="auto,auto,auto" ColumnDefinitions="0.5*,0.5*" Padding="2" Margin="2">
                <Entry Placeholder="توضیحات" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" TextColor="Blue" x:Name="txtRemark"></Entry>
-                <Picker x:Name="pickerCourier" Title="پیک:" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" ItemsSource="{Binding Vendors}" ItemDisplayBinding="{Binding FName}" SelectedIndexChanged="pickerVendor_SelectedIndexChanged" ></Picker>
+                <Picker x:Name="pickerCourier" Title="پیک:" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" ItemsSource="{Binding persons}" ItemDisplayBinding="{Binding FullName}" SelectedIndexChanged="pickerCourier_SelectedIndexChanged" ></Picker>
                 <Button Text="ارسال سفارش" Grid.Row="2" Grid.Column="0" Margin="8" x:Name="btnSend" Clicked="btnSend_Clicked"></Button>
                 <Button Text="رد سفارش"    Grid.Row="2" Grid.Column="1" Margin="8" x:Name="btnRefused" BackgroundColor="Red" Clicked="btnRefused_Clicked"></Button>
             </Grid>

@@ -67,8 +67,8 @@ public partial class Basket : ContentPage
             + "," + ((byte)GlobalClass.enumServiceStatus.servicestatus_Pending).ToString();
 
 
-        string ticketdatetimeBegin = "2024-01-01";
-        string ticketdatetimeEnd = DateTime.Today.ToString("yyyy-MM-dd");
+        string ticketdatetimeBegin = DateTime.Today.ToString("yyyy-MM-dd");
+        string ticketdatetimeEnd   = DateTime.Today.ToString("yyyy-MM-dd");
 
         try
         {
@@ -111,8 +111,6 @@ public partial class Basket : ContentPage
         activityIndicator.IsVisible = false;
     }
 
-
-
     private void toolbaritemRefresh_Clicked(object sender, EventArgs e)
     {
 
@@ -130,7 +128,5 @@ public partial class Basket : ContentPage
 
         Navigation.PushAsync(new BasketItems(id));
     }
-
-
 
 }

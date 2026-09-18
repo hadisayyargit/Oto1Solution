@@ -293,6 +293,39 @@ namespace oto1.Services
 
         }
 
+
+        public async Task<List<BasicPrimeModel>> GetBasicPrime(string groupcode)
+        {
+            try
+            {
+                List<BasicPrimeModel> mylist = new List<BasicPrimeModel>();
+                string fullurl = this.baseUrl + $"/GetBasicPrime/{groupcode}";
+                HttpClient myhttpclient = new HttpClient();
+
+
+                myhttpclient.BaseAddress = new Uri(fullurl);
+                myhttpclient.Timeout = TimeSpan.FromSeconds(30);
+                HttpResponseMessage myhttpresponsemessage = await myhttpclient.GetAsync("");
+                if (myhttpresponsemessage.IsSuccessStatusCode)
+                {
+                    string contentResponse = await myhttpresponsemessage.Content.ReadAsStringAsync();
+
+                    mylist = JsonConvert.DeserializeObject<List<BasicPrimeModel>>(contentResponse);
+
+
+                }
+
+                return await Task.FromResult(mylist.ToList());
+
+
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+
+        }
+
         public async Task<List<CarModel>> GetAllCars()
         {
 

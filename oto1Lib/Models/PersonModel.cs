@@ -20,6 +20,8 @@ namespace oto1.Models
         public string? Email { get; set; }
         public byte[]? ThumbnailPhoto { get; set; }
         public byte[]? Timestamp1 { get; set; }
+        public string FullName => $"{FName} {LName}";
+
 
 
     }

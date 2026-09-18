@@ -27,5 +27,6 @@ namespace Auto1API.Models
         public DbSet<CustomerServiceDummyModel> CustomerServiceDummy { get; set; } = null!;
         public DbSet<AppUserModel> AppUser { get; set; }
         public DbSet<PersonModel> Person { get; set; }
+        public DbSet<BasicPrimeModel> BasicPrime { get; set; }
     }
 }

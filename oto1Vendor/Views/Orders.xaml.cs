@@ -9,16 +9,18 @@ public partial class Orders : ContentPage
     //public ServiceController MyServiceController { get; set; }
 
     public CustomerServiceController myCustomerServiceController { get; set; }
+    public List<BasicPrimeModel> servicestatuslist = new List<BasicPrimeModel>();
 
     public Orders()
     {
         InitializeComponent();
     }
 
-    protected override void OnAppearing()
+    protected async override void OnAppearing()
     {
         base.OnAppearing();
-
+        ServiceController MyServiceController = new ServiceController();
+        servicestatuslist =  await MyServiceController.GetBasicPrime("SERVICESTATUS");
         RefreshForm();
     }
 
@@ -36,6 +38,8 @@ public partial class Orders : ContentPage
         long customerid = -1;
         int postmanid = -1;
         int vendorid = GlobalClass.m_VendorId;
+
+        pickerServiceStatus.ItemsSource = servicestatuslist;
 
         string ticketdatetimeBegin = "2024-01-01";
         string ticketdatetimeEnd = DateTime.Today.ToString("yyyy-MM-dd");
@@ -59,6 +63,7 @@ public partial class Orders : ContentPage
             ticketdatetimeEnd = pc.ToDateTime(int.Parse(ss[0]), int.Parse(ss[1]), int.Parse(ss[2]), 0, 0, 0, 0).ToString("yyyy-MM-dd");
         }
 
+     
 
         string servicestatusserie = ((byte)GlobalClass.enumServiceStatus.servicestatus_NoSelect).ToString();
 
@@ -180,6 +185,8 @@ public partial class Orders : ContentPage
 
     }
 
-    
+    private void pickerServiceStatus_SelectedIndexChanged(object sender, EventArgs e)
+    {
 
+    }
 }

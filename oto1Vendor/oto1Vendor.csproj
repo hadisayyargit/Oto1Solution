@@ -50,6 +50,7 @@
 		<MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#512BD4" />
 		<MauiIcon Include="Resources\AppIcon\oto1vendoricon.png" />
 
+	
 		<!-- Splash Screen -->
 		<MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#512BD4" BaseSize="128,128" />
 
@@ -93,15 +94,12 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Compile Update="Views\BasketItems.xaml.cs">
-	    <DependentUpon>BasketItems.xaml</DependentUpon>
-	  </Compile>
-	  <Compile Update="Views\Basket.xaml.cs">
-	    <DependentUpon>Basket.xaml</DependentUpon>
-	  </Compile>
-	</ItemGroup>
-
-	<ItemGroup>
+	  <MauiXaml Update="Views\Basket.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\BasketItems.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Views\Vendor_Part.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>

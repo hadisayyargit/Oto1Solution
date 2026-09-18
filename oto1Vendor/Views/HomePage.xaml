@@ -30,46 +30,10 @@
                 FontSize="18"
                 HorizontalOptions="Center" />
         <Label
-                Text="version:۱.۱۰"
+                Text="version:۱.۱۱"
                 SemanticProperties.HeadingLevel="Level1"
                 FontSize="16"
                 HorizontalOptions="Center" />
-
-        <!--<Label Text="آخرین درخواستها" TextColor="Maroon" FontSize="Medium"></Label>
-        <CarouselView ItemsSource="{Binding SlideList}" x:Name="mainCarouselView" >
-            <CarouselView.ItemTemplate>
-                <DataTemplate>
-                    <StackLayout>
-                        <Frame HasShadow="True" BackgroundColor="LightGoldenrodYellow"
-                          BorderColor="Transparent"
-                          CornerRadius="5"
-                        
-                          Padding="5"
-                          HeightRequest="200"
-                              
-                          HorizontalOptions="Center"
-                          VerticalOptions="CenterAndExpand">
-                            <StackLayout>
-                                
-                                <Label Text="{Binding FName}" 
-                                  FontAttributes="Bold"
-                                  FontSize="10"
-                                  HorizontalOptions="Center"
-                                  VerticalOptions="Center" />
-                                <ImageButton Source="{Binding ThumbnailPhotoFile}" 
-                                             Clicked="ImageButton_Clicked"
-                                  Aspect="AspectFit"
-                                  HeightRequest="150"
-                                  WidthRequest="200"
-                                  
-                                  HorizontalOptions="Center" />
-
-                            </StackLayout>
-                        </Frame>
-                    </StackLayout>
-                </DataTemplate>
-            </CarouselView.ItemTemplate>
-        </CarouselView>-->
 
 
         <Button x:Name="btnMyRequests" Text="خدمات" Clicked="btnMyRequests_Clicked" />

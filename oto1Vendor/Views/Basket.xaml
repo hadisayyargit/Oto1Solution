@@ -16,8 +16,7 @@
 
             <ActivityIndicator x:Name="activityIndicator"  IsVisible="True"       IsRunning="False"     HeightRequest="20"     Color="Maroon" />
 
-
-
+          
             <CollectionView x:Name="collectionviewOrders"  SelectionMode="Single" ItemsSource="{Binding myGroupServices}" IsGrouped="true" BackgroundColor="LightYellow">
                 <CollectionView.ItemsLayout>
                     <GridItemsLayout Orientation="Vertical" Span="1" VerticalItemSpacing="0" HorizontalItemSpacing="0" />

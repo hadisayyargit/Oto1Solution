@@ -303,6 +303,16 @@ namespace Auto1API.Controllers
 
             return personusers;
         }
+
+        [HttpGet("{groupcode}")]
+        public IEnumerable<BasicPrimeModel> GetBasicPrime(string groupcode)
+        {
+            var items = Auto1Context.BasicPrime.Where(b=>b.IsHeader==false && b.GroupCode==groupcode).ToList();
+
+
+            return items;
+        }
+
         ////////////////////////////
         ///
         [HttpPost]

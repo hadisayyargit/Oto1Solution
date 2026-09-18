@@ -28,7 +28,7 @@ public partial class BasketItems : ContentPage
         ServiceController MyServiceController = new ServiceController();
 
         persons = await MyServiceController.GetAllPersonsByUserRole((byte)GlobalClass.enumUserRole.userrole_postman);
-
+        
         RefreshForm();
         
     }
@@ -94,15 +94,42 @@ public partial class BasketItems : ContentPage
                 return;
             }
 
-            var button = (Button)sender;
-            // var servicesitems = (CustomerServiceGroupModel)button.BindingContext;
-
+        
             var servicesitems = collectionviewBasket.ItemsSource;
-
             this.myCustomerServiceController = new CustomerServiceController();
 
             try
             {
+                List<CustomerServiceViewModel> mycustomerserviceviewmodellist = await myCustomerServiceController.GetCustomerService(this.ServiceId);
+                CustomerServiceViewModel myCustomerService = mycustomerserviceviewmodellist.FirstOrDefault();
+
+                //await myCustomerServiceController.UpdateCustomerServiceStatus(this.ServiceId, (byte)GlobalClass.enumServiceStatus.servicestatus_Refusal);
+
+
+                CustomerServiceModel newcustomerServiceModel = new CustomerServiceModel()
+                {
+                    ServiceId = this.ServiceId,
+                    CustomerId = myCustomerService.CustomerId,
+                    ServiceType = myCustomerService.ServiceType,
+                    TicketDateTime = myCustomerService.TicketDateTime,
+                    DiscountCode = myCustomerService.DiscountCode,
+                    DiscountAmount = myCustomerService.DiscountAmount,
+                    ExtraAmount = myCustomerService.ExtraAmount,
+                    ShippingAmount = myCustomerService.ShippingAmount,
+                    TotalAmount = myCustomerService.TotalAmount,
+                    ServiceDateTime = DateTime.Now,
+                    VendorId = myCustomerService.VendorId,
+                    Address = myCustomerService.Address,
+                    Latitude = myCustomerService.Latitude,
+                    Longitude = myCustomerService.Longitude,
+                    ServicesDesc = txtRemark.Text,
+                    ServiceStatus = (byte)GlobalClass.enumServiceStatus.servicestatus_Sending
+                };
+
+                bool res = await myCustomerServiceController.UpdateCustomerService(newcustomerServiceModel);
+
+                await DisplayAlert("تایید", "سفارش به پیک سپرده شد", "قبول");
+                /*
                 foreach (CustomerServiceItemViewModel serviceitem in servicesitems)
                 {
 
@@ -128,7 +155,7 @@ public partial class BasketItems : ContentPage
                 /// finding Nearset and available postman
                 int postmanid = 4;
                 await myCustomerServiceController.UpdateCustomerServicePostman(this.ServiceId, postmanid);
-
+                */
 
             }
             catch (Exception ex)
@@ -137,22 +164,7 @@ public partial class BasketItems : ContentPage
             await Navigation.PopAsync();
         }
     }
-    //private async void btnUpdateServiceItem_Clicked(object sender, EventArgs e)
-    //{
-    //    var button = (Button)sender;
-    //    var item = (CustomerServiceItemViewModel)button.BindingContext;
-    //    long id = item.ServiceItemId;
-    //    int qty = item.Quantity;
-    //    try
-    //    {
-    //        bool res = await myCustomerServiceController.UpdateCustomerServiceItemQuantity(id, qty);
-    //        await DisplayAlert("تایید", "بروزرسانی شد", "قبول");
-    //    }
-    //    catch
-    //    {
-
-    //    }
-    //}
+    
 
     private async void btnRefused_Clicked(object sender, EventArgs e)
     {
@@ -169,7 +181,33 @@ public partial class BasketItems : ContentPage
             {
                 try
                 {
-                    await myCustomerServiceController.UpdateCustomerServiceStatus(this.ServiceId, (byte)GlobalClass.enumServiceStatus.servicestatus_Refusal);
+                    List<CustomerServiceViewModel> mycustomerserviceviewmodellist = await myCustomerServiceController.GetCustomerService(this.ServiceId);
+                    CustomerServiceViewModel myCustomerService = mycustomerserviceviewmodellist.FirstOrDefault();
+
+                    //await myCustomerServiceController.UpdateCustomerServiceStatus(this.ServiceId, (byte)GlobalClass.enumServiceStatus.servicestatus_Refusal);
+
+
+                    CustomerServiceModel newcustomerServiceModel = new CustomerServiceModel()
+                    {
+                        ServiceId = this.ServiceId,
+                        CustomerId = myCustomerService.CustomerId,
+                        ServiceType = myCustomerService.ServiceType,
+                        TicketDateTime = myCustomerService.TicketDateTime,
+                        DiscountCode = myCustomerService.DiscountCode,
+                        DiscountAmount = myCustomerService.DiscountAmount,
+                         ExtraAmount = myCustomerService.ExtraAmount,
+                        ShippingAmount = myCustomerService.ShippingAmount,
+                        TotalAmount = myCustomerService.TotalAmount,
+                        ServiceDateTime = DateTime.Now,
+                        VendorId = myCustomerService.VendorId,
+                        Address = myCustomerService.Address,
+                        Latitude = myCustomerService.Latitude,
+                        Longitude = myCustomerService.Longitude,
+                        ServicesDesc = txtRemark.Text,
+                        ServiceStatus = (byte)GlobalClass.enumServiceStatus.servicestatus_Refusal
+                    };
+
+                    bool res = await myCustomerServiceController.UpdateCustomerService(newcustomerServiceModel);
 
                     await DisplayAlert("تایید", "سفارش رد شد", "قبول");
                     await Navigation.PopAsync();
@@ -188,5 +226,10 @@ public partial class BasketItems : ContentPage
     {
         //string s=e.Value.ToString();
           
+    }
+
+    private void pickerCourier_SelectedIndexChanged(object sender, EventArgs e)
+    {
+
     }
 }
