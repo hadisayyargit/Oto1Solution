@@ -18,10 +18,10 @@ public partial class Vendor_Part : ContentPage
         {
             IsRefreshing = true;
             await Task.Delay(2000);
-            await RefreshForm();
+          //  await RefreshForm();
 
             IsRefreshing = false;
-            OnPropertyChanged(nameof(IsRefreshing));
+            //OnPropertyChanged(nameof(IsRefreshing));
 
         });
 
@@ -94,4 +94,12 @@ public partial class Vendor_Part : ContentPage
          await RefreshForm();
     }
 
+    private async void btnEdit_Clicked(object sender, EventArgs e)
+    {
+        if (sender is Button button &&
+            button.BindingContext is PartVendorModel part)
+        {
+            await DisplayAlert("Edit",$"Id: {part.Id}\nقطعه: {part.FName}","باشه");
+        }
+    }
 }

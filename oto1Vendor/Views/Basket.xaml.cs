@@ -70,6 +70,10 @@ public partial class Basket : ContentPage
         string ticketdatetimeBegin = DateTime.Today.ToString("yyyy-MM-dd");
         string ticketdatetimeEnd   = DateTime.Today.ToString("yyyy-MM-dd");
 
+        /// برای سرویسهای باز شرط تاریخ نیاز نیست
+        if(this.ServiceStatus== (byte)GlobalClass.enumServiceStatus.servicestatus_Sending || this.ServiceStatus==(byte)GlobalClass.enumServiceStatus.servicestatus_Payment)
+            ticketdatetimeBegin = "2000-01-01";
+
         try
         {
             myOrders = await myCustomerServiceController.GetCustomerService(serviceid, customerid, vendorid,postmanid, ticketdatetimeBegin, ticketdatetimeEnd, servicestatusserie);

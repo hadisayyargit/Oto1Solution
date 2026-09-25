@@ -63,9 +63,13 @@ public partial class Orders : ContentPage
             ticketdatetimeEnd = pc.ToDateTime(int.Parse(ss[0]), int.Parse(ss[1]), int.Parse(ss[2]), 0, 0, 0, 0).ToString("yyyy-MM-dd");
         }
 
-     
-
         string servicestatusserie = ((byte)GlobalClass.enumServiceStatus.servicestatus_NoSelect).ToString();
+       
+        if (pickerServiceStatus.SelectedIndex >= 0)
+        {
+             servicestatusserie =( (BasicPrimeModel)pickerServiceStatus.ItemsSource[pickerServiceStatus.SelectedIndex]).CodeValue.ToString();
+
+        }
 
         try
         {
@@ -187,6 +191,6 @@ public partial class Orders : ContentPage
 
     private void pickerServiceStatus_SelectedIndexChanged(object sender, EventArgs e)
     {
-
+        RefreshForm();
     }
 }

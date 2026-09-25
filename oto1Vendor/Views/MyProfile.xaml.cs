@@ -1,5 +1,6 @@
 ﻿using oto1.Models;
 using oto1.Services;
+using Microsoft.Maui.Media;
 
 namespace oto1;
 
@@ -23,30 +24,37 @@ public partial class MyProfile : ContentPage
         RefreshForm();
 
     }
-    private void mnuMyLocation_Clicked(object sender, EventArgs e)
+    private async void mnuMyLocation_Clicked(object sender, EventArgs e)
     {
+        await TextToSpeech.SpeakAsync("MyLocation Clicked");
         // Navigation.PushAsync(new myLocations());
 
     }
 
-
-    private void mnuMyCars_Clicked(object sender, EventArgs e)
-    {
-        //Navigation.PushAsync(new MyCars());
-        // DisplayAlert("alert", "goodbye", "cancel", flowDirection: FlowDirection.LeftToRight);
-    }
-
-
-
     private async void mnuWallet_Clicked(object sender, EventArgs e)
     {
-         await TextToSpeech.SpeakAsync("Oto1");
+        IEnumerable<Locale> locales = await TextToSpeech.Default.GetLocalesAsync();
+
+        //Locale? mylocale = locales.FirstOrDefault(x => x.Language.Equals("fa-IR", StringComparison.OrdinalIgnoreCase));
+        Locale? mylocale = locales.FirstOrDefault(x =>    x.Language.StartsWith("fa", StringComparison.OrdinalIgnoreCase));
+        // Locale mylocale=locales.
+
+        SpeechOptions options = new SpeechOptions()
+        {
+            Rate=1.0f,
+           Locale=mylocale,
+            // سعی می‌کنیم زبان فارسی را مشخص کنیم (اگر موتور گوشی پشتیبانی کند)
+            Pitch = 1.0f, // میزان زیر و بمی صدا (بین 0.0 تا 2.0)
+            Volume = 1.0f  // میزان بلندی صدا (بین 0.0 تا 1.0)
+        };
+
+        // اجرای عملیات صحبت کردن
+         await TextToSpeech.Default.SpeakAsync("کیف پول من", options);
+       // await TextToSpeech.Default.SpeakAsync("salam", options);
+            //  await TextToSpeech.SpeakAsync("کیف");
     }
 
-    private void Button_Clicked(object sender, EventArgs e)
-    {
-        ((AppShell)App.Current.MainPage).SwitchtoTab("tabHome");
-    }
+
     private void mnuPassword_Clicked(object sender, EventArgs e)
     {
         frameProfile.IsVisible = false;
@@ -221,6 +229,20 @@ public partial class MyProfile : ContentPage
 
 
                 m_myvendor = await MyServiceController.GetVendorByUserId(GlobalClass.m_UserId);
+
+
+                /*
+                 ///for displaying supported languages
+                IEnumerable<Locale> locales = await TextToSpeech.Default.GetLocalesAsync();
+
+           
+                var languageList = locales
+            .Select(x => $"{x.Language} - {x.Country}")
+            .ToList();
+
+                pickerLocales.ItemsSource = languageList;
+                */
+
 
                 if (m_myvendor != null)
                 {

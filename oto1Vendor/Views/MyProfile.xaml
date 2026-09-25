@@ -15,10 +15,15 @@
         <ToolbarItem Text="تراکنش حسابها"                Order="Secondary" Priority="7" />
     </ContentPage.ToolbarItems>
 
+    
+    
+    
     <Grid RowDefinitions="auto,auto,auto" ColumnDefinitions=".40*,.60*"  Margin="10">
         <Label Text="" Grid.Row="1" Grid.Column="0" x:Name="labelUsername"></Label>
         <Image Source="user5.png" x:Name="imgUser" Grid.Row="0" Grid.Column="1"/>
 
+        <!--<Picker x:Name="pickerLocales"   Grid.Row="2" Grid.ColumnSpan="2" Title="locales"  ItemsSource="{Binding languageList}" ></Picker>-->
+        
         <Frame Grid.Row="2" Grid.ColumnSpan="2" IsVisible="False" x:Name="frameProfile" >
             <Grid RowDefinitions="auto,auto,auto,auto,auto,auto,auto,auto" ColumnDefinitions=".30*,.70*" Padding="10" >
                 <Button Text="انتخاب عکس..."     Grid.Row="0" Grid.Column="1"  HorizontalOptions="End" BackgroundColor="DarkSlateGray" Clicked="btnSelectImage_Clicked"/>
