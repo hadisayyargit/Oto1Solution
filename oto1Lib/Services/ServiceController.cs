@@ -98,7 +98,7 @@ namespace oto1.Services
             try
             {
                 CustomerModel myCustomer = new CustomerModel();
-                string fullurl = this.baseUrl + $"/GetCustomerByUserId?userid/{userid}";
+                string fullurl = this.baseUrl + $"/GetCustomerByUserId?userid={userid}";
                 HttpClient myhttpclient = new HttpClient();
 
                 myhttpclient.BaseAddress = new Uri(fullurl);

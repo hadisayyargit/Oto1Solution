@@ -10,7 +10,9 @@
 
         <Button Text="Clear"
                 Grid.Row="0" />
-
+        <Button x:Name="btnAdd" Text="اضافه کردن"
+                Grid.Row="0" Clicked="btnAdd_Clicked" />
+        
         <dg:DataGrid x:Name="grdVendorPart"
              Grid.Row="1"
              ItemsSource="{Binding}">
@@ -21,6 +23,9 @@
 
                 <dg:DataGridColumn Title="قطعه"
                        PropertyName="FName" />
+
+                <dg:DataGridColumn Title="تعداد"
+               PropertyName="Existance" />
 
                 <dg:DataGridColumn Title="قیمت"
                        PropertyName="PriceAmount" />

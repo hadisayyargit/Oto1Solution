@@ -1,4 +1,5 @@
-﻿using oto1.Models;
+﻿using CommunityToolkit.Maui.Extensions;
+using oto1.Models;
 using oto1.Services;
 using System.ComponentModel;
 
@@ -67,8 +68,7 @@ public partial class Vendor_Part : ContentPage
         */
 
 
-        PartVendorList = await MyServiceController.GetVendor_Part(1);
-        //PartVendorList = await MyServiceController.GetVendor_Part(GlobalClass.m_VendorId);
+        PartVendorList = await MyServiceController.GetVendor_Part(GlobalClass.m_VendorId);
         foreach (var item in PartVendorList)
         {
             item.ThumbnailPhotoFile = "https://khordadnet.ir/mysites/oto1/assets/part/prt" + item.PartId.ToString() + ".png";
@@ -99,7 +99,21 @@ public partial class Vendor_Part : ContentPage
         if (sender is Button button &&
             button.BindingContext is PartVendorModel part)
         {
-            await DisplayAlert("Edit",$"Id: {part.Id}\nقطعه: {part.FName}","باشه");
+            // await DisplayAlert("Edit",$"Id: {part.Id}\nقطعه: {part.FName}","باشه");
+            var popup = new Vendor_Part_PopupEdit(part);
+
+            await this.ShowPopupAsync(popup);
+
+            // اینجا part قبلاً توسط Popup ویرایش شده است
+
+            grdVendorPart.ItemsSource = null;
+            grdVendorPart.ItemsSource = PartVendorList;
+
         }
+    }
+
+    private void btnAdd_Clicked(object sender, EventArgs e)
+    {
+
     }
 }
