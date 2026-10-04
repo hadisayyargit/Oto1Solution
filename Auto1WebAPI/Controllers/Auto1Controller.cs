@@ -342,6 +342,14 @@ namespace Auto1API.Controllers
             this.Auto1Context.SaveChanges();
         }
 
+        [HttpPost]
+        public void AddVendorPart([FromBody] PartVendorModel newvendorpart)
+        {
+            this.Auto1Context.Vendor_Part.Add(newvendorpart);
+            this.Auto1Context.SaveChanges();
+        }
+
+
         [HttpPut]
         public void UpdateCustomer([FromBody] CustomerModel mycustomer)
         {
@@ -383,6 +391,14 @@ namespace Auto1API.Controllers
             }
 
         }
+
+        [HttpPut]
+        public void UpdateVendorPart([FromBody] PartVendorModel myvendorpart)
+        {
+            this.Auto1Context.Vendor_Part.Entry(myvendorpart).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            this.Auto1Context.SaveChanges();
+        }
+
 
         [HttpPut]
         public AppUserModel ActivateUser(string userid, bool isactive)

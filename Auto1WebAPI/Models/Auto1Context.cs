@@ -18,7 +18,7 @@ namespace Auto1API.Models
         public DbSet<Customer_CarModel> Customer_Car { get; set; } = null!;
 
         public DbSet<PartCarVendorModel> ProductCarVendor { get; set; } = null!;
-        public DbSet<PartVendorModel> PartVendor{ get; set; } = null!;
+        public DbSet<PartVendorModel> Vendor_Part{ get; set; } = null!;
 
         public DbSet<CustomerServiceModel> CustomerService { get; set; } = null!;
         public DbSet<CustomerServiceItemModel> CustomerServiceItem { get; set; } = null!;

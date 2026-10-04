@@ -72,7 +72,7 @@ namespace oto1.Models
         public DateTime? ValidEndDate { get; set; }
 
         [MaxLength(50)]
-        public required string FName { get; set; }
+        public string?  FName { get; set; }
 
         [MaxLength(50)]
         public string? LName { get; set; }

@@ -22,7 +22,15 @@
                        PropertyName="Id" />
 
                 <dg:DataGridColumn Title="قطعه"
+                                   
                        PropertyName="FName" />
+                <dg:DataGridColumn Title="از تاریخ"
+               PropertyName="jalaliBeginDate"
+               Width="70" />
+
+                <dg:DataGridColumn Title="تا تاریخ"
+               PropertyName="JalaliEndDate"
+               Width="70" />
 
                 <dg:DataGridColumn Title="تعداد"
                PropertyName="Existance" />
@@ -30,13 +38,7 @@
                 <dg:DataGridColumn Title="قیمت"
                        PropertyName="PriceAmount" />
 
-                <dg:DataGridColumn Title="از تاریخ"
-                       PropertyName="jalaliBeginDate"
-                       Width="70" />
-
-                <dg:DataGridColumn Title="تا تاریخ"
-                       PropertyName="JalaliEndDate"
-                       Width="70" />
+        
 
                 <dg:DataGridColumn Title="تخفیف٪"
                        PropertyName="DiscountPercent"

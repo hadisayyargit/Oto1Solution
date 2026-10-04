@@ -3,6 +3,7 @@
 <toolkit:Popup
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:persian="clr-namespace:MauiPersianToolkit.Controls;assembly=MauiPersianToolkit"
     xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
     x:Class="oto1.Vendor_Part_PopupEdit"
    >
@@ -27,13 +28,23 @@
 
                 <Entry
                     x:Name="txtFName"
+                    IsReadOnly="True"
                     Placeholder="نام قطعه" />
 
                 <Label Text="نام پارسی" />
 
                 <Entry
                     x:Name="txtLName"
+                     IsEnabled="False"
                     Placeholder="نام لاتین" />
+
+                <persian:DatePicker PlaceHolder="تاریخ شروع" SelectedPersianDate="{Binding PersianBeginDate}" 
+         CalendarOption="{Binding CalendarOption}" DisplayFormat="yyyy/MM/dd" 
+         OnChangeDateCommand="{Binding OnChangeDateCommand}"    x:Name="dtPickerBegin"          />
+                <persian:DatePicker PlaceHolder="تاریخ پایان" SelectedPersianDate="{Binding PersianDate}" 
+         CalendarOption="{Binding CalendarOption}" DisplayFormat="yyyy/MM/dd" 
+         OnChangeDateCommand="{Binding OnChangeDateCommand}"    x:Name="dtPickerEnd" />
+
 
                 <Label Text="قیمت" />
 
@@ -62,7 +73,7 @@
                     Margin="0,15,0,0">
 
                     <Button
-                        Text="ذخیره"
+                        Text="بروزرسانی"
                         WidthRequest="100"
                         Clicked="btnSave_Clicked" />
 

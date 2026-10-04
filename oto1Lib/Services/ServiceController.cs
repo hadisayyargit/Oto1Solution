@@ -797,6 +797,37 @@ namespace oto1.Services
             }
 
         }
+
+        public async Task<PartVendorModel> AddVendorPart(PartVendorModel newvendor)
+        {
+            try
+            {
+                string fullurl = this.baseUrl + $"/AddVendorPart";
+                HttpClient myhttpclient = new HttpClient();
+
+                string myJasonString = JsonConvert.SerializeObject(newvendor);
+                StringContent myStringContent = new StringContent(myJasonString, Encoding.UTF8, "application/json");
+
+                myhttpclient.BaseAddress = new Uri(fullurl);
+                myhttpclient.Timeout = TimeSpan.FromSeconds(300);
+                HttpResponseMessage myhttpresponsemessage = await myhttpclient.PostAsync("", myStringContent);
+                if (myhttpresponsemessage.IsSuccessStatusCode)
+                {
+                    return await Task.FromResult<PartVendorModel>(newvendor);
+                }
+
+  
+                return await Task.FromResult(new PartVendorModel());
+
+
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+
+        }
+
         public async Task<PersonModel> AddPerson(PersonModel newperson)
         {
             try
