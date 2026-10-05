@@ -54,11 +54,27 @@ namespace oto1.Models
 
 
     /////////////////////////////////////////////////////
-    
+
     /// <summary>
     /// 
     /// </summary>
-    public class PartVendorModel
+    /// 
+    public class Vendor_PartModel
+    {
+        [Key]
+        public long Id { get; set; }
+        public int PartId { get; set; }
+        public int? VendorId { get; set; }
+
+        public int? PriceAmount { get; set; }
+        public byte? DiscountPercent { get; set; }
+        public int? Existance { get; set; }
+        public DateTime? ValidBeginDate { get; set; }
+        public DateTime? ValidEndDate { get; set; }
+
+
+    }
+    public class PartVendorViewModel
     {
         [Key]
         public long Id { get; set; }

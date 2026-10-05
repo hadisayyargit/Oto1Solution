@@ -181,17 +181,17 @@ namespace Auto1API.Controllers
 
 
         [HttpGet(Name = "GetVendor_Part")]
-        public IEnumerable<PartVendorModel> GetVendor_Part(int vendorid = -1)
+        public IEnumerable<PartVendorViewModel> GetVendor_Part(int vendorid = -1)
         {
             // System.FormattableString s3 = $"select vp.Id,vp.PartId, vp.VendorId,vp.ValidBeginDate,vp.ValidEndDate,vp.PriceAmount,vp.DiscountPercent,vp.Existance, p.FName, p.LName, FORMAT(vp.ValidBeginDate,'yyyy/MM/dd','fa-IR') as jalaliBeginDate, FORMAT(vp.ValidEndDate,'yyyy/MM/dd','fa-IR') as jalaliEndDate from Vendor_Part vp inner join Part p on p.PartId=vp.PartId where vp.VendorId={vendorid}";
 
             System.FormattableString s3 = $"select vp.Id,vp.PartId, vp.VendorId,vp.ValidBeginDate,vp.ValidEndDate,vp.PriceAmount,vp.DiscountPercent,vp.Existance, p.FName, p.LName, FORMAT(vp.ValidBeginDate,'yyyy/MM/dd','fa-IR') as jalaliBeginDate, FORMAT(vp.ValidEndDate,'yyyy/MM/dd','fa-IR') as jalaliEndDate from Vendor_Part vp inner join Part p on p.PartId=vp.PartId where vp.VendorId={vendorid}";
 
-            List<PartVendorModel> res = new List<PartVendorModel>();
+            List<PartVendorViewModel> res = new List<PartVendorViewModel>();
 
             try
             {
-                res = this.Auto1Context.Set<PartVendorModel>().FromSql(s3).ToList();
+                res = this.Auto1Context.Set<PartVendorViewModel>().FromSql(s3).ToList();
             }
             catch (Exception ex)
             {
@@ -343,7 +343,7 @@ namespace Auto1API.Controllers
         }
 
         [HttpPost]
-        public void AddVendorPart([FromBody] PartVendorModel newvendorpart)
+        public void AddVendorPart([FromBody] Vendor_PartModel newvendorpart)
         {
             this.Auto1Context.Vendor_Part.Add(newvendorpart);
             this.Auto1Context.SaveChanges();
@@ -393,7 +393,7 @@ namespace Auto1API.Controllers
         }
 
         [HttpPut]
-        public void UpdateVendorPart([FromBody] PartVendorModel myvendorpart)
+        public void UpdateVendorPart([FromBody] Vendor_PartModel myvendorpart)
         {
             this.Auto1Context.Vendor_Part.Entry(myvendorpart).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
             this.Auto1Context.SaveChanges();

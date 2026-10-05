@@ -480,12 +480,12 @@ namespace oto1.Services
 
         }
 
-        public async Task<List<PartVendorModel>> GetVendor_Part(int vendorid)
+        public async Task<List<PartVendorViewModel>> GetVendor_Part(int vendorid)
         {
 
             try
             {
-                List<PartVendorModel> mylist = new List<PartVendorModel>();
+                List<PartVendorViewModel> mylist = new List<PartVendorViewModel>();
                 string fullurl = this.baseUrl + $"/GetVendor_Part?vendorid={vendorid}";
                 HttpClient myhttpclient = new HttpClient();
 
@@ -496,7 +496,7 @@ namespace oto1.Services
                 {
                     string contentResponse = await myhttpresponsemessage.Content.ReadAsStringAsync();
 
-                    mylist = JsonConvert.DeserializeObject<List<PartVendorModel>>(contentResponse);
+                    mylist = JsonConvert.DeserializeObject<List<PartVendorViewModel>>(contentResponse);
 
 
                 }
@@ -798,14 +798,14 @@ namespace oto1.Services
 
         }
 
-        public async Task<PartVendorModel> AddVendorPart(PartVendorModel newvendor)
+        public async Task<Vendor_PartModel> AddVendorPart(Vendor_PartModel newvendorpart)
         {
             try
             {
                 string fullurl = this.baseUrl + $"/AddVendorPart";
                 HttpClient myhttpclient = new HttpClient();
 
-                string myJasonString = JsonConvert.SerializeObject(newvendor);
+                string myJasonString = JsonConvert.SerializeObject(newvendorpart);
                 StringContent myStringContent = new StringContent(myJasonString, Encoding.UTF8, "application/json");
 
                 myhttpclient.BaseAddress = new Uri(fullurl);
@@ -813,11 +813,11 @@ namespace oto1.Services
                 HttpResponseMessage myhttpresponsemessage = await myhttpclient.PostAsync("", myStringContent);
                 if (myhttpresponsemessage.IsSuccessStatusCode)
                 {
-                    return await Task.FromResult<PartVendorModel>(newvendor);
+                    return await Task.FromResult<Vendor_PartModel>(newvendorpart);
                 }
 
   
-                return await Task.FromResult(new PartVendorModel());
+                return await Task.FromResult(new Vendor_PartModel());
 
 
             }
@@ -983,6 +983,39 @@ namespace oto1.Services
             }
 
         }
+
+        public async Task<bool> UpdateVendorPart(Vendor_PartModel newvendorpart)
+        {
+
+            try
+            {
+                string fullurl = this.baseUrl + $"/UpdateVendorPart";
+                HttpClient myhttpclient = new HttpClient();
+                string myJasonString = JsonConvert.SerializeObject(newvendorpart);
+                StringContent myStringContent = new StringContent(myJasonString, Encoding.UTF8, "application/json");
+
+                myhttpclient.BaseAddress = new Uri(fullurl);
+                myhttpclient.Timeout = TimeSpan.FromSeconds(300);
+                HttpResponseMessage myhttpresponsemessage = await myhttpclient.PutAsync("", myStringContent);
+
+
+                if (myhttpresponsemessage.IsSuccessStatusCode)
+                {
+                    return await Task.FromResult(true);
+
+                }
+
+                return await Task.FromResult(false);
+
+
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+
+        }
+
         public async Task<bool> UpdatePerson(PersonModel myPerson)
         {
 

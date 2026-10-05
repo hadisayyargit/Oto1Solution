@@ -9,9 +9,9 @@ namespace oto1;
 public partial class Vendor_Part : ContentPage
 {
     ServiceController MyServiceController = new ServiceController();
-    public List<PartVendorModel> PartVendorList { get; set; } = new ();
+    public List<PartVendorViewModel> PartVendorList { get; set; } = new ();
     public bool IsRefreshing { get; set; }
-    public PartVendorModel SelectedPartVendor { get; set; } 
+    public PartVendorViewModel SelectedPartVendor { get; set; } 
     public Command RefreshCommand { get; set; }
     public Vendor_Part()
     {
@@ -84,7 +84,7 @@ public partial class Vendor_Part : ContentPage
 
     private void btnClear_Clicked(object sender, EventArgs e)
     {
-        PartVendorModel item1 = this.SelectedPartVendor;
+        PartVendorViewModel item1 = this.SelectedPartVendor;
         ClearForm();
     }
 
@@ -97,7 +97,7 @@ public partial class Vendor_Part : ContentPage
     private async void btnEdit_Clicked(object sender, EventArgs e)
     {
         if (sender is Button button &&
-            button.BindingContext is PartVendorModel part)
+            button.BindingContext is PartVendorViewModel part)
         {
             // await DisplayAlert("Edit",$"Id: {part.Id}\nقطعه: {part.FName}","باشه");
             var popup = new Vendor_Part_PopupEdit(part);
