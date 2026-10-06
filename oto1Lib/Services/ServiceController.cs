@@ -823,7 +823,8 @@ namespace oto1.Services
             }
             catch (Exception ex)
             {
-                return null;
+                throw ex;
+                //return null;
             }
 
         }

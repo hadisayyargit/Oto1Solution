@@ -36,37 +36,9 @@ public partial class Vendor_Part : ContentPage
     }
 
     private async Task RefreshForm()
-    {        /*
-        var assembly = typeof(DummyDataProvider).GetTypeInfo().Assembly;
-
-        using var stream = assembly.GetManifestResourceStream("Maui.DataGrid.Sample.teams.json")
-            ?? throw new FileNotFoundException("Could not load teams.json");
-
-        using var reader = new StreamReader(stream);
-        var json = reader.ReadToEnd();
-
-        return JsonSerializer.Deserialize<List<Team>>(json)
-            ?? throw new InvalidOperationException("Could not deserialize teams.json");
-        */
-
-        //HttpClient client = new HttpClient();
-        // var teams = client.GetFromJsonAsync<Team>("https://montemagno.com/monkeys.json");
-        //var teams = client.GetFromJsonAsync<Team>("file://team.json");
-
-        //string jsonPath = "teams.json"; // مسیر فایل JSON
-        //string jsonData = File.ReadAllText(jsonPath);
-        //List<Team> teams2 = JsonSerializer.Deserialize<List<Team>>(jsonData);
-
-        /*
-        using var stream = await FileSystem.OpenAppPackageFileAsync("teams.json");
-        using var reader = new StreamReader(stream);
-        string jsonData = await reader.ReadToEndAsync();
-
-        Teams = JsonSerializer.Deserialize<List<PartVendorModel>>(jsonData);
-        //return JsonSerializer.Deserialize<List<Team>>(jsonData);
-
-        */
-
+    {
+        activityIndicator.IsRunning = true;
+        activityIndicator.IsVisible = true;
 
         PartVendorList = await MyServiceController.GetVendor_Part(GlobalClass.m_VendorId);
         foreach (var item in PartVendorList)
@@ -79,7 +51,8 @@ public partial class Vendor_Part : ContentPage
         BindingContext = PartVendorList;
 
         //BindingContext = this;
-
+        activityIndicator.IsRunning = false;
+        activityIndicator.IsVisible = false;
     }
 
     private void btnClear_Clicked(object sender, EventArgs e)
@@ -99,21 +72,37 @@ public partial class Vendor_Part : ContentPage
         if (sender is Button button &&
             button.BindingContext is PartVendorViewModel part)
         {
-            // await DisplayAlert("Edit",$"Id: {part.Id}\nقطعه: {part.FName}","باشه");
+            
             var popup = new Vendor_Part_PopupEdit(part);
-
+            ///  لیست قطعات
+            await popup.LoadPartsAsync();
             await this.ShowPopupAsync(popup);
 
             // اینجا part قبلاً توسط Popup ویرایش شده است
 
-            grdVendorPart.ItemsSource = null;
-            grdVendorPart.ItemsSource = PartVendorList;
+            //grdVendorPart.ItemsSource = null;
+            //grdVendorPart.ItemsSource = PartVendorList;
+            await Task.Delay(2000);
 
+            BindingContext = PartVendorList;
         }
     }
 
-    private void btnAdd_Clicked(object sender, EventArgs e)
+    private async void btnAdd_Clicked(object sender, EventArgs e)
     {
+        PartVendorViewModel part=new PartVendorViewModel();
+        part.Id = 0;
+        part.VendorId = GlobalClass.m_VendorId;
+        var popup = new Vendor_Part_PopupEdit(part);
+        ///  لیست قطعات
+        await popup.LoadPartsAsync();
+        await this.ShowPopupAsync(popup);
 
+        // اینجا part قبلاً توسط Popup ویرایش شده است
+
+        //grdVendorPart.ItemsSource = null;
+        //grdVendorPart.ItemsSource = PartVendorList;
+        await Task.Delay(2000);
+        BindingContext = PartVendorList;
     }
 }

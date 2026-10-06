@@ -5,47 +5,57 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:persian="clr-namespace:MauiPersianToolkit.Controls;assembly=MauiPersianToolkit"
     xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
-    x:Class="oto1.Vendor_Part_PopupEdit"
-   >
+    x:Class="oto1.Vendor_Part_PopupEdit">
 
     <Border
-                WidthRequest="350"
-        HeightRequest="500"
+        WidthRequest="350"
+        HeightRequest="800"
         StrokeThickness="0"
         BackgroundColor="White"
         StrokeShape="RoundRectangle 20">
 
         <ScrollView>
-            <VerticalStackLayout Padding="20" Spacing="12">
+
+            <VerticalStackLayout
+                Padding="20"
+                Spacing="12">
 
                 <Label
-                    Text="ویرایش موجودی"
+                    Text="افزودن/ویرایش موجودی"
                     FontSize="22"
                     FontAttributes="Bold"
                     HorizontalOptions="Center" />
+              
+                <Entry x:Name="txtId" IsEnabled="False" Placeholder="شناسه" /> 
+                
+                <!-- انتخاب قطعه -->
+                <Label Text="قطعه" />
 
-                <Label Text="نام قطعه" />
-
-                <Entry
-                    x:Name="txtFName"
-                    IsReadOnly="True"
-                    Placeholder="نام قطعه" />
-
-                <Label Text="نام پارسی" />
+                <Picker
+                    x:Name="pickerPart"
+                    Title="نام قطعه"
+                    ItemsSource="{Binding allparts}"
+                    ItemDisplayBinding="{Binding FName}"
+                    SelectedIndexChanged="pickerPart_SelectedIndexChanged" />
 
                 <Entry
                     x:Name="txtLName"
-                     IsEnabled="False"
-                    Placeholder="نام لاتین" />
+                    IsReadOnly="True"
+                    Placeholder="نام لاتین قطعه" />
 
-                <persian:DatePicker PlaceHolder="تاریخ شروع" SelectedPersianDate="{Binding PersianBeginDate}" 
-         CalendarOption="{Binding CalendarOption}" DisplayFormat="yyyy/MM/dd" 
-         OnChangeDateCommand="{Binding OnChangeDateCommand}"    x:Name="dtPickerBegin"          />
-                <persian:DatePicker PlaceHolder="تاریخ پایان" SelectedPersianDate="{Binding PersianDate}" 
-         CalendarOption="{Binding CalendarOption}" DisplayFormat="yyyy/MM/dd" 
-         OnChangeDateCommand="{Binding OnChangeDateCommand}"    x:Name="dtPickerEnd" />
+                <!-- تاریخ شروع -->
+                <persian:DatePicker
+                    x:Name="dtPickerBegin"
+                    PlaceHolder="تاریخ شروع"
+                    DisplayFormat="yyyy/MM/dd" />
 
+                <!-- تاریخ پایان -->
+                <persian:DatePicker
+                    x:Name="dtPickerEnd"
+                    PlaceHolder="تاریخ پایان"
+                    DisplayFormat="yyyy/MM/dd" />
 
+                <!-- قیمت -->
                 <Label Text="قیمت" />
 
                 <Entry
@@ -53,6 +63,7 @@
                     Keyboard="Numeric"
                     Placeholder="قیمت" />
 
+                <!-- تخفیف -->
                 <Label Text="درصد تخفیف" />
 
                 <Entry
@@ -60,6 +71,7 @@
                     Keyboard="Numeric"
                     Placeholder="درصد تخفیف" />
 
+                <!-- موجودی -->
                 <Label Text="موجودی" />
 
                 <Entry
@@ -67,6 +79,7 @@
                     Keyboard="Numeric"
                     Placeholder="موجودی" />
 
+                <!-- دکمه‌ها -->
                 <HorizontalStackLayout
                     HorizontalOptions="Center"
                     Spacing="15"
@@ -85,6 +98,7 @@
                 </HorizontalStackLayout>
 
             </VerticalStackLayout>
+
         </ScrollView>
 
     </Border>

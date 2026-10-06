@@ -1,109 +1,166 @@
 ﻿using CommunityToolkit.Maui.Views;
-using MauiPersianToolkit;
 using oto1.Models;
 using oto1.Services;
-using System.Runtime.Intrinsics.X86;
+using System.Globalization;
 
 namespace oto1;
 
 public partial class Vendor_Part_PopupEdit : Popup
 {
     private readonly PartVendorViewModel _part;
+
     public ServiceController MyServiceController { get; set; }
+
+    public List<PartModel> allparts { get; set; } = new List<PartModel>();
 
     public Vendor_Part_PopupEdit(PartVendorViewModel part)
     {
         InitializeComponent();
 
-        this.MyServiceController = new ServiceController();
         _part = part;
 
-        // نمایش اطلاعات فعلی
-        txtFName.Text = part.FName;
+        MyServiceController = new ServiceController();
+
+        // اطلاعات رکورد
+        txtId.Text = _part.Id.ToString();
         txtLName.Text = part.LName;
         txtPriceAmount.Text = part.PriceAmount?.ToString();
         txtDiscountPercent.Text = part.DiscountPercent?.ToString();
         txtExistance.Text = part.Existance?.ToString();
-       
-        dtPickerBegin.SelectedPersianDate=part.jalaliBeginDate;
+
+        dtPickerBegin.SelectedPersianDate = part.jalaliBeginDate;
         dtPickerEnd.SelectedPersianDate = part.JalaliEndDate;
     }
 
+
+    public async Task LoadPartsAsync()
+    {
+        // گرفتن لیست قطعات
+        allparts = await MyServiceController.GetAllParts();
+
+        // پر کردن Picker
+        pickerPart.ItemsSource = allparts;
+
+        // پیدا کردن قطعه فعلی
+        var selectedPart = allparts.FirstOrDefault(x => x.PartId == _part.PartId);
+
+        if (selectedPart != null)
+        {
+            pickerPart.SelectedItem = selectedPart;
+            txtLName.Text = selectedPart.LName;
+        }
+        else
+        {
+            pickerPart.SelectedItem = null;
+            txtLName.Text = "";
+        }
+    }
+
+
+    private void pickerPart_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        if (pickerPart.SelectedItem is PartModel selectedPart)
+        {
+            _part.PartId = selectedPart.PartId;
+            _part.FName = selectedPart.FName;
+            _part.LName = selectedPart.LName;
+            txtLName.Text = selectedPart.LName;
+        }
+    }
+
+
     private async void btnSave_Clicked(object sender, EventArgs e)
     {
-        Vendor_PartModel newvendorpart = new Vendor_PartModel();
-
-        _part.FName = txtFName.Text?.Trim() ?? string.Empty;
-        _part.LName = string.IsNullOrWhiteSpace(txtLName.Text)
-            ? null
-            : txtLName.Text.Trim();
-
-        if (int.TryParse(txtPriceAmount.Text, out int price))
-            _part.PriceAmount = price;
-        else
-            _part.PriceAmount = null;
-
-        if (byte.TryParse(txtDiscountPercent.Text, out byte discount))
-            _part.DiscountPercent = discount;
-        else
-            _part.DiscountPercent = null;
-
-        if (int.TryParse(txtExistance.Text, out int existance))
-            _part.Existance = existance;
-        else
-            _part.Existance = null;
-
-
-        string datetimeBegin = "2024-01-01";
-        string datetimeEnd = DateTime.Today.ToString("yyyy-MM-dd");
-
-
-        var d1 = dtPickerBegin.SelectedPersianDate;
-        var d2 = dtPickerEnd.SelectedPersianDate;
-
-        if (d1 != null)
+        try
         {
-            System.Globalization.PersianCalendar pc = new System.Globalization.PersianCalendar();
+           
+            _part.Id = int.Parse(txtId.Text);
 
-            string[] ss = d1.ToString().Split("/");
-            datetimeBegin = pc.ToDateTime(int.Parse(ss[0]), int.Parse(ss[1]), int.Parse(ss[2]), 0, 0, 0, 0).ToString("yyyy-MM-dd");
-        }
-        if (d2 != null)
-        {
-            System.Globalization.PersianCalendar pc = new System.Globalization.PersianCalendar();
+            _part.PriceAmount =
+                int.TryParse(txtPriceAmount.Text, out int price)
+                    ? price : null;
 
-            string[] ss = d2.ToString().Split("/");
-            datetimeEnd = pc.ToDateTime(int.Parse(ss[0]), int.Parse(ss[1]), int.Parse(ss[2]), 0, 0, 0, 0).ToString("yyyy-MM-dd");
-        }
+            _part.DiscountPercent =
+                byte.TryParse(txtDiscountPercent.Text, out byte discount)
+                    ? discount                    : null;
 
-        _part.ValidBeginDate = Convert.ToDateTime(datetimeBegin);
-        _part.ValidEndDate = Convert.ToDateTime(datetimeEnd);
+            _part.Existance =
+                int.TryParse(txtExistance.Text, out int existance)
+                    ? existance                    : null;
 
-        Vendor_PartModel myVendorpart = new Vendor_PartModel();
-        myVendorpart.Id = _part.Id;
-        myVendorpart.VendorId = _part.VendorId;
-        myVendorpart.PartId = _part.PartId;
-        myVendorpart.ValidBeginDate = Convert.ToDateTime(datetimeBegin);
-        myVendorpart.ValidEndDate = Convert.ToDateTime(datetimeEnd);
-        myVendorpart.PriceAmount = _part.PriceAmount;
-        myVendorpart.DiscountPercent = _part.DiscountPercent;
-        myVendorpart.Existance = _part.Existance;
 
-        if (myVendorpart.Id == 0)
-        {
-            newvendorpart = await this.MyServiceController.AddVendorPart(myVendorpart);
-            if (newvendorpart.Id == null)
+            // تاریخ
+            string datetimeBegin = "2024-01-01";
+            string datetimeEnd = DateTime.Today.ToString("yyyy-MM-dd");
+
+            PersianCalendar pc = new PersianCalendar();
+
+            var d1 = dtPickerBegin.SelectedPersianDate;
+
+            if (!string.IsNullOrWhiteSpace(d1))
             {
+                string[] ss = d1.Split('/');
 
+                DateTime dateBegin = pc.ToDateTime(
+                    int.Parse(ss[0]),
+                    int.Parse(ss[1]),
+                    int.Parse(ss[2]),
+                    0, 0, 0, 0);
+
+                datetimeBegin = dateBegin.ToString("yyyy-MM-dd");
             }
+
+            var d2 = dtPickerEnd.SelectedPersianDate;
+
+            if (!string.IsNullOrWhiteSpace(d2))
+            {
+                string[] ss = d2.Split('/');
+
+                DateTime dateEnd = pc.ToDateTime(
+                    int.Parse(ss[0]),
+                    int.Parse(ss[1]),
+                    int.Parse(ss[2]),
+                    0, 0, 0, 0);
+
+                datetimeEnd = dateEnd.ToString("yyyy-MM-dd");
+            }
+
+
+            Vendor_PartModel myVendorpart = new Vendor_PartModel
+            {
+                Id = _part.Id,
+                VendorId = _part.VendorId,
+                PartId = _part.PartId,
+                ValidBeginDate = Convert.ToDateTime(datetimeBegin),
+                ValidEndDate = Convert.ToDateTime(datetimeEnd),
+                PriceAmount = _part.PriceAmount,
+                DiscountPercent = _part.DiscountPercent,
+                Existance = _part.Existance
+
+                
+            };
+
+
+            if (myVendorpart.Id == 0)
+            {
+                await MyServiceController.AddVendorPart(myVendorpart);
+            }
+            else
+            {
+                await MyServiceController.UpdateVendorPart(myVendorpart);
+            }
+
+            await CloseAsync();
         }
-        else
+        catch (Exception ex)
         {
-            await this.MyServiceController.UpdateVendorPart(myVendorpart);
+            await Shell.Current.DisplayAlert(
+                "خطا",
+                ex.Message,
+                "باشه");
         }
-        // برگرداندن رکورد ویرایش‌شده
-        await CloseAsync();
     }
+
 
     private async void btnCancel_Clicked(object sender, EventArgs e)
     {
