@@ -72,7 +72,7 @@ public partial class AppShell : Shell
 
         if (GlobalClass.m_UserId != "")
         {
-            string fileUrl = "https://khordadnet.ir/mysites/oto1/assets/vendor/v" + GlobalClass.m_VendorId.ToString() + ".png";
+            string fileUrl = "https://khordadnet.ir/mysites/oto1/assets/person/v" + GlobalClass.m_VendorId.ToString() + ".png";
 
             bool fileExists = await NetClass.CheckNetFileExists(fileUrl);
             if (fileExists) toolbaritemUser.IconImageSource = fileUrl;

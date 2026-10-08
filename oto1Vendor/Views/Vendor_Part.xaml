@@ -5,25 +5,22 @@
              xmlns:dg="clr-namespace:Maui.DataGrid;assembly=Maui.DataGrid"
              x:Class="oto1.Vendor_Part"
              Title="موجودیها">
-  
-    <Grid RowDefinitions="30,50,*">
+
+    <Grid RowDefinitions="30,50,*" >
         <ActivityIndicator x:Name="activityIndicator" IsVisible="False" Grid.Row="0" IsRunning="False" Color="BlueViolet"/>
    
         <Button x:Name="btnAdd" Text="اضافه کردن"
                 Grid.Row="1" Clicked="btnAdd_Clicked" />
         
-        <dg:DataGrid x:Name="grdVendorPart"
-             Grid.Row="2"
-             ItemsSource="{Binding}">
+        <dg:DataGrid x:Name="grdVendorPart" Grid.Row="2" ItemsSource="{Binding}"  >
             <dg:DataGrid.Columns>
 
-                <dg:DataGridColumn Title="Id"
-                       PropertyName="Id" />
+                <dg:DataGridColumn Title="شناسه"   PropertyName="Id" />
 
-                <dg:DataGridColumn Title="قطعه"
+                <dg:DataGridColumn Title="قطعه" 
                                    
                        PropertyName="FName" />
-                <dg:DataGridColumn Title="از تاریخ"
+                <dg:DataGridColumn Title="از تاریخ" 
                PropertyName="jalaliBeginDate"
                Width="70" />
 

@@ -151,7 +151,7 @@ namespace Auto1API.Controllers
                 myService.TotalAmount = newitem.TotalAmount;
                 myService.DeliveryCode = newitem.DeliveryCode;
                 myService.ServicesDesc = newitem.ServicesDesc;
-
+                myService.PostmanId= newitem.PostmanId;
 
                 this.Auto1Context.CustomerService.Entry(myService).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
                 this.Auto1Context.SaveChanges();

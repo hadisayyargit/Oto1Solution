@@ -6,101 +6,102 @@
     xmlns:persian="clr-namespace:MauiPersianToolkit.Controls;assembly=MauiPersianToolkit"
     xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
     x:Class="oto1.Vendor_Part_PopupEdit">
-
-    <Border
+    <ScrollView>
+        <Border
         WidthRequest="350"
         HeightRequest="800"
         StrokeThickness="0"
         BackgroundColor="White"
         StrokeShape="RoundRectangle 20">
 
-        <ScrollView>
+            <ScrollView>
 
-            <VerticalStackLayout
+                <VerticalStackLayout
                 Padding="20"
                 Spacing="12">
 
-                <Label
+                    <Label
                     Text="افزودن/ویرایش موجودی"
                     FontSize="22"
                     FontAttributes="Bold"
                     HorizontalOptions="Center" />
-              
-                <Entry x:Name="txtId" IsEnabled="False" Placeholder="شناسه" /> 
-                
-                <!-- انتخاب قطعه -->
-                <Label Text="قطعه" />
 
-                <Picker
+                    <Entry x:Name="txtId" IsEnabled="False" Placeholder="شناسه" />
+
+                    <!-- انتخاب قطعه -->
+                    <Label Text="قطعه" />
+
+                    <Picker
                     x:Name="pickerPart"
                     Title="نام قطعه"
                     ItemsSource="{Binding allparts}"
                     ItemDisplayBinding="{Binding FName}"
-                    SelectedIndexChanged="pickerPart_SelectedIndexChanged" />
+                    SelectedIndexChanged="pickerPart_SelectedIndexChanged" 
+/>
 
-                <Entry
+                    <Entry
                     x:Name="txtLName"
                     IsReadOnly="True"
                     Placeholder="نام لاتین قطعه" />
 
-                <!-- تاریخ شروع -->
-                <persian:DatePicker
+                    <!-- تاریخ شروع -->
+                    <persian:DatePicker
                     x:Name="dtPickerBegin"
                     PlaceHolder="تاریخ شروع"
                     DisplayFormat="yyyy/MM/dd" />
 
-                <!-- تاریخ پایان -->
-                <persian:DatePicker
+                    <!-- تاریخ پایان -->
+                    <persian:DatePicker
                     x:Name="dtPickerEnd"
                     PlaceHolder="تاریخ پایان"
                     DisplayFormat="yyyy/MM/dd" />
 
-                <!-- قیمت -->
-                <Label Text="قیمت" />
+                    <!-- قیمت -->
+                    <Label Text="قیمت" />
 
-                <Entry
+                    <Entry
                     x:Name="txtPriceAmount"
                     Keyboard="Numeric"
                     Placeholder="قیمت" />
 
-                <!-- تخفیف -->
-                <Label Text="درصد تخفیف" />
+                    <!-- تخفیف -->
+                    <Label Text="درصد تخفیف" />
 
-                <Entry
+                    <Entry
                     x:Name="txtDiscountPercent"
                     Keyboard="Numeric"
                     Placeholder="درصد تخفیف" />
 
-                <!-- موجودی -->
-                <Label Text="موجودی" />
+                    <!-- موجودی -->
+                    <Label Text="موجودی" />
 
-                <Entry
+                    <Entry
                     x:Name="txtExistance"
                     Keyboard="Numeric"
                     Placeholder="موجودی" />
 
-                <!-- دکمه‌ها -->
-                <HorizontalStackLayout
+                    <!-- دکمه‌ها -->
+                    <HorizontalStackLayout
                     HorizontalOptions="Center"
                     Spacing="15"
                     Margin="0,15,0,0">
 
-                    <Button
+                        <Button
                         Text="بروزرسانی"
                         WidthRequest="100"
                         Clicked="btnSave_Clicked" />
 
-                    <Button
+                        <Button
                         Text="انصراف"
                         WidthRequest="100"
                         Clicked="btnCancel_Clicked" />
 
-                </HorizontalStackLayout>
+                    </HorizontalStackLayout>
 
-            </VerticalStackLayout>
+                </VerticalStackLayout>
 
-        </ScrollView>
+            </ScrollView>
 
-    </Border>
-
+        </Border>
+    </ScrollView>
 </toolkit:Popup>

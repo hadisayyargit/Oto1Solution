@@ -46,14 +46,14 @@ public partial class SignUp : ContentPage
 
                 memoryStream.Position = 0;
 
-                string imageURL = "https://khordadnet.ir/mysites/oto1/assets/vendor";
+                string imageURL = "https://khordadnet.ir/mysites/oto1/assets/person";
 
                 using (var client = new HttpClient())
                 {
                     var content = new MultipartFormDataContent();
                     var streamContent = new StreamContent(memoryStream);
                     streamContent.Headers.ContentType = new MediaTypeHeaderValue("image/jpeg");
-                    content.Add(streamContent, "file", "v2.jpg");
+                    content.Add(streamContent, "file", "unknown.png");
 
                     try
                     {

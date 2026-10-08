@@ -94,6 +94,7 @@ public partial class Vendor_Part : ContentPage
         part.Id = 0;
         part.VendorId = GlobalClass.m_VendorId;
         var popup = new Vendor_Part_PopupEdit(part);
+        await popup.ClearBoxes();
         ///  لیست قطعات
         await popup.LoadPartsAsync();
         await this.ShowPopupAsync(popup);

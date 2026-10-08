@@ -21,7 +21,6 @@ public partial class Vendor_Part_PopupEdit : Popup
 
         MyServiceController = new ServiceController();
 
-        // اطلاعات رکورد
         txtId.Text = _part.Id.ToString();
         txtLName.Text = part.LName;
         txtPriceAmount.Text = part.PriceAmount?.ToString();
@@ -32,7 +31,13 @@ public partial class Vendor_Part_PopupEdit : Popup
         dtPickerEnd.SelectedPersianDate = part.JalaliEndDate;
     }
 
-
+    public async Task ClearBoxes()
+    {
+        pickerPart.SelectedIndex = -1;
+        txtPriceAmount.Text = "";
+        txtDiscountPercent.Text = "";
+        txtExistance.Text = "";
+    }
     public async Task LoadPartsAsync()
     {
         // گرفتن لیست قطعات
@@ -71,6 +76,13 @@ public partial class Vendor_Part_PopupEdit : Popup
 
     private async void btnSave_Clicked(object sender, EventArgs e)
     {
+        if (pickerPart.SelectedIndex < 0)
+        {
+            await Shell.Current.DisplayAlert("تایید", "لطفا محصول را انتخاب کن", "قبول");
+            return;
+        }
+
+
         try
         {
            
@@ -166,4 +178,8 @@ public partial class Vendor_Part_PopupEdit : Popup
     {
         await CloseAsync();
     }
+
+
+
+
 }

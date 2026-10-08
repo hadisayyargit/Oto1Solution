@@ -94,13 +94,13 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Compile Update="Vendor_Part_PopupEdit.xaml.cs">
+	  <Compile Update="Views\Vendor_Part_PopupEdit.xaml.cs">
 	    <DependentUpon>Vendor_Part_PopupEdit.xaml</DependentUpon>
 	  </Compile>
 	</ItemGroup>
 
 	<ItemGroup>
-	  <MauiXaml Update="Vendor_Part_PopupEdit.xaml">
+	  <MauiXaml Update="Views\Vendor_Part_PopupEdit.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\Basket.xaml">

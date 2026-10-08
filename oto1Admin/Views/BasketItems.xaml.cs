@@ -99,8 +99,8 @@ public partial class BasketItems : ContentPage
 
             await myCustomerServiceController.UpdateCustomerServiceStatus(this.ServiceId, (byte)GlobalClass.enumServiceStatus.servicestatus_Sending);
             /// finding Nearset and available postman
-            int postmanid = 1;
-            await myCustomerServiceController.UpdateCustomerServicePostman(this.ServiceId, postmanid);
+            //int postmanid = 1;
+           // await myCustomerServiceController.UpdateCustomerServicePostman(this.ServiceId, postmanid);
 
 
         }

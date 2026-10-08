@@ -82,7 +82,7 @@ public partial class MyProfile : ContentPage
 
                 memoryStream.Position = 0;
 
-                string imageURL = "https://khordadnet.ir/mysites/oto1/assets/vendor";
+                string imageURL = "https://khordadnet.ir/mysites/oto1/assets/person";
                 //imageURL = "https://example.com/upload/";
                 //imageURL = "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fc/";
 
@@ -220,7 +220,7 @@ public partial class MyProfile : ContentPage
             try
             {
                 //imgUser.Source = GlobalClass.m_UserThumbnailPhotoString;
-                imgUser.Source = "https://khordadnet.ir/mysites/oto1/assets/vendor/v" + GlobalClass.m_VendorId.ToString() + ".png";
+                imgUser.Source = "https://khordadnet.ir/mysites/oto1/assets/person/v" + GlobalClass.m_VendorId.ToString() + ".png";
 
                 labelUsername.Text = GlobalClass.m_VendorName;
 
