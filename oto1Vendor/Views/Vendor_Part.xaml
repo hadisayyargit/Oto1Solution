@@ -17,16 +17,14 @@
 
                 <dg:DataGridColumn Title="شناسه"   PropertyName="Id" />
 
-                <dg:DataGridColumn Title="قطعه" 
-                                   
-                       PropertyName="FName" />
-                <dg:DataGridColumn Title="از تاریخ" 
+                <dg:DataGridColumn Title="قطعه"                     PropertyName="FName" />
+                <!--<dg:DataGridColumn Title="از تاریخ" 
                PropertyName="jalaliBeginDate"
                Width="70" />
 
                 <dg:DataGridColumn Title="تا تاریخ"
-               PropertyName="JalaliEndDate"
-               Width="70" />
+               PropertyName="JalaliEndDate"-->
+
 
                 <dg:DataGridColumn Title="تعداد"
                PropertyName="Existance" />

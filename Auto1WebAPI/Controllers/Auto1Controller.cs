@@ -161,14 +161,10 @@ namespace Auto1API.Controllers
         }
 
         [HttpGet(Name = "GetPart")]
-        public IEnumerable<PartCarVendorModel> GetPart(int partid=-1, int manufacturerid = -1, string viscosity="",string performancelevel = "", int carid=-1, int vendorid=-1, string pricedate="2000-1-1")
+        public IEnumerable<PartCarVendorModel> GetPart(int partid=-1, int manufacturerid = -1, string viscosity="",string performancelevel = "", int carid=-1, int vendorid=-1)
         {
-            //string s1= string.Format("sp_GetPart @PartId = {0}, @manufacturerid={1}, @viscosity={2},@performancelevel={3},@carid={4}",PartId,manufacturerid,viscosity,performancelevel,carid);
-            //string s2= $"sp_GetPart @PartId = {PartId}, @manufacturerid={manufacturerid}, @viscosity={viscosity},@performancelevel={performancelevel},@carid={carid}";
-            //System.FormattableString s3 = $"sp_GetPart @PartId ={PartId}, @manufacturerid={manufacturerid}, @viscosity='{viscosity}',@performancelevel='{performancelevel}',@carid={carid} ,@vendorid={vendorid} , @pricedate='{pricedate}'";
-            System.FormattableString s3 = $"sp_GetPart @partid ={partid}, @manufacturerid={manufacturerid}, @viscosity={viscosity},@performancelevel={performancelevel},@carid={carid} ,@vendorid={vendorid} , @pricedate={pricedate}";
+            System.FormattableString s3 = $"sp_GetPart @partid ={partid}, @manufacturerid={manufacturerid}, @viscosity={viscosity},@performancelevel={performancelevel},@carid={carid} ,@vendorid={vendorid} ";
 
-           // System.FormattableString s3 = $"sp_SearchProducts @PartId =1,@carid=1";
 
             List<PartCarVendorModel> res = this.Auto1Context.Set<PartCarVendorModel>().FromSql(s3).ToList();
            
@@ -183,9 +179,8 @@ namespace Auto1API.Controllers
         [HttpGet(Name = "GetVendor_Part")]
         public IEnumerable<PartVendorViewModel> GetVendor_Part(int vendorid = -1)
         {
-            // System.FormattableString s3 = $"select vp.Id,vp.PartId, vp.VendorId,vp.ValidBeginDate,vp.ValidEndDate,vp.PriceAmount,vp.DiscountPercent,vp.Existance, p.FName, p.LName, FORMAT(vp.ValidBeginDate,'yyyy/MM/dd','fa-IR') as jalaliBeginDate, FORMAT(vp.ValidEndDate,'yyyy/MM/dd','fa-IR') as jalaliEndDate from Vendor_Part vp inner join Part p on p.PartId=vp.PartId where vp.VendorId={vendorid}";
 
-            System.FormattableString s3 = $"select vp.Id,vp.PartId, vp.VendorId,vp.ValidBeginDate,vp.ValidEndDate,vp.PriceAmount,vp.DiscountPercent,vp.Existance, p.FName, p.LName, FORMAT(vp.ValidBeginDate,'yyyy/MM/dd','fa-IR') as jalaliBeginDate, FORMAT(vp.ValidEndDate,'yyyy/MM/dd','fa-IR') as jalaliEndDate from Vendor_Part vp inner join Part p on p.PartId=vp.PartId where vp.VendorId={vendorid}";
+            System.FormattableString s3 = $"select vp.Id,vp.PartId, vp.VendorId,vp.PriceAmount,vp.DiscountPercent,vp.Existance, p.FName, p.LName from Vendor_Part vp inner join Part p on p.PartId=vp.PartId where vp.VendorId={vendorid}";
 
             List<PartVendorViewModel> res = new List<PartVendorViewModel>();
 
@@ -398,6 +393,28 @@ namespace Auto1API.Controllers
             this.Auto1Context.Vendor_Part.Entry(myvendorpart).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
             this.Auto1Context.SaveChanges();
         }
+
+        [HttpPut]
+        public void UpdateVendorPartExistance(int vendorid, int partid, int addedquantity)
+        {
+            try
+            {
+                Vendor_PartModel myVendorPart = new Vendor_PartModel();
+
+                myVendorPart = this.Auto1Context.Vendor_Part.Where(a => a.VendorId == vendorid && a.PartId==partid).First();
+                myVendorPart.Existance = myVendorPart.Existance+ addedquantity;
+                myVendorPart.ModifiedTime= DateTime.Now;
+                myVendorPart.Host_Name=Environment.MachineName;
+                myVendorPart.User_Name = Environment.UserName;
+                this.Auto1Context.Vendor_Part.Entry(myVendorPart).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                this.Auto1Context.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
+
 
 
         [HttpPut]

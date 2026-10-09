@@ -26,8 +26,9 @@ public partial class MyProfile : ContentPage
     }
     private async void mnuMyLocation_Clicked(object sender, EventArgs e)
     {
-        await TextToSpeech.SpeakAsync("MyLocation Clicked");
-        // Navigation.PushAsync(new myLocations());
+       // await TextToSpeech.SpeakAsync("MyLocation Clicked");
+         await Navigation.PushAsync(new MapPage());
+        
 
     }
 

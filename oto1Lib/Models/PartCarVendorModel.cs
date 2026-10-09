@@ -69,8 +69,7 @@ namespace oto1.Models
         public int? PriceAmount { get; set; }
         public byte? DiscountPercent { get; set; }
         public int? Existance { get; set; }
-        public DateTime? ValidBeginDate { get; set; }
-        public DateTime? ValidEndDate { get; set; }
+
 
 
     }
@@ -84,17 +83,12 @@ namespace oto1.Models
         public int? PriceAmount { get; set; }
         public byte? DiscountPercent { get; set; }
         public int? Existance { get; set; }
-        public DateTime? ValidBeginDate { get; set; }
-        public DateTime? ValidEndDate { get; set; }
 
         [MaxLength(50)]
         public string?  FName { get; set; }
 
         [MaxLength(50)]
         public string? LName { get; set; }
-
-        public string? jalaliBeginDate { get; set; }
-        public string? JalaliEndDate { get; set; }
 
         public string ThumbnailPhotoFile { get; set; }
      

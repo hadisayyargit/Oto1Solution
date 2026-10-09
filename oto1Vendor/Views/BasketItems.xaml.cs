@@ -129,7 +129,22 @@ public partial class BasketItems : ContentPage
 
                 bool res = await myCustomerServiceController.UpdateCustomerService(newcustomerServiceModel);
 
-                await DisplayAlert("تایید", "سفارش به پیک سپرده شد", "قبول");
+                foreach (CustomerServiceItemViewModel serviceitem in servicesitems)
+                {
+
+                    try
+                    {
+                        MyServiceController = new ServiceController();
+                        await MyServiceController.UpdateVendorPartExistance(serviceitem.VendorId.Value, serviceitem.PartId, -serviceitem.Quantity);
+                     
+                    }
+                    catch (Exception ex) 
+                    {
+                    }
+                }
+
+
+                        await DisplayAlert("تایید", "سفارش به پیک سپرده شد", "قبول");
                 /*
                 foreach (CustomerServiceItemViewModel serviceitem in servicesitems)
                 {

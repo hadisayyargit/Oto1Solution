@@ -1,107 +1,68 @@
 <?xml version="1.0" encoding="utf-8" ?>
-
 <toolkit:Popup
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:persian="clr-namespace:MauiPersianToolkit.Controls;assembly=MauiPersianToolkit"
     xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
     x:Class="oto1.Vendor_Part_PopupEdit">
-    <ScrollView>
-        <Border
-        WidthRequest="350"
-        HeightRequest="800"
-        StrokeThickness="0"
-        BackgroundColor="White"
-        StrokeShape="RoundRectangle 20">
 
-            <ScrollView>
 
-                <VerticalStackLayout
-                Padding="20"
-                Spacing="12">
+    <Border WidthRequest="350" StrokeThickness="0" BackgroundColor="White" StrokeShape="RoundRectangle 20">
+        <ScrollView>
 
-                    <Label
-                    Text="افزودن/ویرایش موجودی"
-                    FontSize="22"
-                    FontAttributes="Bold"
-                    HorizontalOptions="Center" />
+            <VerticalStackLayout Padding="20" Spacing="12">
 
-                    <Entry x:Name="txtId" IsEnabled="False" Placeholder="شناسه" />
+                <Label Text="افزودن/ویرایش موجودی" FontSize="22" FontAttributes="Bold" HorizontalOptions="Center" />
 
-                    <!-- انتخاب قطعه -->
-                    <Label Text="قطعه" />
+                <Entry x:Name="txtId" IsEnabled="False" Placeholder="شناسه" />
 
-                    <Picker
-                    x:Name="pickerPart"
-                    Title="نام قطعه"
-                    ItemsSource="{Binding allparts}"
-                    ItemDisplayBinding="{Binding FName}"
-                    SelectedIndexChanged="pickerPart_SelectedIndexChanged" 
-/>
+                <!-- بخش جایگزین شده برای Picker با قابلیت جستجو -->
+                <Label Text="انتخاب قطعه" />
+                <Grid>
+                    <SearchBar x:Name="sbPart" 
+                               Placeholder="جستجو در نام قطعات..."
+                               TextChanged="OnPartSearchTextChanged"
+                               HeightRequest="50"/>
 
-                    <Entry
-                    x:Name="txtLName"
-                    IsReadOnly="True"
-                    Placeholder="نام لاتین قطعه" />
+                    <!-- لیست نتایج که زیر سرچ‌بار باز می‌شود -->
+                    <CollectionView x:Name="cvPartResults"
+                                    ItemsSource="{Binding FilteredParts}"
+                                    IsVisible="False"
+                                    MaximumHeightRequest="200"
+                                    SelectionMode="Single"
+                                    SelectionChanged="OnPartSelected"
+                                    BackgroundColor="White">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <Grid Padding="10">
+                                    <Label Text="{Binding FName}" FontSize="14" />
+                                </Grid>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </Grid>
 
-                    <!-- تاریخ شروع -->
-                    <persian:DatePicker
-                    x:Name="dtPickerBegin"
-                    PlaceHolder="تاریخ شروع"
-                    DisplayFormat="yyyy/MM/dd" />
+                <Entry x:Name="txtLName" IsReadOnly="True" Placeholder="نام لاتین قطعه" />
 
-                    <!-- تاریخ پایان -->
-                    <persian:DatePicker
-                    x:Name="dtPickerEnd"
-                    PlaceHolder="تاریخ پایان"
-                    DisplayFormat="yyyy/MM/dd" />
+                <!--<persian:DatePicker x:Name="dtPickerBegin" PlaceHolder="تاریخ شروع" DisplayFormat="yyyy/MM/dd" />
+                <persian:DatePicker x:Name="dtPickerEnd" PlaceHolder="تاریخ پایان" DisplayFormat="yyyy/MM/dd" />-->
 
-                    <!-- قیمت -->
-                    <Label Text="قیمت" />
+                <Label Text="قیمت" />
+                <Entry x:Name="txtPriceAmount" Keyboard="Numeric" Placeholder="قیمت" />
 
-                    <Entry
-                    x:Name="txtPriceAmount"
-                    Keyboard="Numeric"
-                    Placeholder="قیمت" />
+                <Label Text="درصد تخفیف" />
+                <Entry x:Name="txtDiscountPercent" Keyboard="Numeric" Placeholder="درصد تخفیف" />
 
-                    <!-- تخفیف -->
-                    <Label Text="درصد تخفیف" />
+                <Label Text="موجودی" />
+                <Entry x:Name="txtExistance" Keyboard="Numeric" Placeholder="موجودی" />
 
-                    <Entry
-                    x:Name="txtDiscountPercent"
-                    Keyboard="Numeric"
-                    Placeholder="درصد تخفیف" />
+                <HorizontalStackLayout HorizontalOptions="Center" Spacing="15" Margin="0,15,0,0">
+                    <Button Text="بروزرسانی" WidthRequest="100" Clicked="btnSave_Clicked" />
+                    <Button Text="انصراف" WidthRequest="100" Clicked="btnCancel_Clicked" />
+                </HorizontalStackLayout>
 
-                    <!-- موجودی -->
-                    <Label Text="موجودی" />
-
-                    <Entry
-                    x:Name="txtExistance"
-                    Keyboard="Numeric"
-                    Placeholder="موجودی" />
-
-                    <!-- دکمه‌ها -->
-                    <HorizontalStackLayout
-                    HorizontalOptions="Center"
-                    Spacing="15"
-                    Margin="0,15,0,0">
-
-                        <Button
-                        Text="بروزرسانی"
-                        WidthRequest="100"
-                        Clicked="btnSave_Clicked" />
-
-                        <Button
-                        Text="انصراف"
-                        WidthRequest="100"
-                        Clicked="btnCancel_Clicked" />
-
-                    </HorizontalStackLayout>
-
-                </VerticalStackLayout>
-
-            </ScrollView>
-
-        </Border>
-    </ScrollView>
+            </VerticalStackLayout>
+        </ScrollView>
+    </Border>
+   
 </toolkit:Popup>

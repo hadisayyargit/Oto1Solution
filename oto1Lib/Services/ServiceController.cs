@@ -1017,6 +1017,37 @@ namespace oto1.Services
 
         }
 
+
+        public async Task<bool> UpdateVendorPartExistance(int vendorid, int partid, int addedquantity)
+        {
+
+            try
+            {
+
+                string fullurl = this.baseUrl + $"/UpdateVendorPartExistance?vendorid={vendorid}&partid={partid}&addedquantity={addedquantity}";
+                HttpClient myhttpclient = new HttpClient();
+
+                myhttpclient.BaseAddress = new Uri(fullurl);
+                myhttpclient.Timeout = TimeSpan.FromSeconds(300);
+                HttpResponseMessage myhttpresponsemessage = await myhttpclient.PutAsync("", null);
+
+
+                if (myhttpresponsemessage.IsSuccessStatusCode)
+                {
+                    return await Task.FromResult(true);
+
+                }
+
+                return await Task.FromResult(false);
+
+
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+
+        }
         public async Task<bool> UpdatePerson(PersonModel myPerson)
         {
 

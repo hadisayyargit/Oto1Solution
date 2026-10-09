@@ -38,9 +38,9 @@ namespace Auto1API.Models
         public int? PriceAmount { get; set; }
         public byte? DiscountPercent { get; set; }
         public int? Existance { get; set; }
-        public DateTime? ValidBeginDate { get; set; }
-        public DateTime? ValidEndDate { get; set; }
-
+        public string User_Name {  get; set; }
+        public string Host_Name { get; set; }
+        public DateTime ModifiedTime { get; set; }
 
     }
     public class PartVendorViewModel
@@ -53,8 +53,7 @@ namespace Auto1API.Models
         public int? PriceAmount { get; set; }
         public byte? DiscountPercent { get; set; }
         public int? Existance { get; set; }
-        public DateTime? ValidBeginDate { get; set; }
-        public DateTime? ValidEndDate { get; set; }
+
 
         [MaxLength(50)]
         public required string FName { get; set; }
@@ -62,8 +61,6 @@ namespace Auto1API.Models
         [MaxLength(50)]
         public string? LName { get; set; }
 
-        public string? jalaliBeginDate { get; set; }
-        public string? JalaliEndDate { get; set; }
 
 
     }

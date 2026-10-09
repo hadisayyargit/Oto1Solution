@@ -91,6 +91,8 @@ private async void InitmyMap()
 
         GlobalClass.m_MapSelected = false;
 
+        txtPName.Text = GlobalClass.m_VendorName;
+
         if (NetClass.CheckNetConnection() == false)
         {
             await DisplayAlert("پیام", "internet connection fail", "ok");

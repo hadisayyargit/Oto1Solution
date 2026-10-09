@@ -20,7 +20,7 @@
             <SearchBar Placeholder="جستجو" SearchButtonPressed="SearchBar_SearchButtonPressed"></SearchBar>
         </StackLayout>
 
-        <Entry x:Name="txtPName"      Grid.Row="2" Grid.Column="0" Placeholder="عنوان" ></Entry>
+        <Entry x:Name="txtPName"  IsReadOnly="True"    Grid.Row="2" Grid.Column="0" Placeholder="عنوان" ></Entry>
         <Entry x:Name="txtAddress"    Grid.Row="2" Placeholder="نشانی"  Grid.Column="1"  ></Entry>
         <ImageButton x:Name="btnAddLocation" Grid.Row="2" Grid.Column="2" Source="star7_32.png" Background="transparent"    Clicked="btnAddLocation_Clicked" ></ImageButton>
 
