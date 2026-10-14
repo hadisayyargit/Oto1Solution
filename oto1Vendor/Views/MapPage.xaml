@@ -4,7 +4,7 @@
              xmlns:maps="clr-namespace:Microsoft.Maui.Controls.Maps;assembly=Microsoft.Maui.Controls.Maps"
              x:Class="oto1.MapPage"
              
-             Title="MapPage"
+             Title="نشانی من"
                FlowDirection="RightToLeft"           
              >
 
@@ -51,7 +51,7 @@
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
-        <Button x:Name="btnNextStep"         Grid.Row="4" Grid.Column="0" Text="ادامه" Grid.ColumnSpan="2" Clicked="btnNextStep_Clicked"></Button>
+        <Button x:Name="btnNextStep"         Grid.Row="4" Grid.Column="0" Text="بازگشت" Grid.ColumnSpan="2" Clicked="btnNextStep_Clicked"></Button>
 
     </Grid>
 

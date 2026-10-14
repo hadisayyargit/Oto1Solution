@@ -167,6 +167,8 @@ private async void InitmyMap()
 
     private async void btnAddLocation_Clicked(object sender, EventArgs e)
     {
+        txtPName.Text = GlobalClass.m_VendorName;
+
         if (txtPName.Text == null || txtPName.Text == "")
         {
             await DisplayAlert("خطا", "نام نشانی را وارد کنید", "ok");
@@ -183,19 +185,6 @@ private async void InitmyMap()
         LocationAddressModel newLoc = new LocationAddressModel();
 
 
-        /*  update test
-        loc1.Id = 1;
-        loc1.FName = "تست شماره۲";
-
-        try
-        {
-           
-        }
-        catch (Exception ex)
-        {
-            await DisplayAlert("", ex.Message, "ok");
-        }
-        */
         try
         {
 
@@ -243,7 +232,7 @@ private async void InitmyMap()
         }
         else
         {
-            myLocationList = await MyServiceController.GetAllLocationAddressess(GlobalClass.m_VendorId, 0, true);
+            myLocationList = await MyServiceController.GetAllLocationAddressess(0,GlobalClass.m_VendorId, false);
             collectionviewLocations.ItemsSource = myLocationList;
         }
 
@@ -325,45 +314,8 @@ private async void InitmyMap()
     private void btnNextStep_Clicked(object sender, EventArgs e)
     {
         GlobalClass.m_Address = txtAddress.Text;
+        Navigation.PopAsync();
 
-        //var m2 = Shell.Current.CurrentItem.CurrentItem.CurrentItem.Route;
-
-            //Navigation.PushAsync(new Lubricant());
-            //Shell.Current.GoToAsync("//Lubricant");
-     
-
-        if (GlobalClass.m_UserId == "" || GlobalClass.m_UserId == null)
-        {
-            DisplayAlert("هشدار", "به عنوان کاربر معتبر وارد برنامه نشده‌ای", "ok");
-            return;
-        }
-
-        /*
-        if (GlobalClass.m_LocationAddressId == 0 )
-        {
-            DisplayAlert("هشدار", "جایگاه (موقعیت مکانی) را انتخاب نکردی!", "ok");
-            return;
-
-        }
-        */
-        
-
-        if (GlobalClass.m_CustomerServiceItemView == null)
-        {
-            DisplayAlert("هشدار", "نوع خدمت را انتخاب نکرده‌ای", "ok");
-            return;
-
-        }
-
-        //switch (GlobalClass.m_CustomerServiceItemView.ServiceType)
-        //{
-        //    case (byte)GlobalClass.enumServiceType.servicetype_Part:
-        //        if (GlobalClass.m_CustomerServiceItemView.tmp_Flag == "lubricant")
-        //            Navigation.PushAsync(new Lubricant());
-        //        break;
-        //}
-
-       
     }
 
     private async void SearchBar_SearchButtonPressed(object sender, EventArgs e)
