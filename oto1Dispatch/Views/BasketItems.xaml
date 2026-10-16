@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="oto1.BasketItems" Title="اقلام سفارش" FlowDirection="RightToLeft"
-            >
+             x:Class="oto1.BasketItems" Title="اقلام سبد سفارش" FlowDirection="RightToLeft"   >
 
 
     <ScrollView>
@@ -61,7 +60,7 @@
             <Grid RowDefinitions="auto,auto,auto" ColumnDefinitions="0.5*,0.5*" Padding="2" Margin="2">
                 <Entry Placeholder="کد تحویل" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" TextColor="Blue" x:Name="txtDeliveryCode"></Entry>
                 <Entry Placeholder="توضیحات" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" TextColor="Blue" x:Name="txtServicesDesc"></Entry>
-                <Button Text="تحویل سفارش" Grid.Row="2" Grid.Column="0" Margin="8" Clicked="btnNext_Clicked"></Button>
+                <Button Text="تحویل سفارش" Grid.Row="2" Grid.Column="0" Margin="8" Clicked="btnDelivery_Clicked"></Button>
                 <Button Text="برگشت سفارش"    Grid.Row="2" Grid.Column="1" Margin="8" BackgroundColor="Red" Clicked="btnReject_Clicked"></Button>
             </Grid>
         </VerticalStackLayout>

@@ -60,8 +60,14 @@ public partial class BasketItems : ContentPage
     }
 
 
-    private async void btnNext_Clicked(object sender, EventArgs e)
+    private async void btnDelivery_Clicked(object sender, EventArgs e)
     {
+        if (txtDeliveryCode.Text == null || txtDeliveryCode.Text == "")
+        {
+            await DisplayAlert("تایید", "کد تحویل را وارد کن", "قبول");
+            return;
+        }
+
         var button = (Button)sender;
         // var servicesitems = (CustomerServiceGroupModel)button.BindingContext;
 
@@ -100,7 +106,7 @@ public partial class BasketItems : ContentPage
             myOrders = await myCustomerServiceController.GetCustomerService(this.ServiceId);
             CustomerServiceViewModel newcustomerServiceView = myOrders.FirstOrDefault();
 
-            CustomerServiceModel newcustomerServiceModel = new CustomerServiceModel() { ServiceId = this.ServiceId, DeliveryCode=(string.IsNullOrEmpty(txtDeliveryCode.Text) ? 0: int.Parse(txtDeliveryCode.Text)), ServicesDesc=txtServicesDesc.Text, DiscountCode = newcustomerServiceView.DiscountCode, DiscountAmount = newcustomerServiceView.DiscountAmount, ServiceDateTime = DateTime.Now, ExtraAmount = newcustomerServiceView.ExtraAmount, ShippingAmount = newcustomerServiceView.ShippingAmount, TotalAmount = newcustomerServiceView.TotalAmount, ServiceStatus = (byte)GlobalClass.enumServiceStatus.servicestatus_Done };
+            CustomerServiceModel newcustomerServiceModel = new CustomerServiceModel() { ServiceId = this.ServiceId, DeliveryCode=(string.IsNullOrEmpty(txtDeliveryCode.Text) ? 0: int.Parse(txtDeliveryCode.Text)), ServicesDesc=txtServicesDesc.Text, DiscountCode = newcustomerServiceView.DiscountCode, DiscountAmount = newcustomerServiceView.DiscountAmount, ServiceDateTime = DateTime.Now, ExtraAmount = newcustomerServiceView.ExtraAmount, ShippingAmount = newcustomerServiceView.ShippingAmount, TotalAmount = newcustomerServiceView.TotalAmount, ServiceStatus = (byte)GlobalClass.enumServiceStatus.servicestatus_Done, PostmanId=newcustomerServiceView.PostmanId ,};
 
             bool res = await myCustomerServiceController.UpdateCustomerService(newcustomerServiceModel);
 
@@ -108,6 +114,8 @@ public partial class BasketItems : ContentPage
         }
         catch (Exception ex)
         {
+            await DisplayAlert("خطا", ex.Message, "قبول");
+            return;
         }
         await Navigation.PopAsync();
     }
@@ -136,13 +144,18 @@ public partial class BasketItems : ContentPage
 
         if (answer)
         {
+            if (txtServicesDesc.Text == null || txtServicesDesc.Text=="")
+            {
+                await DisplayAlert("تایید", "علت برگشت را وارد کن", "قبول");
+                return;
+            }
             try
             {
                 List<CustomerServiceViewModel> myOrders = new List<CustomerServiceViewModel>();
                 myOrders = await myCustomerServiceController.GetCustomerService(this.ServiceId);
                 CustomerServiceViewModel newcustomerServiceView = myOrders.FirstOrDefault();
 
-                CustomerServiceModel newcustomerServiceModel = new CustomerServiceModel() { ServiceId = this.ServiceId,  ServicesDesc = txtServicesDesc.Text, DiscountCode = newcustomerServiceView.DiscountCode, DiscountAmount = newcustomerServiceView.DiscountAmount, ServiceDateTime = DateTime.Now, ExtraAmount = newcustomerServiceView.ExtraAmount, ShippingAmount = newcustomerServiceView.ShippingAmount, TotalAmount = newcustomerServiceView.TotalAmount, ServiceStatus = (byte)GlobalClass.enumServiceStatus.servicestatus_Reject };
+                CustomerServiceModel newcustomerServiceModel = new CustomerServiceModel() { ServiceId = this.ServiceId,  ServicesDesc = txtServicesDesc.Text, DiscountCode = newcustomerServiceView.DiscountCode, DiscountAmount = newcustomerServiceView.DiscountAmount, ServiceDateTime = DateTime.Now, ExtraAmount = newcustomerServiceView.ExtraAmount, ShippingAmount = newcustomerServiceView.ShippingAmount, TotalAmount = newcustomerServiceView.TotalAmount, ServiceStatus = (byte)GlobalClass.enumServiceStatus.servicestatus_Reject,PostmanId=newcustomerServiceView.PostmanId };
 
                 bool res = await myCustomerServiceController.UpdateCustomerService(newcustomerServiceModel);
                 //await myCustomerServiceController.UpdateCustomerServiceStatus(this.ServiceId, (byte)GlobalClass.enumServiceStatus.servicestatus_Refusal);

@@ -2,7 +2,7 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="oto1.myLocationAddresses"
-             Title="myLocationAddresses">
+             Title="نشانی من">
     
     <VerticalStackLayout VerticalOptions="Start">
         <CollectionView  Grid.Row="4" Grid.ColumnSpan="3" x:Name="collectionviewLocations" SelectionMode="Single"  SelectionChanged="collectionviewLocations_SelectionChanged">

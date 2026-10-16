@@ -2,7 +2,7 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="oto1.SignUp"
-             Title="SignUp" >
+             Title="ثبت نام" >
     <Grid RowDefinitions="auto,auto,auto,auto,auto,auto,auto,auto" ColumnDefinitions=".70*,.30*" Padding="10" >
         <Image Source="user5.png" x:Name="imgUser" Grid.RowSpan="5" Grid.Row="0" Grid.Column="1"/>
         <Entry x:Name="txtFName"    Placeholder="نام پارسی"  Grid.Row="0" Grid.Column="0" FlowDirection="RightToLeft" />

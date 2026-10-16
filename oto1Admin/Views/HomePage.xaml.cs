@@ -19,6 +19,16 @@ public partial class HomePage : ContentPage
 
         ((AppShell)App.Current.MainPage).SwitchtoTab("tabRequest");
     }
+    private async void btnCms_Clicked(object sender, EventArgs e)
+    {
+
+        ((AppShell)App.Current.MainPage).SwitchtoTab("tabCms");
+    }
+    private async void btnManagements_Clicked(object sender, EventArgs e)
+    {
+
+        ((AppShell)App.Current.MainPage).SwitchtoTab("tabProfile");
+    }
 
 
 }

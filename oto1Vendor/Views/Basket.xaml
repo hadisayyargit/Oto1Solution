@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:persian="clr-namespace:MauiPersianToolkit.Controls;assembly=MauiPersianToolkit"
              x:Class="oto1.Basket"
-             Title="Basket" >
+             Title="سبد سفارشات" >
 
     <ContentPage.ToolbarItems>
         <ToolbarItem IconImageSource="recurring2_48.png"  Order="Primary"   Priority="5" Clicked="toolbaritemRefresh_Clicked" />

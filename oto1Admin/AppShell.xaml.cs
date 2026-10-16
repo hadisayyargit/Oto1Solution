@@ -37,8 +37,24 @@ public partial class AppShell : Shell
 
     private void OnNavigating(object sender, ShellNavigatingEventArgs e)
     {
-        // کد برای مدیریت رویداد ناوبری قبل از تغییر تب
-        //Console.WriteLine("Navigating from: " + e.Source.ToString());
+        base.OnNavigating(e);
+
+        // اگر مقصد، روتر مربوط به منوی کشویی بود
+        if (e.Target.Location.OriginalString.Contains("FlyoutHomeRoute"))
+        {
+            e.Cancel();
+            tabbarShell.CurrentItem = tabHome;
+        }
+        else if(e.Target.Location.OriginalString.Contains("FlyoutAboutRoute"))
+    {
+            e.Cancel();
+            tabbarShell.CurrentItem = tabProfile;
+        }
+   
+        //MainThread.BeginInvokeOnMainThread(() =>
+        //{
+        //    tabbarShell.CurrentItem = tabHome;
+        //});
     }
 
     private void OnNavigated(object sender, ShellNavigatedEventArgs e)
@@ -103,6 +119,24 @@ public partial class AppShell : Shell
                 MainThread.BeginInvokeOnMainThread(() =>
                 {
                     tabbarShell.CurrentItem = tabRequest;
+                });
+                break;
+            case "tabCms":
+                MainThread.BeginInvokeOnMainThread(() =>
+                {
+                    tabbarShell.CurrentItem = tabCms;
+                });
+                break;
+            case "tabProfile":
+                MainThread.BeginInvokeOnMainThread(() =>
+                {
+                    tabbarShell.CurrentItem = tabProfile;
+                });
+                break;
+            case "tabReport":
+                MainThread.BeginInvokeOnMainThread(() =>
+                {
+                    tabbarShell.CurrentItem = tabReport;
                 });
                 break;
         }

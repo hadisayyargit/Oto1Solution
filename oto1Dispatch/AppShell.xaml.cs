@@ -1,8 +1,16 @@
-﻿
+﻿using CommunityToolkit.Mvvm.Messaging;
+using CommunityToolkit.Mvvm.Messaging.Messages;
+using oto1.Services;
+
 namespace oto1;
 
 public partial class AppShell : Shell
 {
+    public class UserToolbarMessage : ValueChangedMessage<string>
+    {
+        public UserToolbarMessage(string value) : base(value) { }
+    }
+    
     public AppShell()
     {
         InitializeComponent();
@@ -10,13 +18,18 @@ public partial class AppShell : Shell
         this.Navigating += OnNavigating;
         this.Navigated += OnNavigated;
 
+        WeakReferenceMessenger.Default.Register<UserToolbarMessage>(this, (r, m) =>
+        {
+            // از MainThread استفاده می‌کنیم تا UI حتماً به‌روز شود
+            MainThread.BeginInvokeOnMainThread(() =>
+            {
+                if (m.Value == "updateUserToolbarItem")
+                {
+                    updateUserToolbarItem(m.Value);
+                }
+            });
+        });
 
-        ///<HADI 14050503></HADI>
-        //MessagingCenter.Subscribe<SignInPage, string>(this, "updateUserToolbarItem", (sender, item) =>
-        //{
-        //    updateUserToolbarItem(item);
-
-        //});
 
     }
 
@@ -46,13 +59,18 @@ public partial class AppShell : Shell
         //Shell.Current.GoToAsync("//Lubricant");
     }
 
-    private void updateUserToolbarItem(string s)
+    private async void updateUserToolbarItem(string s)
     {
-
         if (GlobalClass.m_UserId == "" || GlobalClass.m_PersonId == null)
             toolbaritemUser.IconImageSource = "user5.png";
         else
-            toolbaritemUser.IconImageSource = "https://khordadnet.ir/mysites/oto1/assets/person/p" + GlobalClass.m_PersonId.ToString() + ".png";
+        { 
+            string fileUrl = "https://khordadnet.ir/mysites/oto1/assets/person/p" + GlobalClass.m_PersonId.ToString() + ".png";
+
+            bool fileExists = await NetClass.CheckNetFileExists(fileUrl);
+            if (fileExists) toolbaritemUser.IconImageSource = fileUrl;
+        }
+
 
     }
 

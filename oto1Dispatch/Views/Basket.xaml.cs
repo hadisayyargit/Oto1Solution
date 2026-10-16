@@ -25,13 +25,13 @@ public partial class Basket : ContentPage
 
         if (this.Parent.Id.ToString() == "tabTodayRequests")
         {
-            DisplayAlert("1", this.Parent.Id.ToString(), "قبول");
+            //DisplayAlert("1", this.Parent.Id.ToString(), "قبول");
 
         }
         else
 
         {
-            DisplayAlert("2", this.Parent.Id.ToString(), "قبول");
+           // DisplayAlert("2", this.Parent.Id.ToString(), "قبول");
         }
        // DisplayAlert("تایید", this.Parent.Id.ToString(), "قبول");
        // DisplayAlert("تایید", this.Parent.ToString(), "قبول");

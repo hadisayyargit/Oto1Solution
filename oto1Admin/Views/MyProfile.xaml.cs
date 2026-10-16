@@ -22,11 +22,6 @@ public partial class MyProfile : ContentPage
 
         RefreshForm();
     }
-    private void mnuMyLocation_Clicked(object sender, EventArgs e)
-    {
-        // Navigation.PushAsync(new myLocations());
-
-    }
 
     private void Button_Clicked(object sender, EventArgs e)
     {
@@ -35,11 +30,6 @@ public partial class MyProfile : ContentPage
 
 
     }
-    private async void mnuWallet_Clicked(object sender, EventArgs e)
-    {
-        //await TextToSpeech.SpeakAsync("Oto1");
-    }
-
     private void mnuPassword_Clicked(object sender, EventArgs e)
     {
         frameProfile.IsVisible = false;
@@ -210,6 +200,11 @@ public partial class MyProfile : ContentPage
             m_stream.CopyToAsync(memoryStream);
             m_imageBytes = memoryStream.ToArray();
         }
+
+    }
+
+    private void mnuUsers_Clicked(object sender, EventArgs e)
+    {
 
     }
 }

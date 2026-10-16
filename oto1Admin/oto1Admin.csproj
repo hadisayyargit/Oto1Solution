@@ -66,6 +66,14 @@
 	</ItemGroup>
 	
 	<ItemGroup>
+	  <Compile Remove="Views\MainPage.xaml.cs" />
+	</ItemGroup>
+	
+	<ItemGroup>
+	  <MauiXaml Remove="Views\MainPage.xaml" />
+	</ItemGroup>
+	
+	<ItemGroup>
 	  <None Remove="Resources\AppIcon\oto1adminicon.png" />
 	</ItemGroup>
 	
@@ -93,7 +101,19 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <MauiXaml Update="Views\MainPage.xaml">
+	  <Compile Update="Views\Requests.xaml.cs">
+	    <DependentUpon>Requests.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="Views\Reports.xaml.cs">
+	    <DependentUpon>Reports.xaml</DependentUpon>
+	  </Compile>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <MauiXaml Update="Views\Requests.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\Cms.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	</ItemGroup>

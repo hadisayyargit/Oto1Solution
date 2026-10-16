@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Maui.Alerts;
+using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Maui;
 using Microsoft.Maui.Controls;
 using oto1;
@@ -46,7 +47,8 @@ public partial class SignInPage : ContentPage
 
                 ///updating appshell toolbar
                 ///<HADI 14050503></HADI>
-               // MessagingCenter.Send(this, "updateUserToolbarItem", "");
+                // MessagingCenter.Send(this, "updateUserToolbarItem", "");
+                WeakReferenceMessenger.Default.Send(new AppShell.UserToolbarMessage("updateUserToolbarItem"));
 
 
                 myactivityIndicator.IsRunning = false;

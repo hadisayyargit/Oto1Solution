@@ -2,17 +2,14 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="oto1.MyProfile"
-             Title="MyProfile" FlowDirection="RightToLeft">
+             Title="مدیریت" FlowDirection="RightToLeft">
 
     <ContentPage.ToolbarItems>
-
-        <ToolbarItem Text="نشانی من"               Order="Secondary" Priority="3" Clicked="mnuMyLocation_Clicked"/>
-        <ToolbarItem Text="موجودیهای انبار"               Order="Secondary" Priority="4" />
-        <ToolbarItem Text="آگاهیها"  Order="Secondary" Priority="5" />
-        <ToolbarItem Text="اصلاح مشخصات من"            Order="Secondary" Priority="6" Clicked="mnuProfileEdit_Clicked"/>
-        <ToolbarItem Text="تغییر گذرواژه"             Order="Secondary" Priority="7" Clicked="mnuPassword_Clicked"/>
-        <ToolbarItem Text="کیف پول"                   Order="Secondary" Priority="7" Clicked="mnuWallet_Clicked"/>
-        <ToolbarItem Text="تراکنش حسابها"             Order="Secondary" Priority="7" />
+        <ToolbarItem Text="کاربران"        Order="Secondary" Priority="5" Clicked="mnuUsers_Clicked"/>
+        <ToolbarItem Text="صندوق آگاهی"    Order="Secondary" Priority="6" />
+        <ToolbarItem Text="اصلاح مشخصات من" Order="Secondary" Priority="7" Clicked="mnuProfileEdit_Clicked"/>
+        <ToolbarItem Text="تغییر گذرواژه"  Order="Secondary" Priority="8" Clicked="mnuPassword_Clicked"/>
+        <ToolbarItem Text="تراکنش حسابها"  Order="Secondary" Priority="9" />
     </ContentPage.ToolbarItems>
     
     <Grid RowDefinitions="auto,auto,auto" ColumnDefinitions=".40*,.60*"  Margin="10">

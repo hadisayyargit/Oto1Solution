@@ -8,37 +8,32 @@
     FlowDirection="RightToLeft"
     >
 
-    <Shell.ToolbarItems   >
+    <Shell.ToolbarItems>
         <ToolbarItem IconImageSource="user1.png"  Order="Default" Priority="0"  x:Name="toolbaritemUser" Clicked="toolbaritemUser_Clicked" />
         <ToolbarItem Text="خروج"     Order="Secondary" Priority="10" x:Name="toolbaritemLogoff" Clicked="toolbaritemLogoff_Clicked"   />
 
     </Shell.ToolbarItems>
-    
+
     <TabBar x:Name="tabbarShell" >
 
         <ShellContent  Title="خانه"  ContentTemplate="{DataTemplate local:HomePage}"  Icon="home1.png" Route="HomePage" x:Name="tabHome" />
 
-        <Tab Icon="orders64.png" Title="خدمات"  x:Name="tabRequest">
-            <local:Basket Title="سفارشات رسیده" IconImageSource="carmechanic.png" x:Name="tabNewRequests" />
-            <ShellContent  Title="سفارشات باز"    Icon="car_xxl.png" x:Name="tabTodayRequests"  ContentTemplate="{DataTemplate local:Basket }"   />
-        </Tab>
-
-        <ShellContent  Title="پروفایل"   Icon="user2.png"      ContentTemplate="{DataTemplate local:MyProfile}"  x:Name="tabProfile"  />
-        <ShellContent  Title="مدیریت"    Icon="management.png"  ContentTemplate="{DataTemplate local:MyProfile}"  x:Name="tabAdministration"  />
-        <ShellContent  Title="گزارشات"   Icon="report64.png"   ContentTemplate="{DataTemplate local:Orders}"  />
+        <ShellContent  Title="سفارشات"      Icon="basket1.png"     ContentTemplate="{DataTemplate local:Requests}"  x:Name="tabRequest"  />
+        <ShellContent  Title="تولید محتوا"  Icon="management.png"  ContentTemplate="{DataTemplate local:Cms}"  x:Name="tabCms"  />
+        <ShellContent  Title="مدیریت"       Icon="user2.png"       ContentTemplate="{DataTemplate local:MyProfile}"  x:Name="tabProfile"  />
+        <ShellContent  Title="گزارشات"      Icon="report64.png"    ContentTemplate="{DataTemplate local:Reports}" x:Name="tabReport"  />
 
     </TabBar>
-    
-    <FlyoutItem Title="خانه"
-                Icon="home1.png">
 
-        <ShellContent  ContentTemplate="{DataTemplate local:AppShell}" Route="HomePage"  Icon="home1.png"   />
+    <FlyoutItem Title="خانه"             Icon="home1.png">
+
+        <ShellContent   Route="FlyoutHomeRoute"  Icon="home1.png"   x:Name="rightmenuHome"  />
 
 
     </FlyoutItem>
     <FlyoutItem Title="درباره..."
                 Icon="oto1admin.png">
-            <ShellContent  Title="پروفایل"   Icon="user2.png"      ContentTemplate="{DataTemplate local:MyProfile}"    />
+        <ShellContent  Title="پروفایل"   Icon="user2.png"     Route="FlyoutAboutRoute" x:Name="rightmenuAbout"  />
     </FlyoutItem>
 
 
