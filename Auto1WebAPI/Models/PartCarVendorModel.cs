@@ -7,7 +7,7 @@ namespace Auto1API.Models
     {
         [Key]
         public long Id { get; set; }
-        public long RankNo { get; set; }
+        //public long RankNo { get; set; }
         public int PartId { get; set; }
         [MaxLength(50)]
         public required string FName { get; set; }

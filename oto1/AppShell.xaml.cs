@@ -17,13 +17,13 @@ public partial class AppShell : Shell
     {
         InitializeComponent();
 
+        this.Navigating += OnNavigating;
+        this.Navigated += OnNavigated;
+
         Routing.RegisterRoute(nameof(MapPage), typeof(MapPage));
         Routing.RegisterRoute(nameof(Requests), typeof(Requests));
 
    
-
-
-
         // ثبت‌نام برای دریافت پیام (داخل سازنده)
         WeakReferenceMessenger.Default.Register<UserToolbarMessage>(this, (r, m) =>
         {
@@ -47,6 +47,35 @@ public partial class AppShell : Shell
         //s = await MyServiceController.SayHello();
 
         //CustomerModel mycustomer = await MyServiceController.GetCustomerByUserId("madjid", "test");
+    }
+    private void OnNavigating(object sender, ShellNavigatingEventArgs e)
+    {
+        base.OnNavigating(e);
+
+        // اگر مقصد، روتر مربوط به منوی کشویی بود
+        if (e.Target.Location.OriginalString.Contains("FlyoutHomeRoute"))
+        {
+            e.Cancel();
+            tabbarShell.CurrentItem = tabHome;
+        }
+        else if (e.Target.Location.OriginalString.Contains("FlyoutAboutRoute"))
+        {
+            e.Cancel();
+            tabbarShell.CurrentItem = tabProfile;
+        }
+
+        //MainThread.BeginInvokeOnMainThread(() =>
+        //{
+        //    tabbarShell.CurrentItem = tabHome;
+        //});
+    }
+
+    private void OnNavigated(object sender, ShellNavigatedEventArgs e)
+    {
+        // کد برای مدیریت رویداد ناوبری بعد از تغییر تب
+        //var currentTab = this.CurrentItem;
+        //Console.WriteLine("Navigated to: " + currentTab.Title);
+        // انجام عملیات مورد نظر با استفاده از currentTab
     }
 
     private void UpdateToolbarItem(string s)

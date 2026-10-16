@@ -35,20 +35,20 @@ public partial class HomePage : ContentPage
 
         SlideList.Add(new PartModel
         {
-            FName = "بهران رانا 10W-40",
+            FName = "لاستیک",
             //ImageUrl = "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fc/Papio_anubis_%28Serengeti%2C_2009%29.jpg/200px-Papio_anubis_%28Serengeti%2C_2009%29.jpg"
-            ThumbnailPhotoFile = "https://khordadnet.ir/mysites/oto1/assets/part/prt1.png"
+            ThumbnailPhotoFile = "https://khordadnet.ir/mysites/oto1/assets/cms/tire1.png"
         });
 
         SlideList.Add(new PartModel
         {
-            FName = "اسپیدی",
-            ThumbnailPhotoFile = "https://khordadnet.ir/mysites/oto1/assets/part/prt4.png"
+            FName = "باتری خودرو",
+            ThumbnailPhotoFile = "https://khordadnet.ir/mysites/oto1/assets/cms/battery1.png"
         });
         SlideList.Add(new PartModel
         {
-            FName = "الوند ایرانول",
-            ThumbnailPhotoFile = "https://khordadnet.ir/mysites/oto1/assets/part/prt6.png"
+            FName = "روغن موتور",
+            ThumbnailPhotoFile = "https://khordadnet.ir/mysites/oto1/assets/cms/prt6.png"
         });
 
 
@@ -91,7 +91,7 @@ public partial class HomePage : ContentPage
 
         GlobalClass.m_CustomerServiceItemView.ServiceType = (byte)GlobalClass.enumServiceType.servicetype_SpecialService;
 
-        DisplayAlert("پیام", "این گزینه هنوز پیاده‌سازی نشده است", "ok");
+        DisplayAlert("پیام", "این خدمت به زودی عرضه می‌گردد", "ok");
     }
 
     private void btnTowing_Clicked(object sender, EventArgs e)

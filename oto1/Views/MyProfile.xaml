@@ -2,7 +2,7 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="oto1.MyProfile"
-             Title="MyProfile" FlowDirection="RightToLeft">
+             Title="پروفایل من" FlowDirection="RightToLeft">
 
     <ContentPage.ToolbarItems>
         <ToolbarItem IconImageSource="recurring2_48.png"  Order="Primary"   Priority="5" Clicked="toolbaritemRefresh_Clicked" />

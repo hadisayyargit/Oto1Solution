@@ -2,7 +2,7 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="oto1.HomePage"
-             Title="HomePage" FlowDirection="RightToLeft">
+             Title="صفحه نخست" FlowDirection="RightToLeft">
 
     <VerticalStackLayout
             Spacing="5"
@@ -68,7 +68,7 @@
 
                                 <Label Text="{Binding FName}" 
                                   FontAttributes="Bold"
-                                  FontSize="10"
+                                  FontSize="16"
                                   HorizontalOptions="Center"
                                   VerticalOptions="Center" />
                                 <ImageButton Source="{Binding ThumbnailPhotoFile}" 

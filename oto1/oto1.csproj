@@ -37,7 +37,7 @@
 		<AppInstallerUri>d:\Documents\publish\oto1</AppInstallerUri>
 		<HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
 		<Title>oto1 1.0</Title>
-		<PackageIcon>oto1icon28.png</PackageIcon>
+		<PackageIcon>oto1icon.png</PackageIcon>
 	</PropertyGroup>
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net7.0-android33.0|AnyCPU'">
 		<AndroidKeyStore>True</AndroidKeyStore>
@@ -60,7 +60,7 @@
 	<ItemGroup>
 		<!-- App Icon -->
 		<!--<MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#512BD4" />-->
-
+		<MauiIcon Include="Resources\AppIcon\oto1icon.png" />
 		<!-- Splash Screen -->
 		<!--<MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#512BD4" BaseSize="512,128" Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'" />-->
 		<!--<MauiSplashScreen Include="Resources\Splash\car1.gif" Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'" /> -->
@@ -77,6 +77,20 @@
 		<MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
 	</ItemGroup>
 
+
+	<ItemGroup>
+	  <Compile Remove="Views\FlyoutPageMain.xaml.cs" />
+	  <Compile Remove="Views\FlyoutPopupPage.xaml.cs" />
+	  <Compile Remove="Views\MainPage.xaml.cs" />
+	</ItemGroup>
+
+
+	<ItemGroup>
+	  <MauiXaml Remove="Views\FlyoutPageMain.xaml" />
+	  <MauiXaml Remove="Views\FlyoutPopupPage.xaml" />
+	  <MauiXaml Remove="Views\MainPage.xaml" />
+	</ItemGroup>
+
 	<ItemGroup>
 		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.2" />
 		<PackageReference Include="Microsoft.Maui.Controls" Version="10.0.90" />
@@ -90,11 +104,6 @@
 		<PackageReference Include="CommunityToolkit.Maui.Maps" Version="4.0.0" />
 
 
-	</ItemGroup>
-	
-
-	<ItemGroup>
-	  <MauiIcon Include="Resources\AppIcon\oto1icon28.png" />
 	</ItemGroup>
 
 

@@ -4,7 +4,7 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:oto1"
-    Shell.FlyoutBehavior="Disabled"
+    Shell.FlyoutBehavior="Flyout"
     Title="oto1"
     FlowDirection="RightToLeft"  >
 
@@ -52,4 +52,15 @@
 
 
     </TabBar>
+
+    <FlyoutItem Title="خانه"             Icon="home1.png">
+
+        <ShellContent   Route="FlyoutHomeRoute"  Icon="home1.png"   x:Name="rightmenuHome"  />
+
+
+    </FlyoutItem>
+    <FlyoutItem Title="درباره..."
+                Icon="oto1icon.png">
+        <ShellContent  Title="پروفایل"   Icon="user2.png"     Route="FlyoutAboutRoute" x:Name="rightmenuAbout"  />
+    </FlyoutItem>
 </Shell>

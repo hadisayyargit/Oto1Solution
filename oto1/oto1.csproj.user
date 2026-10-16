@@ -40,12 +40,6 @@
     <MauiXaml Update="Views\Baskets.xaml">
       <SubType>Designer</SubType>
     </MauiXaml>
-    <MauiXaml Update="Views\FlyoutPageMain.xaml">
-      <SubType>Designer</SubType>
-    </MauiXaml>
-    <MauiXaml Update="Views\FlyoutPopupPage.xaml">
-      <SubType>Designer</SubType>
-    </MauiXaml>
     <MauiXaml Update="Views\HomePage.xaml">
       <SubType>Designer</SubType>
     </MauiXaml>
@@ -53,9 +47,6 @@
       <SubType>Designer</SubType>
     </MauiXaml>
     <MauiXaml Update="Views\Lubricant.xaml">
-      <SubType>Designer</SubType>
-    </MauiXaml>
-    <MauiXaml Update="Views\MainPage.xaml">
       <SubType>Designer</SubType>
     </MauiXaml>
     <MauiXaml Update="Views\MapPage.xaml">

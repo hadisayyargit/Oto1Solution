@@ -6,8 +6,7 @@
     xmlns:local="clr-namespace:oto1"
     Shell.FlyoutBehavior="Disabled"
     Title="oto1Vendor"
-    FlowDirection="RightToLeft"
-    >
+    FlowDirection="RightToLeft" >
 
     <Shell.ToolbarItems   >
         <ToolbarItem IconImageSource="user1.png"   Order="Default" Priority="0"  x:Name="toolbaritemUser" Clicked="toolbaritemUser_Clicked" />
