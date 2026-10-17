@@ -197,7 +197,7 @@ private async void InitmyMap()
         try
         {
 
-            loc1.FName = txtPName.Text;
+            loc1.PName = txtPName.Text;
             loc1.CustomerId = GlobalClass.m_CustomerId;
             loc1.Latitude = GlobalClass.m_Latitude;
             loc1.Longitude = GlobalClass.m_Longitude;
@@ -290,7 +290,7 @@ private async void InitmyMap()
         this.LocationAddressId = loc.LocationAddressId;
         //GlobalClass.m_LocationAddressId = loc.LocationAddressId;
 
-        txtPName.Text = loc.FName;
+        txtPName.Text = loc.PName;
         txtAddress.Text = loc.Address;
         GlobalClass.m_Latitude = loc.Latitude;
         GlobalClass.m_Longitude = loc.Longitude;

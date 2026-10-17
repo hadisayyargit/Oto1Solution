@@ -10,10 +10,8 @@ namespace Auto1API.Models
         //public long RankNo { get; set; }
         public int PartId { get; set; }
         [MaxLength(50)]
-        public required string FName { get; set; }
+        public required string PName { get; set; }
 
-        [MaxLength(50)]
-        public string? LName { get; set; }
         public string? Viscosity { get; set; }
         public string? PerformanceLevel { get; set; }
         public int? CarId { get; set; }

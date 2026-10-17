@@ -22,9 +22,15 @@ namespace oto1.Models
         public int ManufacturerId { get; set; }
         public string Viscosity { get; set; }
         public string PerformanceLevel { get; set; }
-        public string? Barcode { get; set; }
+        public string? PartCode { get; set; }
         public string PhotoFileName { get; set; }
-
+        public int? BatteryAmperage { get; set; }
+        public int? BatteryVoltage { get; set; }
+        public int? TireYear { get; set; }
+        public string TireWheels { get; set; }
+        public string TireRingSize { get; set; }
+        public string PartColor { get; set; }
+        public string PartAttribute { get; set; }
         public bool? IsActive { get; set; }
         public byte[] Timestamp1 { get; set; }
         public string ThumbnailPhotoFile { get; set; } 

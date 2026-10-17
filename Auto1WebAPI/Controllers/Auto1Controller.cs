@@ -237,7 +237,7 @@ namespace Auto1API.Controllers
             LocationAddressModel mylocation=this.GetLocationAddress(newlocation.LocationAddressId);
             if (mylocation!=null)
             {
-                mylocation.FName=newlocation.FName;
+                mylocation.PName=newlocation.PName;
                 mylocation.Address = newlocation.Address;
                 mylocation.VendorId=newlocation.VendorId;
                 mylocation.CustomerId=newlocation.CustomerId;

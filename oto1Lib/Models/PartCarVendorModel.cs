@@ -85,10 +85,7 @@ namespace oto1.Models
         public int? Existance { get; set; }
 
         [MaxLength(50)]
-        public string?  FName { get; set; }
-
-        [MaxLength(50)]
-        public string? LName { get; set; }
+        public string?  PName { get; set; }
 
         public string ThumbnailPhotoFile { get; set; }
      

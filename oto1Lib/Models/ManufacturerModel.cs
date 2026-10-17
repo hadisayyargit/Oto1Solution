@@ -11,8 +11,7 @@ namespace oto1.Models
     {
         [Key]
         public int ManufacturerId { get; set; }
-        public required string FName { get; set; }
-        public string LName { get; set; }
+        public required string PName { get; set; }
         public string PhotoFileName { get; set; }
     }
 }

@@ -11,8 +11,7 @@ namespace oto1.Models
     {
         [Key]
         public int VendorId { get; set; }
-        public  string FName { get; set; }
-        public string? LName { get; set; }
+        public  string PName { get; set; }
         public string UserId { get; set; }
         public string Telephone { get; set; }
         public string Mobilephone { get; set; }

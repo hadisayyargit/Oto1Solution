@@ -33,25 +33,32 @@ public partial class HomePage : ContentPage
 
         SlideList = new List<PartModel>();
 
+
         SlideList.Add(new PartModel
         {
-            FName = "لاستیک",
+            FName = "خرید روغن موتور",
+            ThumbnailPhotoFile = "https://khordadnet.ir/mysites/oto1/assets/cms/prt6.png"
+        });
+
+        SlideList.Add(new PartModel
+        {
+            FName = "خرید باتری خودرو همراه با ارسال و نصب رایگان",
+            ThumbnailPhotoFile = "https://khordadnet.ir/mysites/oto1/assets/cms/battery1.png"
+        });
+
+
+        SlideList.Add(new PartModel
+        {
+            FName = "خرید لاستیک به قیمت دولتی",
             //ImageUrl = "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fc/Papio_anubis_%28Serengeti%2C_2009%29.jpg/200px-Papio_anubis_%28Serengeti%2C_2009%29.jpg"
             ThumbnailPhotoFile = "https://khordadnet.ir/mysites/oto1/assets/cms/tire1.png"
         });
 
         SlideList.Add(new PartModel
         {
-            FName = "باتری خودرو",
-            ThumbnailPhotoFile = "https://khordadnet.ir/mysites/oto1/assets/cms/battery1.png"
+            FName = "خرید انواع قطعات یدکی اصلی خودرو",
+            ThumbnailPhotoFile = "https://khordadnet.ir/mysites/oto1/assets/cms/prt30.png"
         });
-        SlideList.Add(new PartModel
-        {
-            FName = "روغن موتور",
-            ThumbnailPhotoFile = "https://khordadnet.ir/mysites/oto1/assets/cms/prt6.png"
-        });
-
-
     }
 
     private void ImageButton_Clicked(object sender, EventArgs e)

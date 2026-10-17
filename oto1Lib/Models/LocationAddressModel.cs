@@ -12,7 +12,7 @@ namespace oto1.Models
     {
         [Key]
         public long LocationAddressId { get; set; }
-        public string FName { get; set; }
+        public string PName { get; set; }
         public long? CustomerId { get; set; }
         public int? VendorId { get; set; }
         public int? PersonId { get; set; }

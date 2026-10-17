@@ -7,8 +7,7 @@ namespace Auto1API.Models
     {
         [Key]
         public int VendorId { get; set; }
-        public required string FName { get; set; }
-        public string? LName { get; set; }
+        public required string PName { get; set; }
         public string? UserId { get; set; }
         public string? Telephone { get; set; }
         public string? Mobilephone { get; set; }
