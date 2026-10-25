@@ -7,8 +7,7 @@ namespace Auto1API.Models
 
         [Key]
         public int CarId { get; set; }
-        public required string FName { get; set; }        
-        public required string LName { get; set; }
+        public required string PName { get; set; }        
         public string? CarGroup { get; set; }
         public int? CarGroupId { get; set; }
         public string? Brand { get; set; }

@@ -105,8 +105,7 @@ namespace Auto1API.Controllers
             var ss = this.Auto1Context.Car.Select(s => new CarModel
             {
                 CarId = s.CarId,
-                FName = s.FName,
-                LName = s.LName
+                PName = s.PName,
             }).ToList();
 
             return ss;
@@ -129,7 +128,7 @@ namespace Auto1API.Controllers
                           ,
                           CarId = m.CarId
                           ,
-                          FName = mt2.FName
+                          PName = mt2.PName
                           ,
                           Plaque = m.Plaque
                           //,  ThumbnailPhoto = mt2.ThumbnailPhotoFile

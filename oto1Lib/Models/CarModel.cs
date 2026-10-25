@@ -13,10 +13,9 @@ namespace oto1.Models
         [Key]
         public int CarId { get; set; }
         [MaxLength(50)]
-        public required string FName { get; set; }
+        public required string PName { get; set; }
 
         [MaxLength(50)]
-        public string LName { get; set; }
         public string CarGroup { get; set; }
         public int? CarGroupId { get; set; }
         public string Brand { get; set; }

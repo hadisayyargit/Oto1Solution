@@ -56,7 +56,7 @@ public partial class Lubricant : ContentPage
         pickerProduct.ItemsSource = products;
         pickerVendor.ItemsSource = vendors;
 
-        SelectedProduct = new PartModel { FName = "" };
+        SelectedProduct = new PartModel { PName = "" };
 
         activityIndicator.IsRunning = false;
     }

@@ -72,7 +72,7 @@ public partial class MyCars : ContentPage
     {
         Customer_CarModel car =(Customer_CarModel)e.CurrentSelection.FirstOrDefault();
         if (car == null) return;
-        DisplayAlert("", car.FName, "ok");
+        DisplayAlert("", car.PName, "ok");
         ((CollectionView)sender).SelectedItem = null;
     }
 

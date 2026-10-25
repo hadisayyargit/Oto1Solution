@@ -26,8 +26,7 @@ namespace Auto1API.Models
         [Key]
         public Int64 CustomerId { get; set; }
         public int CarId { get; set; }
-        public required string FName { get; set; }
-        public  string? LName { get; set; }
+        public required string PName { get; set; }
         public required string Plaque { get; set; }
         public bool ? IsActive { get; set; }
         //public string? ThumbnailPhoto { get; set; }

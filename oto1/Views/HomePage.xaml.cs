@@ -36,27 +36,27 @@ public partial class HomePage : ContentPage
 
         SlideList.Add(new PartModel
         {
-            FName = "خرید روغن موتور",
+            PName = "خرید روغن موتور",
             ThumbnailPhotoFile = "https://khordadnet.ir/mysites/oto1/assets/cms/prt6.png"
         });
 
         SlideList.Add(new PartModel
         {
-            FName = "خرید باتری خودرو همراه با ارسال و نصب رایگان",
+            PName = "خرید باتری خودرو همراه با ارسال و نصب رایگان",
             ThumbnailPhotoFile = "https://khordadnet.ir/mysites/oto1/assets/cms/battery1.png"
         });
 
 
         SlideList.Add(new PartModel
         {
-            FName = "خرید لاستیک به قیمت دولتی",
+            PName = "خرید لاستیک به قیمت دولتی",
             //ImageUrl = "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fc/Papio_anubis_%28Serengeti%2C_2009%29.jpg/200px-Papio_anubis_%28Serengeti%2C_2009%29.jpg"
             ThumbnailPhotoFile = "https://khordadnet.ir/mysites/oto1/assets/cms/tire1.png"
         });
 
         SlideList.Add(new PartModel
         {
-            FName = "خرید انواع قطعات یدکی اصلی خودرو",
+            PName = "خرید انواع قطعات یدکی اصلی خودرو",
             ThumbnailPhotoFile = "https://khordadnet.ir/mysites/oto1/assets/cms/prt30.png"
         });
     }

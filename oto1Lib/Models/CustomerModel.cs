@@ -34,8 +34,7 @@ namespace oto1.Models
         [Key]
         public long CustomerId { get; set; }
         public int CarId { get; set; }
-        public string FName { get; set; }
-        public string LName { get; set; }
+        public string PName { get; set; }
         public string Plaque { get; set; }
         //public bool IsActive { get; set; }
         public byte[] ThumbnailPhoto { get; set; }

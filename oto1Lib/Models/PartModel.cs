@@ -12,10 +12,7 @@ namespace oto1.Models
         [Key]
         public int PartId { get; set; }
         [MaxLength(50)]
-        public string FName { get; set; }
-
-        [MaxLength(50)]
-        public string LName { get; set; }
+        public string PName { get; set; }
         public int? PartLevel1Id { get; set; }
         public int? PartLevel2Id { get; set; }
         public int? PartLevel3Id { get; set; }
