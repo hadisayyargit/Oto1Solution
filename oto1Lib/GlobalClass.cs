@@ -20,7 +20,7 @@ namespace oto1
           serviceitemtype_LubricantSale = 11, serviceitemtype_PartSale = 12, serviceitemtype_BatterySale = 13, serviceitemtype_tiresale = 14
           , serviceitemtype_tirepuncture =21, serviceitemtype_timingbelt = 22, serviceitemtype_Fuel = 23
           , serviceitemtype_carwire = 24, serviceitemtype_lock = 25, serviceitemtype_customerplaceservice = 26
-          , serviceitemtype_LubricantService = 31, serviceitemtype_carwash = 32, serviceitemtype_troubleshooting = 33, serviceitemtype_carwindow = 33
+          , serviceitemtype_LubricantService = 31, serviceitemtype_carwash = 32, serviceitemtype_troubleshooting = 33, serviceitemtype_carwindow = 34
           , serviceitemtype_towing_light = 41, serviceitemtype_towing_Heavy = 42
           , serviceitemtype_NoSelect = 255
         }
