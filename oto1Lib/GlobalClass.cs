@@ -11,13 +11,18 @@ namespace oto1
     {
         public enum enumServiceType:byte
         {
-            servicetype_Part=0, servicetype_CarTowing = 1, servicetype_OnLocationService = 2, servicetype_OnSiteService = 3, servicetype_SpecialService=4
+            servicetype_Part=0, servicetype_CarTowing = 4, servicetype_OnLocationService = 2, servicetype_OnSiteService = 3, servicetype_SpecialService=5
                 , servicetype_NoSelect=255
         }
 
         public enum enumServiceItemType : byte
-        {
-            serviceitemtype_PartSale=0,serviceitemtype_LubricantService = 1, serviceitemtype_Battery = 2, serviceitemtype_Fuel =3, serviceitemtype_tirepuncture = 4, serviceitemtype_timingbelt = 5, serviceitemtype_carwash = 6, serviceitemtype_carwire = 7, serviceitemtype_troubleshooting = 8, serviceitemtype_towing_light = 9, serviceitemtype_towing_Heavy = 10, serviceitemtype_DoorOpening=11,  serviceitemtype_NoSelect = 255
+        {         
+          serviceitemtype_LubricantSale = 11, serviceitemtype_PartSale = 12, serviceitemtype_BatterySale = 13, serviceitemtype_tiresale = 14
+          , serviceitemtype_tirepuncture =21, serviceitemtype_timingbelt = 22, serviceitemtype_Fuel = 23
+          , serviceitemtype_carwire = 24, serviceitemtype_lock = 25, serviceitemtype_customerplaceservice = 26
+          , serviceitemtype_LubricantService = 31, serviceitemtype_carwash = 32, serviceitemtype_troubleshooting = 33, serviceitemtype_carwindow = 33
+          , serviceitemtype_towing_light = 41, serviceitemtype_towing_Heavy = 42
+          , serviceitemtype_NoSelect = 255
         }
 
         public enum enumServiceStatus : byte
