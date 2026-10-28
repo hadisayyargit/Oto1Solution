@@ -1,11 +1,11 @@
-﻿using oto1.Models;
-using oto1.Services;
+﻿using CommunityToolkit.Maui.Alerts;
 using Microsoft.Maui.Controls;
+using oto1.Models;
+using oto1.Services;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
-using CommunityToolkit.Maui.Alerts;
-using static System.Net.Mime.MediaTypeNames;
 using System.Threading;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace oto1;
 
@@ -36,32 +36,70 @@ public partial class Lubricant : ContentPage
     {
         base.OnAppearing();
 
-
+        // ۱. چک کردن اتصال شبکه
         if (NetClass.CheckNetConnection() == false)
         {
             await DisplayAlert("خطا", "خطا در اتصال شبکه", "ok");
+            return; // اگر شبکه نباشد، ادامه ندهید
         }
-
-        // mycarlist = await myCar.GetAllCars();
 
         activityIndicator.IsRunning = true;
 
-        cars = await MyServiceController.GetAllCarsView();
-        manufacturers = await MyServiceController.GetAllManufacturers();
-        products = await MyServiceController.GetAllParts();
-        vendors = await MyServiceController.GetAllVendors();
+        try
+        {
+            //cars = await MyServiceController.GetAllCarsView();
+            //manufacturers = await MyServiceController.GetAllManufacturers();
+            //products = await MyServiceController.GetAllParts();
+            //vendors = await MyServiceController.GetAllVendors();
 
-        pickerCar.ItemsSource = cars;
-        pickerManufacturer.ItemsSource = manufacturers;
-        pickerProduct.ItemsSource = products;
-        pickerVendor.ItemsSource = vendors;
+            //pickerCar.ItemsSource = cars;
+            //pickerManufacturer.ItemsSource = manufacturers;
+            //pickerProduct.ItemsSource = products;
+            //pickerVendor.ItemsSource = vendors;
 
-        SelectedProduct = new PartModel { PName = "" };
+            // مقداردهی اولیه برای جلوگیری از NullReference
+            SelectedProduct = new PartModel { PName = "" };
 
-        activityIndicator.IsRunning = false;
+         
+            var menuVm = new MenuViewModel(); // یا اگر از قبل در ViewModel اصلی دارید از آن استفاده کنید
+            menuView.BindingContext = menuVm;
+
+            // فراخوانی متد لود کردن منو
+            LoadCascadingMenu(menuVm);
+        }
+        catch (Exception ex)
+        {
+            // مدیریت خطا برای جلوگیری از کرش کردن اپلیکیشن در هنگام لودینگ
+            await DisplayAlert("خطا", $"خطا در بارگذاری داده‌ها: {ex.Message}", "ok");
+        }
+        finally
+        {
+            activityIndicator.IsRunning = false;
+        }
     }
 
 
+    private void LoadCascadingMenu(MenuViewModel vm)
+    {
+        // همان منطق قبلی را اینجا کپی می‌کنیم اما داده‌ها را به vm می‌دهیم
+        vm.MenuItems.Clear();
+
+        
+        // ۲. ساخت ساختار درختی (مثال)
+        var rootCategory = new MenuItemModel { Title = "دسته‌بندی قطعات", PartLevel1Id = 0, PartLevel2Id = -1, PartLevel3Id = -1 };
+
+        var engine = new MenuItemModel { Title = "پیشرانه", PartLevel1Id = 1, PartLevel2Id = -1, PartLevel3Id = -1 };
+        engine.Children.Add(new MenuItemModel { Title = "پیستون", PartLevel1Id = 1, PartLevel2Id = 11, PartLevel3Id = -1 });
+        rootCategory.Children.Add(engine);
+
+        var suspension = new MenuItemModel { Title = "تعلیق و هدایت", PartLevel1Id = 4, PartLevel2Id = -1, PartLevel3Id = -1 };
+        var wheel = new MenuItemModel { Title = "چرخ", PartLevel1Id = 4, PartLevel2Id = 41, PartLevel3Id = -1 };
+        wheel.Children.Add(new MenuItemModel { Title = "لاستیک", PartLevel1Id = 4, PartLevel2Id = 41, PartLevel3Id = 411 });
+        suspension.Children.Add(wheel);
+        rootCategory.Children.Add(suspension);
+
+        vm.MenuItems.Add(rootCategory);
+    }
 
     private void pickerProduct_SelectedIndexChanged(object sender, EventArgs e)
     {
@@ -71,13 +109,13 @@ public partial class Lubricant : ContentPage
         var picker = (Picker)sender;
 
 
-        if (pickerProduct.SelectedIndex != -1)
-        {
-            //DisplayAlert("", SelectedProduct.PartId.ToString(), "ok");
-            //DisplayAlert("", picker.Items[pickerProduct.SelectedIndex], "ok");
-            //DisplayAlert("", ((ProductModel)picker.ItemsSource[pickerProduct.SelectedIndex]).PartId.ToString(), "ok");
+        //if (pickerProduct.SelectedIndex != -1)
+        //{
+        //    //DisplayAlert("", SelectedProduct.PartId.ToString(), "ok");
+        //    //DisplayAlert("", picker.Items[pickerProduct.SelectedIndex], "ok");
+        //    //DisplayAlert("", ((ProductModel)picker.ItemsSource[pickerProduct.SelectedIndex]).PartId.ToString(), "ok");
 
-        }
+        //}
 
 
     }
@@ -94,67 +132,67 @@ public partial class Lubricant : ContentPage
 
     private void btnClear_Clicked(object sender, EventArgs e)
     {
-        pickerManufacturer.SelectedIndex = -1;
-        pickerCar.SelectedIndex = -1;
-        pickerProduct.SelectedIndex = -1;
-        txtPerformanceLevel.Text = "";
-        txtViscosity.Text = string.Empty;
-        pickerVendor.SelectedIndex = -1;
+        //pickerManufacturer.SelectedIndex = -1;
+        //pickerCar.SelectedIndex = -1;
+        //pickerProduct.SelectedIndex = -1;
+        //txtPerformanceLevel.Text = "";
+        //txtViscosity.Text = string.Empty;
+        //pickerVendor.SelectedIndex = -1;
 
-        collectionviewProducts.ItemsSource = null;
+        //collectionviewProducts.ItemsSource = null;
 
     }
     
     private async void btnSearch_Clicked(object sender, EventArgs e)
     {
-        int PartId = -1, manufacturerid = -1, carid = -1,vendorid=-1;
-        string viscosity = "", performancelevel = "";
+        //int PartId = -1, manufacturerid = -1, carid = -1,vendorid=-1;
+        //string viscosity = "", performancelevel = "";
 
-        activityIndicator.IsRunning = true;
+        //activityIndicator.IsRunning = true;
 
-        viscosity = txtViscosity.Text;
-        performancelevel = txtPerformanceLevel.Text;
-
-
-
-        if (pickerProduct.SelectedIndex >= 0)
-        {
-            PartId = ((PartModel)pickerProduct.ItemsSource[pickerProduct.SelectedIndex]).PartId;
-            //DisplayAlert("", picker.Items[pickerProduct.SelectedIndex], "ok");
-            //DisplayAlert("", ((ProductModel)pickerProduct.ItemsSource[pickerProduct.SelectedIndex]).PartId.ToString(), "ok");
-        }
-        if (pickerManufacturer.SelectedIndex >= 0)
-        {
-            manufacturerid = ((ManufacturerModel)pickerManufacturer.ItemsSource[pickerManufacturer.SelectedIndex]).ManufacturerId;
-        }
-        if (pickerCar.SelectedIndex >= 0)
-        {
-            carid = ((CarModel)pickerCar.ItemsSource[pickerCar.SelectedIndex]).CarId;
-
-        }
-        if (pickerVendor.SelectedIndex >= 0)
-        {
-            vendorid = ((VendorModel)pickerVendor.ItemsSource[pickerVendor.SelectedIndex]).VendorId;
-
-        }
-
-        searchresult = await MyServiceController.GetPart(PartId, manufacturerid, viscosity, performancelevel, carid,vendorid);
+        //viscosity = txtViscosity.Text;
+        //performancelevel = txtPerformanceLevel.Text;
 
 
-        if (searchresult != null && searchresult.Count > 0)
-        {
-            foreach (var pr in searchresult)
-            {
 
-                //pr.PhotoFileName = "p" + pr.PartId.ToString() + ".png";
-                pr.PhotoFileName = "https://khordadnet.ir/mysites/oto1/assets/part/prt" + pr.PartId.ToString() + ".png";
+        //if (pickerProduct.SelectedIndex >= 0)
+        //{
+        //    PartId = ((PartModel)pickerProduct.ItemsSource[pickerProduct.SelectedIndex]).PartId;
+        //    //DisplayAlert("", picker.Items[pickerProduct.SelectedIndex], "ok");
+        //    //DisplayAlert("", ((ProductModel)pickerProduct.ItemsSource[pickerProduct.SelectedIndex]).PartId.ToString(), "ok");
+        //}
+        //if (pickerManufacturer.SelectedIndex >= 0)
+        //{
+        //    manufacturerid = ((ManufacturerModel)pickerManufacturer.ItemsSource[pickerManufacturer.SelectedIndex]).ManufacturerId;
+        //}
+        //if (pickerCar.SelectedIndex >= 0)
+        //{
+        //    carid = ((CarModel)pickerCar.ItemsSource[pickerCar.SelectedIndex]).CarId;
 
-            }
-        }
+        //}
+        //if (pickerVendor.SelectedIndex >= 0)
+        //{
+        //    vendorid = ((VendorModel)pickerVendor.ItemsSource[pickerVendor.SelectedIndex]).VendorId;
+
+        //}
+
+        //searchresult = await MyServiceController.GetPart(PartId, manufacturerid, viscosity, performancelevel, carid,vendorid);
 
 
-        collectionviewProducts.ItemsSource = searchresult;
-        activityIndicator.IsRunning = false;
+        //if (searchresult != null && searchresult.Count > 0)
+        //{
+        //    foreach (var pr in searchresult)
+        //    {
+
+        //        //pr.PhotoFileName = "p" + pr.PartId.ToString() + ".png";
+        //        pr.PhotoFileName = "https://khordadnet.ir/mysites/oto1/assets/part/prt" + pr.PartId.ToString() + ".png";
+
+        //    }
+        //}
+
+
+        //collectionviewProducts.ItemsSource = searchresult;
+        //activityIndicator.IsRunning = false;
 
     }
 
@@ -182,21 +220,21 @@ public partial class Lubricant : ContentPage
         }
         */
 
-        var allItems = collectionviewProducts.ItemsSource;
+        //var allItems = collectionviewProducts.ItemsSource;
         
-        if (allItems != null)
-        {
-            foreach (PartCarVendorModel item in allItems)
-            {
-                if (item.Quantity > 0)
-                {
-                    myServices.Add(new CustomerServiceItemViewModel() { CustomerId = GlobalClass.m_CustomerId, PartId = item.PartId, Quantity = item.Quantity, ServiceItemType = (byte)GlobalClass.enumServiceItemType.serviceitemtype_PartSale, ServiceItemStatus = (byte)GlobalClass.enumServiceItemStatus.serviceitemstatus_Request, NetAmount = item.NetAmount, PriceAmount=item.PriceAmount, VendorId = item.VendorId , Latitude = GlobalClass.m_Latitude, Longitude=GlobalClass.m_Longitude,Address=GlobalClass.m_Address });                
-                }
-            }
-            res = await MyCustomerServiceController.AddCustomerService(myServices);
-            msg = "درخواست شما ثبت شد با شماره‌های: " + res;
-            await DisplayAlert("", msg, "ok");
-        }
+        //if (allItems != null)
+        //{
+        //    foreach (PartCarVendorModel item in allItems)
+        //    {
+        //        if (item.Quantity > 0)
+        //        {
+        //            myServices.Add(new CustomerServiceItemViewModel() { CustomerId = GlobalClass.m_CustomerId, PartId = item.PartId, Quantity = item.Quantity, ServiceItemType = (byte)GlobalClass.enumServiceItemType.serviceitemtype_PartSale, ServiceItemStatus = (byte)GlobalClass.enumServiceItemStatus.serviceitemstatus_Request, NetAmount = item.NetAmount, PriceAmount=item.PriceAmount, VendorId = item.VendorId , Latitude = GlobalClass.m_Latitude, Longitude=GlobalClass.m_Longitude,Address=GlobalClass.m_Address });                
+        //        }
+        //    }
+        //    res = await MyCustomerServiceController.AddCustomerService(myServices);
+        //    msg = "درخواست شما ثبت شد با شماره‌های: " + res;
+        //    await DisplayAlert("", msg, "ok");
+        //}
 
     }
 

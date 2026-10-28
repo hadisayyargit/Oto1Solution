@@ -120,5 +120,11 @@
 	  </Compile>
 	</ItemGroup>
 
+	<ItemGroup>
+	  <MauiXaml Update="Views\CascadeMenuContentView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	</ItemGroup>
+
 
 </Project>
