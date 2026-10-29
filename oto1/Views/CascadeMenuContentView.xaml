@@ -1,109 +1,54 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:vm="clr-namespace:oto1" 
              xmlns:models="clr-namespace:oto1.Models"
-             x:Class="oto1.CascadeMenuContentView">
+             x:Class="oto1.CascadeMenuContentView"
+             x:Name="thisControl">
 
-    <ContentView.Resources>
-        <!-- اگر Converter را در App.xaml تعریف نکردید، اینجا اضافه کنید -->
-    </ContentView.Resources>
+    <VerticalStackLayout BindingContext="{Binding Source={x:Reference thisControl}, Path=ViewModel}"
+                         Spacing="4"
+                         Padding="4">
 
-    <ScrollView>
-        <VerticalStackLayout Padding="10" Spacing="5" BackgroundColor="#14243A">
+        <!-- دکمه پاک کردن فیلتر -->
+        <Button Text="حذف فیلتر" 
+                Command="{Binding ClearFilterCommand}"
+                BackgroundColor="#334155"
+                TextColor="White"
+                HeightRequest="35" />
 
-            <!-- هدر منو: نمایش عنوان انتخاب شده و دکمه Clear -->
-            <Grid ColumnDefinitions="*, Auto" VerticalOptions="Center" Margin="0,0,0,10">
-                <Label Text="{Binding SelectedMenuTitle}"
-                       TextColor="Yellow"
-                       FontSize="14"
-                       FontAttributes="Bold"
-                       VerticalOptions="Center" />
+        <!-- لیست تخت و پویا که تمام سطوح را تا هر عمقی نمایش می‌دهد -->
+        <CollectionView ItemsSource="{Binding VisibleMenuItems}"
+                        SelectionMode="None">
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="models:MenuItemModel">
+                    <!-- تورفتگی پویا بر اساس Level (مثلاً سطح ۰: بدون حاشیه، سطح ۱: ۱۵ واحد، سطح ۲: ۳۰ واحد) -->
+                    <VerticalStackLayout Spacing="2" Margin="{Binding Level, Converter={StaticResource LevelToMarginConverter}}">
 
-                <!-- دکمه پاک کردن فیلتر: متصل به ClearFilterCommand در MenuViewModel -->
-                <Button Grid.Column="1"
-                        Text="✕"
-                        Command="{Binding ClearFilterCommand}"
-                        IsVisible="{Binding SelectedMenuTitle, Converter={StaticResource StringNotNullOrEmptyConverter}}"
-                        BackgroundColor="Transparent"
-                        TextColor="Red"
-                        FontSize="14"
-                        HeightRequest="30"
-                        WidthRequest="30"
-                        Padding="0" />
-            </Grid>
+                        <Grid Padding="10" BackgroundColor="#1E293B">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
 
-            <!-- درخت منو با استفاده از BindableLayout -->
-            <VerticalStackLayout BindableLayout.ItemsSource="{Binding MenuItems}" Spacing="5">
-                <BindableLayout.ItemTemplate>
-                    <DataTemplate x:DataType="models:MenuItemModel">
-                        <VerticalStackLayout Spacing="2">
+                            <Label Text="{Binding Title}" 
+                                   TextColor="White" 
+                                   VerticalOptions="Center" />
 
-                            <!-- سطح ۱ (دکمه اصلی) -->
-                            <Button Text="{Binding Title}"
-                                    Command="{Binding Source={RelativeSource AncestorType={x:Type vm:MenuViewModel}}, Path=ItemTappedCommand}"
-                                    CommandParameter="{Binding}"
-                                    TextColor="White"
-                                    HorizontalOptions="Fill"
-                                    HeightRequest="45"
-                                    CornerRadius="6">
-                                <Button.Triggers>
-                                    <DataTrigger TargetType="Button" Binding="{Binding HasChildren}" Value="True">
-                                        <Setter Property="BackgroundColor" Value="#1F3A5F" />
-                                    </DataTrigger>
-                                    <DataTrigger TargetType="Button" Binding="{Binding HasChildren}" Value="False">
-                                        <Setter Property="BackgroundColor" Value="#284464" />
-                                    </DataTrigger>
-                                </Button.Triggers>
-                            </Button>
+                            <Label Text="{Binding IsExpanded}" 
+                                   TextColor="Yellow"
+                                   VerticalOptions="Center"
+                                   Grid.Column="1" />
 
-                            <!-- سطح ۲ (باز شدن با IsExpanded) -->
-                            <VerticalStackLayout IsVisible="{Binding IsExpanded}"
-                                               BindableLayout.ItemsSource="{Binding Children}"
-                                               Padding="15,5,0,5"
-                                               Spacing="3">
-                                <BindableLayout.ItemTemplate>
-                                    <DataTemplate x:DataType="models:MenuItemModel">
-                                        <VerticalStackLayout Spacing="2">
+                            <Grid.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding Source={x:Reference thisControl}, Path=ViewModel.ItemTappedCommand}"
+                                                      CommandParameter="{Binding}" />
+                            </Grid.GestureRecognizers>
+                        </Grid>
 
-                                            <Button Text="{Binding Title}"
-                                                    Command="{Binding Source={RelativeSource AncestorType={x:Type vm:MenuViewModel}}, Path=ItemTappedCommand}"
-                                                    CommandParameter="{Binding}"
-                                                    BackgroundColor="#284464"
-                                                    TextColor="White"
-                                                    HorizontalOptions="Fill"
-                                                    HeightRequest="40"
-                                                    CornerRadius="4" />
+                    </VerticalStackLayout>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
 
-                                            <!-- سطح ۳ -->
-                                            <VerticalStackLayout IsVisible="{Binding IsExpanded}"
-                                                               BindableLayout.ItemsSource="{Binding Children}"
-                                                               Padding="15,5,0,5"
-                                                               Spacing="3">
-                                                <BindableLayout.ItemTemplate>
-                                                    <DataTemplate x:DataType="models:MenuItemModel">
-                                                        <Button Text="{Binding Title}"
-                                                                Command="{Binding Source={RelativeSource AncestorType={x:Type vm:MenuViewModel}}, Path=ItemTappedCommand}"
-                                                                CommandParameter="{Binding}"
-                                                                BackgroundColor="Transparent"
-                                                                TextColor="#B0C4DE"
-                                                                HorizontalOptions="Fill"
-                                                                HeightRequest="30"
-                                                                CornerRadius="4" />
-                                                    </DataTemplate>
-                                                </BindableLayout.ItemTemplate>
-                                            </VerticalStackLayout>
-
-                                        </VerticalStackLayout>
-                                    </DataTemplate>
-                                </BindableLayout.ItemTemplate>
-                            </VerticalStackLayout>
-
-                        </VerticalStackLayout>
-                    </DataTemplate>
-                </BindableLayout.ItemTemplate>
-            </VerticalStackLayout>
-
-        </VerticalStackLayout>
-    </ScrollView>
+    </VerticalStackLayout>
 </ContentView>

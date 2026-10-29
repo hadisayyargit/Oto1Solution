@@ -1,28 +1,65 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:local="clr-namespace:oto1"
-             xmlns:models="clr-namespace:oto1.Models"
+             xmlns:models="clr-namespace:oto1.Models;assembly=oto1Lib"
              x:Class="oto1.Lubricant"
+             x:Name="LubricantPage"
              Title="انتخاب قطعه"  
+             BackgroundColor="#14243A"
              FlowDirection="RightToLeft">
 
-    <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto,*,Auto,Auto" 
-          ColumnDefinitions="0.5*,0.5*"    
-          Padding="5"  
-          Margin="5" 
-          ColumnSpacing="5" 
-          RowSpacing="5">
+    <Grid RowDefinitions="Auto, *" RowSpacing="10" Padding="10">
 
-        <ActivityIndicator x:Name="activityIndicator" Grid.Row="0" Grid.ColumnSpan="2" IsVisible="True" IsRunning="False" Color="Orange" />
+        <!-- هدر: عنوان انتخاب شده و دکمه پاک کردن فیلتر -->
+        <HorizontalStackLayout Grid.Row="0" Spacing="10" VerticalOptions="Center">
+            <Label Text="{Binding SelectedMenuTitle}"
+                   TextColor="Yellow"
+                   FontSize="14"
+                   VerticalOptions="Center" />
+            <Button Text="✕" 
+                    Command="{Binding ClearFilterCommand}"
+                    BackgroundColor="Transparent"
+                    TextColor="Red"
+                    FontSize="14"
+                    HeightRequest="30"
+                    WidthRequest="30"
+                    Padding="0" />
+        </HorizontalStackLayout>
 
-        <!-- ۱. اضافه شدن منوی درختی سفارشی در بالای صفحه -->
-        <local:CascadeMenuContentView x:Name="menuView" Grid.Row="1" Grid.ColumnSpan="2"  HeightRequest="300" />
-
-
-
-        <ImageButton Source="basket3.png" WidthRequest="50" HeightRequest="50" x:Name="btnAddToBasket" Clicked="btnAddToBasket_Clicked" Grid.Row="7" Grid.Column="0" />
-        <ImageButton Source="eraser1.png" x:Name="btnClear" Grid.Row="7" Grid.Column="1" Clicked="btnClear_Clicked" />
+        <!-- لیست تخت منو -->
+        <CollectionView Grid.Row="1"
+                        ItemsSource="{Binding VisibleItems}"
+                        SelectionMode="None">
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="models:MenuItemModel">
+                    <VerticalStackLayout Padding="{Binding LevelMargin}" Spacing="2">
+                        <Button Text="{Binding Title}"
+                                Command="{Binding Source={x:Reference LubricantPage}, Path=BindingContext.ItemTappedCommand}"
+                                CommandParameter="{Binding}"
+                                TextColor="White"
+                                HorizontalOptions="Fill"
+                                HeightRequest="40"
+                                CornerRadius="6">
+                            <Button.Triggers>
+                                <DataTrigger TargetType="Button" Binding="{Binding Level}" Value="0">
+                                    <Setter Property="BackgroundColor" Value="#1F3A5F" />
+                                </DataTrigger>
+                                <DataTrigger TargetType="Button" Binding="{Binding Level}" Value="1">
+                                    <Setter Property="BackgroundColor" Value="#284464" />
+                                </DataTrigger>
+                                <DataTrigger TargetType="Button" Binding="{Binding Level}" Value="2">
+                                    <Setter Property="BackgroundColor" Value="#3A5A78" />
+                                </DataTrigger>
+                                <DataTrigger TargetType="Button" Binding="{Binding Level}" Value="3">
+                                    <Setter Property="BackgroundColor" Value="Transparent" />
+                                    <Setter Property="TextColor" Value="#B0C4DE" />
+                                </DataTrigger>
+                            </Button.Triggers>
+                        </Button>
+                    </VerticalStackLayout>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
 
     </Grid>
 </ContentPage>
