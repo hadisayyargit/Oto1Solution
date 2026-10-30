@@ -1,54 +1,45 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:models="clr-namespace:oto1.Models"
+             xmlns:models="clr-namespace:oto1.Models;assembly=oto1Lib"
+             xmlns:local="clr-namespace:oto1"
              x:Class="oto1.CascadeMenuContentView"
-             x:Name="thisControl">
+             x:Name="thisView"
+             FlowDirection="RightToLeft"
+             x:DataType="models:MenuItemModel">
 
-    <VerticalStackLayout BindingContext="{Binding Source={x:Reference thisControl}, Path=ViewModel}"
-                         Spacing="4"
-                         Padding="4">
-
-        <!-- دکمه پاک کردن فیلتر -->
-        <Button Text="حذف فیلتر" 
-                Command="{Binding ClearFilterCommand}"
-                BackgroundColor="#334155"
+    <VerticalStackLayout Spacing="2">
+        <!-- دکمه مربوط به آیتم جاری (BindingContext این کنترل خودِ MenuItemModel است) -->
+        <Button Text="{Binding Title}"
+                Command="{Binding Source={x:Reference thisView}, Path=ItemTappedCommand}"
+                CommandParameter="{Binding .}"
                 TextColor="White"
-                HeightRequest="35" />
+                HorizontalOptions="Fill"
+                HeightRequest="40"
+                CornerRadius="4">
+            <Button.Triggers>
+                <DataTrigger TargetType="Button" Binding="{Binding HasChildren}" Value="True">
+                    <Setter Property="BackgroundColor" Value="#1F3A5F" />
+                </DataTrigger>
+                <DataTrigger TargetType="Button" Binding="{Binding HasChildren}" Value="False">
+                    <Setter Property="BackgroundColor" Value="#284464" />
+                </DataTrigger>
+            </Button.Triggers>
+        </Button>
 
-        <!-- لیست تخت و پویا که تمام سطوح را تا هر عمقی نمایش می‌دهد -->
-        <CollectionView ItemsSource="{Binding VisibleMenuItems}"
-                        SelectionMode="None">
-            <CollectionView.ItemTemplate>
+        <!-- بخش فرزندان (تکرار خود ContentView برای سطوح بعدی) -->
+        <VerticalStackLayout IsVisible="{Binding IsExpanded}"
+                             BindableLayout.ItemsSource="{Binding Children}"
+                             Padding="15,5,0,5"
+                             Spacing="3">
+            <BindableLayout.ItemTemplate>
                 <DataTemplate x:DataType="models:MenuItemModel">
-                    <!-- تورفتگی پویا بر اساس Level (مثلاً سطح ۰: بدون حاشیه، سطح ۱: ۱۵ واحد، سطح ۲: ۳۰ واحد) -->
-                    <VerticalStackLayout Spacing="2" Margin="{Binding Level, Converter={StaticResource LevelToMarginConverter}}">
-
-                        <Grid Padding="10" BackgroundColor="#1E293B">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="Auto" />
-                            </Grid.ColumnDefinitions>
-
-                            <Label Text="{Binding Title}" 
-                                   TextColor="White" 
-                                   VerticalOptions="Center" />
-
-                            <Label Text="{Binding IsExpanded}" 
-                                   TextColor="Yellow"
-                                   VerticalOptions="Center"
-                                   Grid.Column="1" />
-
-                            <Grid.GestureRecognizers>
-                                <TapGestureRecognizer Command="{Binding Source={x:Reference thisControl}, Path=ViewModel.ItemTappedCommand}"
-                                                      CommandParameter="{Binding}" />
-                            </Grid.GestureRecognizers>
-                        </Grid>
-
-                    </VerticalStackLayout>
+                    <!-- فراخوانی مجدد خودِ ContentView برای سطح بعدی و انتقال کامند از طریق Source -->
+                    <local:CascadeMenuContentView 
+                        BindingContext="{Binding .}"
+                        ItemTappedCommand="{Binding Source={x:Reference thisView}, Path=ItemTappedCommand}" />
                 </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
-
+            </BindableLayout.ItemTemplate>
+        </VerticalStackLayout>
     </VerticalStackLayout>
 </ContentView>

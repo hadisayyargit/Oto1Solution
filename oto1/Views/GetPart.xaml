@@ -3,128 +3,95 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:vm="clr-namespace:oto1"
              xmlns:models="clr-namespace:oto1.Models;assembly=oto1Lib"
+             xmlns:local="clr-namespace:oto1"
              x:Class="oto1.GetPart"
              x:Name="root"
              Title="انتخاب قطعه"  
-             BackgroundColor="#14243A"
+            
              FlowDirection="RightToLeft">
+    <Grid RowDefinitions="auto,auto,auto,auto,auto,auto" ColumnDefinitions="0.5*,0.5*"    Padding="5"  Margin="5" ColumnSpacing="5" RowSpacing="5"   >
+        <ActivityIndicator x:Name="activityIndicator" Grid.Row="0"                    IsVisible="True"  IsRunning="False"      Color="Orange"     />
 
-    <ScrollView>
-        <VerticalStackLayout Padding="10" Spacing="5">
-            <HorizontalStackLayout Spacing="10" VerticalOptions="Center">
-                <!-- نمایش عنوان انتخاب شده -->
-                <Label Text="{Binding SelectedMenuTitle}"
-                       TextColor="Yellow"
-                       FontSize="14"
-                       Margin="0,0,0,10" />
+        <ScrollView Grid.Row="0" Grid.ColumnSpan="2">
+            <VerticalStackLayout Padding="10" Spacing="5">
+                <HorizontalStackLayout Spacing="10" VerticalOptions="Center">
+                    <!-- نمایش عنوان انتخاب شده -->
+                    <Label Text="{Binding SelectedMenuTitle}"
+                   TextColor="Yellow"
+                   FontSize="14"
+                   Margin="0,0,0,10" />
 
-                <!-- دکمه کوچک پاک کردن فیلتر -->
-                <Button Text="✕" 
-                        Command="{Binding ClearFilterCommand}"
-                        IsVisible="{Binding SelectedMenuTitle, Converter={StaticResource StringNotNullOrEmptyConverter}}"
-                        BackgroundColor="Transparent"
-                        TextColor="Red"
-                        FontSize="14"
-                        HeightRequest="30"
-                        WidthRequest="30"
-                        Padding="0" />
-            </HorizontalStackLayout>
+                    <!-- دکمه کوچک پاک کردن فیلتر -->
+                    <Button Text="✕" 
+                    Command="{Binding ClearFilterCommand}"
+                    IsVisible="{Binding SelectedMenuTitle, Converter={StaticResource StringNotNullOrEmptyConverter}}"
+                    BackgroundColor="Transparent"
+                    TextColor="Red"
+                    FontSize="14"
+                    HeightRequest="30"
+                    WidthRequest="30"
+                    Padding="0" />
+                </HorizontalStackLayout>
 
-            <!-- ================== سطح ۰ ================== -->
-            <VerticalStackLayout BindableLayout.ItemsSource="{Binding MenuItems}" Spacing="5">
-                <BindableLayout.ItemTemplate>
-                    <DataTemplate x:DataType="models:MenuItemModel">
-                        <VerticalStackLayout Spacing="2">
+                <!-- لیست اصلی سطح صفر که از ContentView استفاده می‌کند -->
+                <VerticalStackLayout BindableLayout.ItemsSource="{Binding MenuItems}" Spacing="5">
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate x:DataType="models:MenuItemModel">
+                            <local:CascadeMenuContentView 
+                        BindingContext="{Binding .}"
+                        ItemTappedCommand="{Binding Source={x:Reference root}, Path=BindingContext.ItemTappedCommand}" />
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                </VerticalStackLayout>
 
-                            <Button Text="{Binding Title}"
-                                    Command="{Binding Source={x:Reference root}, Path=BindingContext.ItemTappedCommand}"
-                                    CommandParameter="{Binding}"
-                                    TextColor="White"
-                                    HorizontalOptions="Fill"
-                                    HeightRequest="45"
-                                    CornerRadius="6">
-                                <Button.Triggers>
-                                    <DataTrigger TargetType="Button" Binding="{Binding HasChildren}" Value="True">
-                                        <Setter Property="BackgroundColor" Value="#1F3A5F" />
-                                    </DataTrigger>
-                                    <DataTrigger TargetType="Button" Binding="{Binding HasChildren}" Value="False">
-                                        <Setter Property="BackgroundColor" Value="#284464" />
-                                    </DataTrigger>
-                                </Button.Triggers>
-                            </Button>
-
-                            <!-- ================== سطح ۱ ================== -->
-                            <VerticalStackLayout IsVisible="{Binding IsExpanded}"
-                                                 BindableLayout.ItemsSource="{Binding Children}"
-                                                 Padding="15,5,0,5"
-                                                 Spacing="3">
-                                <BindableLayout.ItemTemplate>
-                                    <DataTemplate x:DataType="models:MenuItemModel">
-                                        <VerticalStackLayout Spacing="2">
-
-                                            <Button Text="{Binding Title}"
-                                                    Command="{Binding Source={x:Reference root}, Path=BindingContext.ItemTappedCommand}"
-                                                    CommandParameter="{Binding}"
-                                                    BackgroundColor="#284464"
-                                                    TextColor="White"
-                                                    HorizontalOptions="Fill"
-                                                    HeightRequest="40"
-                                                    CornerRadius="4" />
-
-                                            <!-- ================== سطح ۲ ================== -->
-                                            <VerticalStackLayout IsVisible="{Binding IsExpanded}"
-                                                                 BindableLayout.ItemsSource="{Binding Children}"
-                                                                 Padding="15,5,0,5"
-                                                                 Spacing="3">
-                                                <BindableLayout.ItemTemplate>
-                                                    <DataTemplate x:DataType="models:MenuItemModel">
-                                                        <VerticalStackLayout Spacing="2">
-
-                                                            <Button Text="{Binding Title}"
-                                                                    Command="{Binding Source={x:Reference root}, Path=BindingContext.ItemTappedCommand}"
-                                                                    CommandParameter="{Binding}"
-                                                                    BackgroundColor="#3A5A78"
-                                                                    TextColor="White"
-                                                                    HorizontalOptions="Fill"
-                                                                    HeightRequest="35"
-                                                                    CornerRadius="4" />
-
-                                                            <!-- ================== سطح ۳ ================== -->
-                                                            <VerticalStackLayout IsVisible="{Binding IsExpanded}"
-                                                                                 BindableLayout.ItemsSource="{Binding Children}"
-                                                                                 Padding="15,5,0,5"
-                                                                                 Spacing="2">
-                                                                <BindableLayout.ItemTemplate>
-                                                                    <DataTemplate x:DataType="models:MenuItemModel">
-                                                                        <Button Text="{Binding Title}"
-                                                                                Command="{Binding Source={x:Reference root}, Path=BindingContext.ItemTappedCommand}"
-                                                                                CommandParameter="{Binding}"
-                                                                                BackgroundColor="Transparent"
-                                                                                TextColor="#B0C4DE"
-                                                                                HorizontalOptions="Fill"
-                                                                                HeightRequest="30"
-                                                                                CornerRadius="4" />
-                                                                    </DataTemplate>
-                                                                </BindableLayout.ItemTemplate>
-                                                            </VerticalStackLayout>
-
-                                                        </VerticalStackLayout>
-                                                    </DataTemplate>
-                                                </BindableLayout.ItemTemplate>
-                                            </VerticalStackLayout>
-
-                                        </VerticalStackLayout>
-                                    </DataTemplate>
-                                </BindableLayout.ItemTemplate>
-                            </VerticalStackLayout>
-
-                        </VerticalStackLayout>
-                    </DataTemplate>
-                </BindableLayout.ItemTemplate>
             </VerticalStackLayout>
+        </ScrollView>
 
-        </VerticalStackLayout>
-        
-        
-    </ScrollView>
+
+
+        <Picker x:Name="pickerCar" Title="نام خودرو:"  Grid.Row="1" Grid.Column="0" ItemsSource="{Binding cars}" ItemDisplayBinding="{Binding FName}"  SelectedIndexChanged="pickerCar_SelectedIndexChanged" ></Picker>
+        <Picker x:Name="pickerManufacturer" Title="نام سازنده:" Grid.Row="1" Grid.Column="1" ItemsSource="{Binding Manufacturers}" ItemDisplayBinding="{Binding FName}" SelectedIndexChanged="pickerManufacturer_SelectedIndexChanged" ></Picker>
+        <Entry Placeholder="درجه گرانروی(ویسکوزیته):" Grid.Row="2" Grid.Column="0" x:Name="txtViscosity"></Entry>
+        <Entry Placeholder="سطح کارایی:" Grid.Row="1" Grid.Column="2" x:Name="txtPerformanceLevel"></Entry>
+        <Picker x:Name="pickerProduct" Title="نام روغن:"   Grid.Row="3" Grid.Column="0" ItemsSource="{Binding Products}" ItemDisplayBinding="{Binding FName}" SelectedIndexChanged="pickerProduct_SelectedIndexChanged" ></Picker>
+        <Picker x:Name="pickerVendor" Title="تامین کننده:" Grid.Row="3" Grid.Column="1" ItemsSource="{Binding Vendors}" ItemDisplayBinding="{Binding FName}" SelectedIndexChanged="pickerVendor_SelectedIndexChanged" ></Picker>
+
+        <Button  Text="بازگشت" x:Name="btnBeforeStep"           Grid.Row="4" Grid.Column="0"  Clicked="btnBeforeStep_Clicked"></Button>
+        <Button Text="پیدا کن" x:Name="btnSearch"               Grid.Row="4" Grid.Column="1"  Clicked="btnSearch_Clicked"  />
+
+
+        <CollectionView x:Name="collectionviewProducts" Grid.Row="5" Grid.ColumnSpan="2" SelectionMode="None" >
+            <CollectionView.ItemsLayout>
+                <GridItemsLayout Orientation="Vertical" Span="2" VerticalItemSpacing="8" HorizontalItemSpacing="8" />
+            </CollectionView.ItemsLayout>
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Frame Padding="4">
+                        <Grid RowDefinitions="*,30,30,30,30" ColumnDefinitions=".3*,.7*"  BackgroundColor="MistyRose">
+                            <Image Source="{Binding PhotoFileName}" Grid.Row="0" Grid.Column="0" Grid.RowSpan="4" BackgroundColor="Transparent" VerticalOptions="Start" ></Image>
+                            <Label Text="{Binding FName}"           Grid.Row="0" Grid.Column="1" FontSize="Small" TextColor="Blue"></Label>
+                            <Label Text="{Binding VendorName}"      Grid.Row="1" Grid.Column="1" FontSize="Micro" ></Label>
+                            <Label Text="{Binding PriceAmount}"     Grid.Row="2" Grid.Column="1" FontSize="Small" TextDecorations="Strikethrough"  FontAttributes="Italic"  ></Label>
+                            <Label Text="{Binding NetAmount}"       Grid.Row="3" Grid.Column="1" FontSize="Medium"  TextColor="DarkBlue"  FontAttributes="Bold"></Label>
+
+
+                            <StackLayout Orientation="Horizontal" Grid.Row="4" Grid.Column="1" >
+                                <Button Text="+" HeightRequest="40" x:Name="btnAdd" Command="{Binding IncreaseCommand}"></Button>
+                                <Label Text="{Binding Quantity}" x:Name="lblQuantity" VerticalOptions="Center"></Label>
+                                <Button Text="-" HeightRequest="40" x:Name="btnSubtract" Command="{Binding DecreaseCommand}" ></Button>
+                            </StackLayout>
+
+                        </Grid>
+                    </Frame>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+        <ImageButton Source="basket3.png" WidthRequest="50" HeightRequest="50"  x:Name="btnAddToBasket"  Clicked="btnAddToBasket_Clicked" Grid.Row="6" Grid.Column="0"  />
+        <ImageButton Source="eraser1.png" x:Name="btnClear"  Grid.Row="6" Grid.Column="1"  Clicked="btnClear_Clicked"/>
+
+    </Grid>
+
+
+    
 </ContentPage>
