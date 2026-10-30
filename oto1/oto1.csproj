@@ -118,6 +118,9 @@
 	  <Compile Update="Views\FlyoutPage.xaml.cs">
 	    <DependentUpon>FlyoutPage.xaml</DependentUpon>
 	  </Compile>
+	  <Compile Update="Views\GetPart.xaml.cs">
+	    <DependentUpon>GetPart.xaml</DependentUpon>
+	  </Compile>
 	</ItemGroup>
 
 	<ItemGroup>

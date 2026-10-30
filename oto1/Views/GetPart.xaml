@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:oto1"
+             xmlns:models="clr-namespace:oto1.Models;assembly=oto1Lib"
+             x:Class="oto1.GetPart"
+             x:Name="root"
+             Title="انتخاب قطعه"  
+             BackgroundColor="#14243A"
+             FlowDirection="RightToLeft">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="10" Spacing="5">
+            <HorizontalStackLayout Spacing="10" VerticalOptions="Center">
+                <!-- نمایش عنوان انتخاب شده -->
+                <Label Text="{Binding SelectedMenuTitle}"
+                       TextColor="Yellow"
+                       FontSize="14"
+                       Margin="0,0,0,10" />
+
+                <!-- دکمه کوچک پاک کردن فیلتر -->
+                <Button Text="✕" 
+                        Command="{Binding ClearFilterCommand}"
+                        IsVisible="{Binding SelectedMenuTitle, Converter={StaticResource StringNotNullOrEmptyConverter}}"
+                        BackgroundColor="Transparent"
+                        TextColor="Red"
+                        FontSize="14"
+                        HeightRequest="30"
+                        WidthRequest="30"
+                        Padding="0" />
+            </HorizontalStackLayout>
+
+            <!-- ================== سطح ۰ ================== -->
+            <VerticalStackLayout BindableLayout.ItemsSource="{Binding MenuItems}" Spacing="5">
+                <BindableLayout.ItemTemplate>
+                    <DataTemplate x:DataType="models:MenuItemModel">
+                        <VerticalStackLayout Spacing="2">
+
+                            <Button Text="{Binding Title}"
+                                    Command="{Binding Source={x:Reference root}, Path=BindingContext.ItemTappedCommand}"
+                                    CommandParameter="{Binding}"
+                                    TextColor="White"
+                                    HorizontalOptions="Fill"
+                                    HeightRequest="45"
+                                    CornerRadius="6">
+                                <Button.Triggers>
+                                    <DataTrigger TargetType="Button" Binding="{Binding HasChildren}" Value="True">
+                                        <Setter Property="BackgroundColor" Value="#1F3A5F" />
+                                    </DataTrigger>
+                                    <DataTrigger TargetType="Button" Binding="{Binding HasChildren}" Value="False">
+                                        <Setter Property="BackgroundColor" Value="#284464" />
+                                    </DataTrigger>
+                                </Button.Triggers>
+                            </Button>
+
+                            <!-- ================== سطح ۱ ================== -->
+                            <VerticalStackLayout IsVisible="{Binding IsExpanded}"
+                                                 BindableLayout.ItemsSource="{Binding Children}"
+                                                 Padding="15,5,0,5"
+                                                 Spacing="3">
+                                <BindableLayout.ItemTemplate>
+                                    <DataTemplate x:DataType="models:MenuItemModel">
+                                        <VerticalStackLayout Spacing="2">
+
+                                            <Button Text="{Binding Title}"
+                                                    Command="{Binding Source={x:Reference root}, Path=BindingContext.ItemTappedCommand}"
+                                                    CommandParameter="{Binding}"
+                                                    BackgroundColor="#284464"
+                                                    TextColor="White"
+                                                    HorizontalOptions="Fill"
+                                                    HeightRequest="40"
+                                                    CornerRadius="4" />
+
+                                            <!-- ================== سطح ۲ ================== -->
+                                            <VerticalStackLayout IsVisible="{Binding IsExpanded}"
+                                                                 BindableLayout.ItemsSource="{Binding Children}"
+                                                                 Padding="15,5,0,5"
+                                                                 Spacing="3">
+                                                <BindableLayout.ItemTemplate>
+                                                    <DataTemplate x:DataType="models:MenuItemModel">
+                                                        <VerticalStackLayout Spacing="2">
+
+                                                            <Button Text="{Binding Title}"
+                                                                    Command="{Binding Source={x:Reference root}, Path=BindingContext.ItemTappedCommand}"
+                                                                    CommandParameter="{Binding}"
+                                                                    BackgroundColor="#3A5A78"
+                                                                    TextColor="White"
+                                                                    HorizontalOptions="Fill"
+                                                                    HeightRequest="35"
+                                                                    CornerRadius="4" />
+
+                                                            <!-- ================== سطح ۳ ================== -->
+                                                            <VerticalStackLayout IsVisible="{Binding IsExpanded}"
+                                                                                 BindableLayout.ItemsSource="{Binding Children}"
+                                                                                 Padding="15,5,0,5"
+                                                                                 Spacing="2">
+                                                                <BindableLayout.ItemTemplate>
+                                                                    <DataTemplate x:DataType="models:MenuItemModel">
+                                                                        <Button Text="{Binding Title}"
+                                                                                Command="{Binding Source={x:Reference root}, Path=BindingContext.ItemTappedCommand}"
+                                                                                CommandParameter="{Binding}"
+                                                                                BackgroundColor="Transparent"
+                                                                                TextColor="#B0C4DE"
+                                                                                HorizontalOptions="Fill"
+                                                                                HeightRequest="30"
+                                                                                CornerRadius="4" />
+                                                                    </DataTemplate>
+                                                                </BindableLayout.ItemTemplate>
+                                                            </VerticalStackLayout>
+
+                                                        </VerticalStackLayout>
+                                                    </DataTemplate>
+                                                </BindableLayout.ItemTemplate>
+                                            </VerticalStackLayout>
+
+                                        </VerticalStackLayout>
+                                    </DataTemplate>
+                                </BindableLayout.ItemTemplate>
+                            </VerticalStackLayout>
+
+                        </VerticalStackLayout>
+                    </DataTemplate>
+                </BindableLayout.ItemTemplate>
+            </VerticalStackLayout>
+
+        </VerticalStackLayout>
+        
+        
+    </ScrollView>
+</ContentPage>

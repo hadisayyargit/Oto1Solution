@@ -118,9 +118,6 @@ public partial class MenuViewModel : ObservableObject
     }
 
 
-
-
-
     [RelayCommand]
     private async Task ItemTapped(MenuItemModel clickedItem)
     {
@@ -149,31 +146,7 @@ public partial class MenuViewModel : ObservableObject
         }
     }
 
-    //public void LoadSampleMenu()
-    //{
-    //    MenuItems.Clear();
 
-    //    // 1. پاک کردن فیلتر
-    //    //MenuItems.Add(new MenuItemModel { Title = "پاک کردن فیلتر", PartLevel1Id = -1, PartLevel2Id = -1, PartLevel3Id = -1 });
-
-    //    // 2. ساخت ساختار درختی
-    //    var rootCategory = new MenuItemModel { Title = "دسته‌بندی قطعات", PartLevel1Id = 0, PartLevel2Id = -1, PartLevel3Id = -1 };
-
-    //    // --- پیشرانه ---
-    //    var engine = new MenuItemModel { Title = "پیشرانه", PartLevel1Id = 1, PartLevel2Id = -1, PartLevel3Id = -1 };
-    //    engine.Children.Add(new MenuItemModel { Title = "پیستون", PartLevel1Id = 1, PartLevel2Id = 11, PartLevel3Id = -1 });
-    //    rootCategory.Children.Add(engine);
-
-    //    // --- تعلیق و هدایت ---
-    //    var suspension = new MenuItemModel { Title = "تعلیق و هدایت", PartLevel1Id = 4, PartLevel2Id = -1, PartLevel3Id = -1 };
-    //    var wheel = new MenuItemModel { Title = "چرخ", PartLevel1Id = 4, PartLevel2Id = 41, PartLevel3Id = -1 };
-    //    wheel.Children.Add(new MenuItemModel { Title = "لاستیک", PartLevel1Id = 4, PartLevel2Id = 41, PartLevel3Id = 411 });
-    //    suspension.Children.Add(wheel);
-    //    suspension.Children.Add(new MenuItemModel { Title = "کمک فنر", PartLevel1Id = 4, PartLevel2Id = 42, PartLevel3Id = 421 });
-    //    rootCategory.Children.Add(suspension);
-
-    //    MenuItems.Add(rootCategory);
-    //}
 
 
     [RelayCommand]
