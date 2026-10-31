@@ -6,13 +6,14 @@
              xmlns:local="clr-namespace:oto1"
              x:Class="oto1.GetPart"
              x:Name="root"
-             Title="انتخاب قطعه"  
+             Title="انتخاب قطعه/روانکار/باتری/لاستیک"  
             
              FlowDirection="RightToLeft">
-    <Grid RowDefinitions="auto,auto,auto,auto,auto,auto" ColumnDefinitions="0.5*,0.5*"    Padding="5"  Margin="5" ColumnSpacing="5" RowSpacing="5"   >
-        <ActivityIndicator x:Name="activityIndicator" Grid.Row="0"                    IsVisible="True"  IsRunning="False"      Color="Orange"     />
+   
+    <Grid RowDefinitions="10,auto,auto,auto,auto,auto,auto,auto,*,auto" ColumnDefinitions="0.5*,0.5*"    Padding="5"  Margin="5" ColumnSpacing="5" RowSpacing="5"   >
+        <ActivityIndicator x:Name="activityIndicator" Grid.Row="0" IsVisible="True"  IsRunning="False"      Color="Orange"  Grid.ColumnSpan="2"   />
 
-        <ScrollView Grid.Row="0" Grid.ColumnSpan="2">
+        <ScrollView Grid.Row="1" Grid.ColumnSpan="2">
             <VerticalStackLayout Padding="10" Spacing="5">
                 <HorizontalStackLayout Spacing="10" VerticalOptions="Center">
                     <!-- نمایش عنوان انتخاب شده -->
@@ -49,18 +50,40 @@
 
 
 
-        <Picker x:Name="pickerCar" Title="نام خودرو:"  Grid.Row="1" Grid.Column="0" ItemsSource="{Binding cars}" ItemDisplayBinding="{Binding FName}"  SelectedIndexChanged="pickerCar_SelectedIndexChanged" ></Picker>
-        <Picker x:Name="pickerManufacturer" Title="نام سازنده:" Grid.Row="1" Grid.Column="1" ItemsSource="{Binding Manufacturers}" ItemDisplayBinding="{Binding FName}" SelectedIndexChanged="pickerManufacturer_SelectedIndexChanged" ></Picker>
-        <Entry Placeholder="درجه گرانروی(ویسکوزیته):" Grid.Row="2" Grid.Column="0" x:Name="txtViscosity"></Entry>
-        <Entry Placeholder="سطح کارایی:" Grid.Row="1" Grid.Column="2" x:Name="txtPerformanceLevel"></Entry>
-        <Picker x:Name="pickerProduct" Title="نام روغن:"   Grid.Row="3" Grid.Column="0" ItemsSource="{Binding Products}" ItemDisplayBinding="{Binding FName}" SelectedIndexChanged="pickerProduct_SelectedIndexChanged" ></Picker>
-        <Picker x:Name="pickerVendor" Title="تامین کننده:" Grid.Row="3" Grid.Column="1" ItemsSource="{Binding Vendors}" ItemDisplayBinding="{Binding FName}" SelectedIndexChanged="pickerVendor_SelectedIndexChanged" ></Picker>
+        <Picker Title="نام خودرو:"                     Grid.Row="2" Grid.Column="0" x:Name="pickerCar"  ItemsSource="{Binding cars}" ItemDisplayBinding="{Binding FName}"  SelectedIndexChanged="pickerCar_SelectedIndexChanged" ></Picker>
+        <Picker Title="نام سازنده:"                    Grid.Row="2" Grid.Column="1" x:Name="pickerManufacturer" ItemsSource="{Binding Manufacturers}" ItemDisplayBinding="{Binding FName}" SelectedIndexChanged="pickerManufacturer_SelectedIndexChanged" ></Picker>
+        <Picker Title="تامین کننده:"                   Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" x:Name="pickerVendor" ItemsSource="{Binding Vendors}" ItemDisplayBinding="{Binding FName}" SelectedIndexChanged="pickerVendor_SelectedIndexChanged" ></Picker>
 
-        <Button  Text="بازگشت" x:Name="btnBeforeStep"           Grid.Row="4" Grid.Column="0"  Clicked="btnBeforeStep_Clicked"></Button>
-        <Button Text="پیدا کن" x:Name="btnSearch"               Grid.Row="4" Grid.Column="1"  Clicked="btnSearch_Clicked"  />
+        <Border Grid.Row="4" Grid.ColumnSpan="2" IsVisible="False" x:Name="frameLubricant" >
+            <HorizontalStackLayout Padding="5">
+            <Entry  Placeholder="درجه گرانروی(ویسکوزیته):" x:Name="txtViscosity"></Entry>
+            <Entry  Placeholder="سطح کارایی:"              x:Name="txtPerformanceLevel"></Entry>
+            </HorizontalStackLayout>
+        </Border>
+
+        <Border Grid.Row="4" Grid.ColumnSpan="2" IsVisible="True" x:Name="frameBattery" >
+            <HorizontalStackLayout Padding="5" >
+                <Entry  Placeholder="ولتاژ" x:Name="txtVoltage" WidthRequest="200"></Entry>
+                <Entry  Placeholder="آمپراژ:"              x:Name="txtAmperage"></Entry>
+            </HorizontalStackLayout>
+        </Border>
+        <Border Grid.Row="4" Grid.ColumnSpan="2" IsVisible="False" x:Name="frameTire" >
+            <HorizontalStackLayout Padding="5">
+                <Entry  Placeholder="سال ساخت:" x:Name="txtTireYear" WidthRequest="100"></Entry>
+                <Entry  Placeholder="اندازه رینگ:" x:Name="txtTireRingSize" WidthRequest="100"></Entry>
+                <Entry  Placeholder="پهنا:"              x:Name="txtTireWheels" ></Entry>
+            </HorizontalStackLayout>
+        </Border>
+        
+        <Picker Title="نام محصول:"                     Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" x:Name="pickerProduct" ItemsSource="{Binding Products}" ItemDisplayBinding="{Binding FName}" SelectedIndexChanged="pickerProduct_SelectedIndexChanged" ></Picker>
+        <Entry  Placeholder="کد محصول:"                Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2" x:Name="txtPartCode"></Entry>
+        <Entry  Placeholder="ویژگی:"                   Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="2" x:Name="txtAttribute"></Entry>
+
+        <Button  Text="بازگشت" x:Name="btnBeforeStep"  Grid.Row="7" Grid.Column="1"  Clicked="btnBeforeStep_Clicked"></Button>
+        <Button Text="پیدا کن" x:Name="btnSearch"      Grid.Row="7" Grid.Column="0"  Clicked="btnSearch_Clicked"  />
 
 
-        <CollectionView x:Name="collectionviewProducts" Grid.Row="5" Grid.ColumnSpan="2" SelectionMode="None" >
+        <CollectionView x:Name="collectionviewProducts" Grid.Row="8" Grid.ColumnSpan="2" SelectionMode="None" >
             <CollectionView.ItemsLayout>
                 <GridItemsLayout Orientation="Vertical" Span="2" VerticalItemSpacing="8" HorizontalItemSpacing="8" />
             </CollectionView.ItemsLayout>
@@ -87,11 +110,11 @@
             </CollectionView.ItemTemplate>
         </CollectionView>
 
-        <ImageButton Source="basket3.png" WidthRequest="50" HeightRequest="50"  x:Name="btnAddToBasket"  Clicked="btnAddToBasket_Clicked" Grid.Row="6" Grid.Column="0"  />
-        <ImageButton Source="eraser1.png" x:Name="btnClear"  Grid.Row="6" Grid.Column="1"  Clicked="btnClear_Clicked"/>
+        <ImageButton Source="basket3.png" WidthRequest="50" Grid.Row="9" Grid.Column="0"  x:Name="btnAddToBasket"  Clicked="btnAddToBasket_Clicked"   />
+        <ImageButton Source="eraser1.png" x:Name="btnClear" Grid.Row="9" Grid.Column="1"  Clicked="btnClear_Clicked"/>
 
     </Grid>
 
 
-    
+
 </ContentPage>

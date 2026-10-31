@@ -48,12 +48,12 @@ namespace oto1
             // بارگذاری نمونه منو هنگام ظاهر شدن صفحه
             LoadSampleMenu(_menuViewModel);
 
-            cars = await MyServiceController.GetAllCarsView();
+            //cars = await MyServiceController.GetAllCarsView();
             manufacturers = await MyServiceController.GetAllManufacturers();
             products = await MyServiceController.GetAllParts();
             vendors = await MyServiceController.GetAllVendors();
 
-            pickerCar.ItemsSource = cars;
+            //pickerCar.ItemsSource = cars;
             pickerManufacturer.ItemsSource = manufacturers;
             pickerProduct.ItemsSource = products;
             pickerVendor.ItemsSource = vendors;

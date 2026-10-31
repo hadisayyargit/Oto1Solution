@@ -131,6 +131,7 @@ public partial class MenuViewModel : ObservableObject
         }
         else
         {
+            CollapseAllMenus(MenuItems);
             // اجرای عملیات برای برگ‌ها (Leaf Nodes)
             SelectedMenuTitle = clickedItem.GetFullPath(MenuItems);
             //if (clickedItem.Title == "پاک کردن فیلتر")
