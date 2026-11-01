@@ -36,6 +36,7 @@ namespace oto1
             _menuViewModel = new MenuViewModel();
             BindingContext = _menuViewModel;
 
+            
             if (NetClass.CheckNetConnection() == false)
             {
                 await DisplayAlert("خطا", "خطا در اتصال شبکه", "ok");
@@ -44,6 +45,27 @@ namespace oto1
             // mycarlist = await myCar.GetAllCars();
 
             activityIndicator.IsRunning = true;
+            frameLubricant.IsVisible = false;
+            frameBattery.IsVisible = false;
+            frameTire.IsVisible = false;
+
+            switch ((byte)GlobalClass.m_CustomerServiceItemView.ServiceItemType)
+            {
+                case (byte)GlobalClass.enumServiceItemType.serviceitemtype_LubricantSale:
+                    frameLubricant.IsVisible = true;
+                    break;
+                case (byte)GlobalClass.enumServiceItemType.serviceitemtype_PartSale:
+                break;
+                case (byte)GlobalClass.enumServiceItemType.serviceitemtype_BatterySale:
+                    frameBattery.IsVisible = true;
+                    break;
+                case (byte)GlobalClass.enumServiceItemType.serviceitemtype_tiresale:
+                    frameTire.IsVisible = true;
+                    break;
+            }
+
+
+
 
             LoadSampleMenu(_menuViewModel);
 

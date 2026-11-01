@@ -355,10 +355,12 @@ private async void InitmyMap()
 
         switch (GlobalClass.m_CustomerServiceItemView.ServiceType)
         {
-            case (byte)GlobalClass.enumServiceType.servicetype_Part:
-                if (GlobalClass.m_CustomerServiceItemView.tmp_Flag == "lubricant")
-                    Navigation.PushAsync(new GetPart());
-                else
+            case (byte)GlobalClass.enumServiceType.servicetype_Part :
+                //if (GlobalClass.m_CustomerServiceItemView.ServiceItemType == serviceitemtype_tiresale)
+                //if (GlobalClass.m_CustomerServiceItemView.tmp_Flag == "lubricant")
+                Navigation.PushAsync(new GetPart());
+                break;
+            default:
                     DisplayAlert("آگاهی", "این خدمت هنوز ارائه نشده است", "ok");
                 break;
         }
