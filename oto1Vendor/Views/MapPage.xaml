@@ -43,7 +43,7 @@
                             </SwipeItems>
                         </SwipeView.BottomItems>
                         <FlexLayout Margin="10">
-                            <Label Text="{Binding FName}"  MinimumWidthRequest="150"></Label>
+                            <Label Text="{Binding PName}"  MinimumWidthRequest="150"></Label>
                             <BoxView WidthRequest="1" Color="Silver"/>
                         </FlexLayout>
                     </SwipeView>

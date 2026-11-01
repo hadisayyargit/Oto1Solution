@@ -54,10 +54,10 @@ namespace Auto1API.Models
 
 
         [MaxLength(50)]
-        public required string FName { get; set; }
+        public required string PName { get; set; }
 
-        [MaxLength(50)]
-        public string? LName { get; set; }
+        //[MaxLength(50)]
+        //public string? LName { get; set; }
 
 
 

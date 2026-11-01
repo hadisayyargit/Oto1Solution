@@ -33,17 +33,14 @@
                  SemanticProperties.Description="خدمات ویژه" />
             <VerticalStackLayout Grid.Column="1" >
             <Label
-                       
-
                 Text="بازارگاه خدمات یکپارچه خودرویی"      
                 SemanticProperties.HeadingLevel="Level2"
                 SemanticProperties.Description="Welcome to OTO1 App"
                 FontSize="18"
                 HorizontalOptions="Center" />
             <Label
-         
       
-                Text="version:۱.۱۱"
+                Text="version:۱.۱۵"
                 SemanticProperties.HeadingLevel="Level1"
                 FontSize="16"
                 HorizontalOptions="Center" />

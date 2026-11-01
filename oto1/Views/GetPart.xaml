@@ -22,7 +22,7 @@
                    FontSize="14"
                    Margin="0,0,0,10" />
 
-                    <!-- دکمه کوچک پاک کردن فیلتر -->
+                    <!-- دکمه کوچک پاک کردن فیلتر --><!--
                     <Button Text="✕" 
                     Command="{Binding ClearFilterCommand}"
                     IsVisible="{Binding SelectedMenuTitle, Converter={StaticResource StringNotNullOrEmptyConverter}}"
@@ -31,10 +31,11 @@
                     FontSize="14"
                     HeightRequest="30"
                     WidthRequest="30"
-                    Padding="0" />
+                    Padding="0" /> -->
+                    
                 </HorizontalStackLayout>
 
-                <!-- لیست اصلی سطح صفر که از ContentView استفاده می‌کند -->
+  
                 <VerticalStackLayout BindableLayout.ItemsSource="{Binding MenuItems}" Spacing="5">
                     <BindableLayout.ItemTemplate>
                         <DataTemplate x:DataType="models:MenuItemModel">
@@ -48,13 +49,13 @@
             </VerticalStackLayout>
         </ScrollView>
 
+    
 
+        <Picker Title="نام خودرو:"                     Grid.Row="2" Grid.Column="0" x:Name="pickerCar"  ItemsSource="{Binding cars}" ItemDisplayBinding="{Binding PName}"  SelectedIndexChanged="pickerCar_SelectedIndexChanged" ></Picker>
+        <Picker Title="نام سازنده:"                    Grid.Row="2" Grid.Column="1" x:Name="pickerManufacturer" ItemsSource="{Binding Manufacturers}" ItemDisplayBinding="{Binding PName}" SelectedIndexChanged="pickerManufacturer_SelectedIndexChanged" ></Picker>
+        <Picker Title="تامین کننده:"                   Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" x:Name="pickerVendor" ItemsSource="{Binding Vendors}" ItemDisplayBinding="{Binding PName}" SelectedIndexChanged="pickerVendor_SelectedIndexChanged" ></Picker>
 
-        <Picker Title="نام خودرو:"                     Grid.Row="2" Grid.Column="0" x:Name="pickerCar"  ItemsSource="{Binding cars}" ItemDisplayBinding="{Binding FName}"  SelectedIndexChanged="pickerCar_SelectedIndexChanged" ></Picker>
-        <Picker Title="نام سازنده:"                    Grid.Row="2" Grid.Column="1" x:Name="pickerManufacturer" ItemsSource="{Binding Manufacturers}" ItemDisplayBinding="{Binding FName}" SelectedIndexChanged="pickerManufacturer_SelectedIndexChanged" ></Picker>
-        <Picker Title="تامین کننده:"                   Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" x:Name="pickerVendor" ItemsSource="{Binding Vendors}" ItemDisplayBinding="{Binding FName}" SelectedIndexChanged="pickerVendor_SelectedIndexChanged" ></Picker>
-
-        <Border Grid.Row="4" Grid.ColumnSpan="2" IsVisible="False" x:Name="frameLubricant" >
+      <Border Grid.Row="4" Grid.ColumnSpan="2" IsVisible="False" x:Name="frameLubricant" >
             <HorizontalStackLayout Padding="5">
             <Entry  Placeholder="درجه گرانروی(ویسکوزیته):" x:Name="txtViscosity"></Entry>
             <Entry  Placeholder="سطح کارایی:"              x:Name="txtPerformanceLevel"></Entry>
@@ -75,7 +76,7 @@
             </HorizontalStackLayout>
         </Border>
         
-        <Picker Title="نام محصول:"                     Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" x:Name="pickerProduct" ItemsSource="{Binding Products}" ItemDisplayBinding="{Binding FName}" SelectedIndexChanged="pickerProduct_SelectedIndexChanged" ></Picker>
+        <Picker Title="نام محصول:"                     Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" x:Name="pickerProduct" ItemsSource="{Binding Products}" ItemDisplayBinding="{Binding PName}"  ></Picker>
         <Entry  Placeholder="کد محصول:"                Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2" x:Name="txtPartCode"></Entry>
         <Entry  Placeholder="ویژگی:"                   Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="2" x:Name="txtAttribute"></Entry>
 
@@ -92,7 +93,7 @@
                     <Frame Padding="4">
                         <Grid RowDefinitions="*,30,30,30,30" ColumnDefinitions=".3*,.7*"  BackgroundColor="MistyRose">
                             <Image Source="{Binding PhotoFileName}" Grid.Row="0" Grid.Column="0" Grid.RowSpan="4" BackgroundColor="Transparent" VerticalOptions="Start" ></Image>
-                            <Label Text="{Binding FName}"           Grid.Row="0" Grid.Column="1" FontSize="Small" TextColor="Blue"></Label>
+                            <Label Text="{Binding PName}"           Grid.Row="0" Grid.Column="1" FontSize="Small" TextColor="Blue"></Label>
                             <Label Text="{Binding VendorName}"      Grid.Row="1" Grid.Column="1" FontSize="Micro" ></Label>
                             <Label Text="{Binding PriceAmount}"     Grid.Row="2" Grid.Column="1" FontSize="Small" TextDecorations="Strikethrough"  FontAttributes="Italic"  ></Label>
                             <Label Text="{Binding NetAmount}"       Grid.Row="3" Grid.Column="1" FontSize="Medium"  TextColor="DarkBlue"  FontAttributes="Bold"></Label>

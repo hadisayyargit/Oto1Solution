@@ -35,7 +35,7 @@
                         <CollectionView.ItemTemplate>
                             <DataTemplate>
                                 <Grid Padding="10">
-                                    <Label Text="{Binding FName}" FontSize="14" />
+                                    <Label Text="{Binding PName}" FontSize="14" />
                                 </Grid>
                             </DataTemplate>
                         </CollectionView.ItemTemplate>

@@ -26,7 +26,7 @@
                 <DataTemplate>
                     <StackLayout Margin="20" Padding="20" BackgroundColor="LightGray">
                         <Image Source="{Binding ThumbnailPhotoFile}" HeightRequest="60" WidthRequest="60" HorizontalOptions="Center"></Image>
-                            <Label Text="{Binding FName}" FontSize="Medium"></Label>
+                            <Label Text="{Binding PName}" FontSize="Medium"></Label>
                     </StackLayout>
                 </DataTemplate>
             </CollectionView.ItemTemplate>

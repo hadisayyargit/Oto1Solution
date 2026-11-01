@@ -77,7 +77,7 @@ public partial class SignInPage : ContentPage
             myvendor = await MyServiceController.GetVendorByUserId(username);
 
             GlobalClass.m_UserId = username;
-            GlobalClass.m_VendorName = myvendor.FName;
+            GlobalClass.m_VendorName = myvendor.PName;
             GlobalClass.m_VendorId = myvendor.VendorId;
 
         }

@@ -53,10 +53,9 @@ public partial class Vendor_Part_PopupEdit : Popup
         if (selectedPart != null)
         {
             _part.PartId = selectedPart.PartId;
-            _part.FName = selectedPart.FName;
-            _part.LName = selectedPart.LName;
-            txtLName.Text = selectedPart.LName;
-            sbPart.Text = selectedPart.FName; // نمایش نام در سرچ‌بار
+            _part.PName = selectedPart.PName;
+            //txtLName.Text = selectedPart.LName;
+            sbPart.Text = selectedPart.PName; // نمایش نام در سرچ‌بار
         }
     }
 
@@ -90,11 +89,10 @@ public partial class Vendor_Part_PopupEdit : Popup
         if (e.CurrentSelection.FirstOrDefault() is PartModel selectedPart)
         {
             _part.PartId = selectedPart.PartId;
-            _part.FName = selectedPart.FName;
-            _part.LName = selectedPart.LName;
+            _part.PName = selectedPart.PName;
 
-            txtLName.Text = selectedPart.LName;
-            sbPart.Text = selectedPart.FName; // نمایش نام در سرچ‌بار
+           // txtLName.Text = selectedPart.LName;
+            sbPart.Text = selectedPart.PName; // نمایش نام در سرچ‌بار
 
             cvPartResults.IsVisible = false; // بستن لیست
             cvPartResults.SelectedItem = null; // ریست کردن انتخاب

@@ -17,7 +17,7 @@
 
                 <dg:DataGridColumn Title="شناسه"   PropertyName="Id" />
 
-                <dg:DataGridColumn Title="قطعه"                     PropertyName="FName" />
+                <dg:DataGridColumn Title="قطعه"                     PropertyName="PName" />
                 <!--<dg:DataGridColumn Title="از تاریخ" 
                PropertyName="jalaliBeginDate"
                Width="70" />

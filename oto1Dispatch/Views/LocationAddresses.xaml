@@ -18,7 +18,7 @@
                             </SwipeItems>
                         </SwipeView.BottomItems>
                         <FlexLayout Margin="10">
-                            <Label Text="{Binding FName}"  ></Label>
+                            <Label Text="{Binding PName}"  ></Label>
                         </FlexLayout>
                     </SwipeView>
 

@@ -43,9 +43,6 @@
     <MauiXaml Update="Views\HomePage.xaml">
       <SubType>Designer</SubType>
     </MauiXaml>
-    <MauiXaml Update="Views\LocationAddresses.xaml">
-      <SubType>Designer</SubType>
-    </MauiXaml>
     <MauiXaml Update="Views\GetPart.xaml">
       <SubType>Designer</SubType>
     </MauiXaml>

@@ -45,7 +45,6 @@ namespace oto1
 
             activityIndicator.IsRunning = true;
 
-            // بارگذاری نمونه منو هنگام ظاهر شدن صفحه
             LoadSampleMenu(_menuViewModel);
 
             //cars = await MyServiceController.GetAllCarsView();

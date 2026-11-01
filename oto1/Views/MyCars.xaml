@@ -14,7 +14,7 @@
 
         <Grid RowDefinitions="50,auto,auto,auto,*,auto" ColumnDefinitions="auto,auto"         >
             <Label Text="نام خودرو:" Grid.Row="0" Grid.Column="0"></Label>
-            <Picker x:Name="pickerCar" Title="خودروی خود را انتخاب کنید" Grid.Row="0" Grid.Column="1"  ItemDisplayBinding="{Binding FName}"  />
+            <Picker x:Name="pickerCar" Title="خودروی خود را انتخاب کنید" Grid.Row="0" Grid.Column="1"  ItemDisplayBinding="{Binding PName}"  />
             <Label Text="پلاک:" Grid.Row="1" Grid.Column="0"></Label>
             <Entry Placeholder="پلاک را وارد کنید:" Grid.Row="1" Grid.Column="1" x:Name="txtPlaque"></Entry>
             
@@ -30,7 +30,7 @@
                     <DataTemplate>
                         <StackLayout Margin="20" Padding="20" BackgroundColor="LightGray">
                             <Image Source="{Binding ThumbnailPhotoString}" HeightRequest="60" WidthRequest="60" HorizontalOptions="Center"></Image>
-                            <Label Text="{Binding FName}" FontSize="Medium"></Label>
+                            <Label Text="{Binding PName}" FontSize="Medium"></Label>
                             <Label Text="{Binding Plaque}" FontSize="Small" BackgroundColor="Blue"></Label>
                         </StackLayout>
                     </DataTemplate>

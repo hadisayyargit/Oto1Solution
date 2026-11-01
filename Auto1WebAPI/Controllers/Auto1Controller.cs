@@ -179,7 +179,7 @@ namespace Auto1API.Controllers
         public IEnumerable<PartVendorViewModel> GetVendor_Part(int vendorid = -1)
         {
 
-            System.FormattableString s3 = $"select vp.Id,vp.PartId, vp.VendorId,vp.PriceAmount,vp.DiscountPercent,vp.Existance, p.FName, p.LName from Vendor_Part vp inner join Part p on p.PartId=vp.PartId where vp.VendorId={vendorid}";
+            System.FormattableString s3 = $"select vp.Id,vp.PartId, vp.VendorId,vp.PriceAmount,vp.DiscountPercent,vp.Existance, p.PName from Vendor_Part vp inner join Part p on p.PartId=vp.PartId where vp.VendorId={vendorid}";
 
             List<PartVendorViewModel> res = new List<PartVendorViewModel>();
 
