@@ -310,10 +310,15 @@ namespace Auto1API.Controllers
         [HttpGet(Name = "GetPartLevel")]
         public IEnumerable<PartLevelModel> GetPartLevel(int partlevel1id = -1,int partlevel2id = -1, int partlevel3id = -1)
         {
-            var  items = Auto1Context.PartLevel.Where(b => b.PartLevel2Id == -1 && b.PartLevel3Id == -1).ToList();
-            
-            if(partlevel1id != -1)
-                items = Auto1Context.PartLevel.Where(b => b.PartLevel1Id == partlevel1id && b.PartLevel2Id == partlevel2id && b.PartLevel3Id == partlevel3id).ToList();
+
+            var items = Auto1Context.PartLevel.AsNoTracking().Where(b => b.PartLevel1Id == partlevel1id && b.PartLevel2Id == partlevel2id && b.PartLevel3Id == partlevel3id).ToList();
+
+            if (partlevel1id == -1 && partlevel2id == -1 && partlevel3id == -1)
+                items = Auto1Context.PartLevel.AsNoTracking().Where(b => b.PartLevel2Id == -1 && b.PartLevel3Id == -1).ToList();
+            else if (partlevel1id != -1 && partlevel2id == -1 && partlevel3id == -1)
+                items = Auto1Context.PartLevel.AsNoTracking().Where(b => b.PartLevel1Id == partlevel1id && b.PartLevel2Id !=-1 && b.PartLevel3Id == -1).ToList();
+            else if (partlevel1id != -1 && partlevel2id != -1 &&  partlevel3id == -1)
+                items = Auto1Context.PartLevel.AsNoTracking().Where(b => b.PartLevel1Id == partlevel1id && b.PartLevel2Id == partlevel2id  && b.PartLevel3Id != -1).ToList();
 
             return items;
 
