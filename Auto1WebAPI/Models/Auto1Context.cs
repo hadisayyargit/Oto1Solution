@@ -11,6 +11,7 @@ namespace Auto1API.Models
         public DbSet<CustomerModel> Customer { get; set; }
         public DbSet<CarModel> Car { get; set; }
         public DbSet<PartModel>Part  { get; set; }
+        public DbSet<PartLevelModel> PartLevel { get; set; }
         public DbSet<ManufacturerModel> Manufacturer { get; set; }
         public DbSet<VendorModel> Vendor { get; set; }
         public DbSet<LocationAddressModel> LocationAddress { get; set; } = null!;

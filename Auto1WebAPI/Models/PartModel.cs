@@ -10,7 +10,6 @@ namespace Auto1API.Models
         [MaxLength(50)]
         public required string PName { get; set; }
 
-        [MaxLength(50)]
         public bool? IsActive { get; set; }
         public int? PartLevel1Id { get; set; }
         public int? PartLevel2Id { get; set; }

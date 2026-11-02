@@ -36,7 +36,7 @@
                 </HorizontalStackLayout>
 
   
-                <VerticalStackLayout BindableLayout.ItemsSource="{Binding MenuItems}" Spacing="5">
+                <VerticalStackLayout BindableLayout.ItemsSource="{Binding MenuItems}" Spacing="5" x:Name="myCascadeMenu">
                     <BindableLayout.ItemTemplate>
                         <DataTemplate x:DataType="models:MenuItemModel">
                             <local:CascadeMenuContentView 
@@ -80,7 +80,7 @@
         <Entry  Placeholder="کد محصول:"                Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2" x:Name="txtPartCode"></Entry>
         <Entry  Placeholder="ویژگی:"                   Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="2" x:Name="txtAttribute"></Entry>
 
-        <Button  Text="بازگشت" x:Name="btnBeforeStep"  Grid.Row="7" Grid.Column="1"  Clicked="btnBeforeStep_Clicked"></Button>
+        <Button  Text="فیلترها رو پاک کن" x:Name="btnClear"  Grid.Row="7" Grid.Column="1"  Clicked="btnClear_Clicked"></Button>
         <Button Text="پیدا کن" x:Name="btnSearch"      Grid.Row="7" Grid.Column="0"  Clicked="btnSearch_Clicked"  />
 
 
@@ -111,8 +111,8 @@
             </CollectionView.ItemTemplate>
         </CollectionView>
 
-        <ImageButton Source="basket3.png" WidthRequest="50" Grid.Row="9" Grid.Column="0"  x:Name="btnAddToBasket"  Clicked="btnAddToBasket_Clicked"   />
-        <ImageButton Source="eraser1.png" x:Name="btnClear" Grid.Row="9" Grid.Column="1"  Clicked="btnClear_Clicked"/>
+        <ImageButton Source="basket3.png" WidthRequest="50" Grid.Row="9" Grid.Column="1"  x:Name="btnAddToBasket"  Clicked="btnAddToBasket_Clicked"   />
+        <Button  Text="بازگشت" x:Name="btnBeforeStep" Grid.Row="9" Grid.Column="0"  Clicked="btnBeforeStep_Clicked"/>
 
     </Grid>
 

@@ -19,6 +19,7 @@ namespace oto1
         List<PartModel> products = new List<PartModel>();
         //List<ProductCarVendorModel> searchresult = new List<ProductCarVendorModel>();
         List<PartCarVendorModel> searchresult = new List<PartCarVendorModel>();
+       
 
         List<VendorModel> vendors = new List<VendorModel>();
         PartModel SelectedProduct { get; set; }
@@ -48,6 +49,7 @@ namespace oto1
             frameLubricant.IsVisible = false;
             frameBattery.IsVisible = false;
             frameTire.IsVisible = false;
+            myCascadeMenu.IsVisible = false;
 
             switch ((byte)GlobalClass.m_CustomerServiceItemView.ServiceItemType)
             {
@@ -55,7 +57,8 @@ namespace oto1
                     frameLubricant.IsVisible = true;
                     break;
                 case (byte)GlobalClass.enumServiceItemType.serviceitemtype_PartSale:
-                break;
+                    myCascadeMenu.IsVisible = true;
+                    break;
                 case (byte)GlobalClass.enumServiceItemType.serviceitemtype_BatterySale:
                     frameBattery.IsVisible = true;
                     break;
@@ -67,7 +70,7 @@ namespace oto1
 
 
 
-            LoadSampleMenu(_menuViewModel);
+            LoadMenu(_menuViewModel);
 
             //cars = await MyServiceController.GetAllCarsView();
             manufacturers = await MyServiceController.GetAllManufacturers();
@@ -86,12 +89,43 @@ namespace oto1
 
         }
 
-        private void LoadSampleMenu(MenuViewModel vm)
+        private async void LoadMenu(MenuViewModel vm)
         {
+            List<PartLevelModel> partlevels1 = new List<PartLevelModel>();
+            List<PartLevelModel> partlevels2 = new List<PartLevelModel>();
+            List<PartLevelModel> partlevels3 = new List<PartLevelModel>();
+
             vm.MenuItems.Clear();
 
             var rootCategory = new MenuItemModel { Title = "دسته‌بندی قطعات", PartLevel1Id = 0, PartLevel2Id = -1, PartLevel3Id = -1 };
 
+            //ServiceController MyServiceController = new ServiceController();
+            // List<BasicPrimeModel> servicestatuslist = new List<BasicPrimeModel>();
+            // servicestatuslist = await MyServiceController.GetBasicPrime("SERVICESTATUS");
+            partlevels1 = await MyServiceController.GetPartLevel(-1, -1, -1);
+            foreach (PartLevelModel pl1 in partlevels1)
+            {
+                var node1 = new MenuItemModel { Title =pl1.PName, PartLevel1Id = pl1.PartLevel1Id, PartLevel2Id = pl1.PartLevel2Id, PartLevel3Id = pl1.PartLevel3Id };
+              
+
+                partlevels2 = await MyServiceController.GetPartLevel(pl1.PartLevel1Id, -1, -1);
+                foreach (PartLevelModel pl2 in partlevels2)
+                {
+                    var node2 = new MenuItemModel { Title = pl2.PName, PartLevel1Id = pl2.PartLevel1Id, PartLevel2Id = pl2.PartLevel2Id, PartLevel3Id = pl2.PartLevel3Id };
+                    node1.Children.Add(node2);
+
+                    partlevels3 = await MyServiceController.GetPartLevel(pl2.PartLevel1Id, pl2.PartLevel2Id, -1);
+                    foreach (PartLevelModel pl3 in partlevels3)
+                    {
+                        var node3 = new MenuItemModel { Title = pl3.PName, PartLevel1Id = pl3.PartLevel1Id, PartLevel2Id = pl3.PartLevel2Id, PartLevel3Id = pl3.PartLevel3Id };
+                        node2.Children.Add(node3);
+                    }
+                }
+
+                rootCategory.Children.Add(node1);
+            }
+
+            /*
             var engine = new MenuItemModel { Title = "پیشرانه", PartLevel1Id = 1, PartLevel2Id = -1, PartLevel3Id = -1 };
             engine.Children.Add(new MenuItemModel { Title = "پیستون", PartLevel1Id = 1, PartLevel2Id = 11, PartLevel3Id = -1 });
             rootCategory.Children.Add(engine);
@@ -101,7 +135,7 @@ namespace oto1
             wheel.Children.Add(new MenuItemModel { Title = "لاستیک", PartLevel1Id = 4, PartLevel2Id = 41, PartLevel3Id = 411 });
             suspension.Children.Add(wheel);
             rootCategory.Children.Add(suspension);
-
+            */
             vm.MenuItems.Add(rootCategory);
         }
 

@@ -306,6 +306,20 @@ namespace Auto1API.Controllers
 
             return items;
         }
+        ///////////////////////////////
+        [HttpGet(Name = "GetPartLevel")]
+        public IEnumerable<PartLevelModel> GetPartLevel(int partlevel1id = -1,int partlevel2id = -1, int partlevel3id = -1)
+        {
+            var  items = Auto1Context.PartLevel.Where(b => b.PartLevel2Id == -1 && b.PartLevel3Id == -1).ToList();
+            
+            if(partlevel1id != -1)
+                items = Auto1Context.PartLevel.Where(b => b.PartLevel1Id == partlevel1id && b.PartLevel2Id == partlevel2id && b.PartLevel3Id == partlevel3id).ToList();
+
+            return items;
+
+        }
+
+
 
         ////////////////////////////
         ///

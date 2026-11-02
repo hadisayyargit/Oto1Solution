@@ -326,6 +326,9 @@ namespace oto1.Services
 
         }
 
+
+
+
         public async Task<List<CarModel>> GetAllCars()
         {
 
@@ -448,7 +451,40 @@ namespace oto1.Services
             }
 
         }
+        public async Task<List<PartLevelModel>> GetPartLevel(int partlevel1id = -1, int partlevel2id = -1, int partlevel3id = -1)
 
+        // public IEnumerable<PartLevelModel> GetPartLevel(int partlevel1id = -1,int partlevel2id = -1, int partlevel3id = -1)
+
+        {
+            try
+            {
+                List<PartLevelModel> mylist = new List<PartLevelModel>();
+                string fullurl = this.baseUrl + "/GetPartLevel?partlevel1id=" + partlevel1id + "&partlevel2id=" + partlevel2id + "&partlevel3id=" + partlevel3id ;
+                HttpClient myhttpclient = new HttpClient();
+
+
+                myhttpclient.BaseAddress = new Uri(fullurl);
+                myhttpclient.Timeout = TimeSpan.FromSeconds(30);
+                HttpResponseMessage myhttpresponsemessage = await myhttpclient.GetAsync("");
+                if (myhttpresponsemessage.IsSuccessStatusCode)
+                {
+                    string contentResponse = await myhttpresponsemessage.Content.ReadAsStringAsync();
+
+                    mylist = JsonConvert.DeserializeObject<List<PartLevelModel>>(contentResponse);
+
+
+                }
+
+                return await Task.FromResult(mylist.ToList());
+
+
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+
+        }
         public async Task<List<PartCarVendorModel>> GetPart(int PartId = -1, int manufacturerid = -1, string viscosity = "", string performancelevel = "", int carid = -1, int vendorid = -1, string pricedate = "2000-1-1")
         {
             try
