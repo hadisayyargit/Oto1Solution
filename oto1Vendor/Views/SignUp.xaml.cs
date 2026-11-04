@@ -99,8 +99,8 @@ public partial class SignUp : ContentPage
                 else
                 {
                     ///ذخیره اطلاعات تامین کننده
-                    vendor1.FName = txtFName.Text;
-                    vendor1.LName = txtLName.Text;
+                    vendor1.PName = txtFName.Text;
+                    //vendor1.LName = txtLName.Text;
                     vendor1.UserId = txtUsername.Text;
 
                     newvendor = await this.MyServiceController.AddVendor(vendor1);

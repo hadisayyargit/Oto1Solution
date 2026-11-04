@@ -23,7 +23,7 @@ public partial class Vendor_Part_PopupEdit : Popup
         MyServiceController = new ServiceController();
 
         txtId.Text = _part.Id.ToString();
-        txtLName.Text = part.LName;
+        //txtpName.Text = part.LName;
         txtPriceAmount.Text = part.PriceAmount?.ToString();
         txtDiscountPercent.Text = part.DiscountPercent?.ToString();
         txtExistance.Text = part.Existance?.ToString();
@@ -73,7 +73,7 @@ public partial class Vendor_Part_PopupEdit : Popup
         else
         {
             var filtered = allparts
-                .Where(x => x.FName.Contains(searchText, StringComparison.OrdinalIgnoreCase))
+                .Where(x => x.PName.Contains(searchText, StringComparison.OrdinalIgnoreCase))
                 .ToList();
 
             FilteredParts.Clear();

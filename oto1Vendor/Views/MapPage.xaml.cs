@@ -188,7 +188,7 @@ private async void InitmyMap()
         try
         {
 
-            loc1.FName = txtPName.Text;
+            loc1.PName = txtPName.Text;
             loc1.VendorId = GlobalClass.m_VendorId;
             loc1.Latitude = GlobalClass.m_Latitude;
             loc1.Longitude = GlobalClass.m_Longitude;
