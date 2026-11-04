@@ -17,10 +17,8 @@ namespace oto1
         List<CarModel> cars = new List<CarModel>();
         List<ManufacturerModel> manufacturers = new List<ManufacturerModel>();
         List<PartModel> products = new List<PartModel>();
-        //List<ProductCarVendorModel> searchresult = new List<ProductCarVendorModel>();
         List<PartCarVendorModel> searchresult = new List<PartCarVendorModel>();
        
-
         List<VendorModel> vendors = new List<VendorModel>();
         PartModel SelectedProduct { get; set; }
         ObservableCollection<PartCarVendorModel> myItems { get; set; }
@@ -79,7 +77,7 @@ namespace oto1
 
             //pickerCar.ItemsSource = cars;
             pickerManufacturer.ItemsSource = manufacturers;
-            pickerProduct.ItemsSource = products;
+            //pickerProduct.ItemsSource = products;
             pickerVendor.ItemsSource = vendors;
 
             SelectedProduct = new PartModel { PName = "" };
@@ -99,9 +97,6 @@ namespace oto1
 
             var rootCategory = new MenuItemModel { Title = "دسته‌بندی قطعات", PartLevel1Id = 0, PartLevel2Id = -1, PartLevel3Id = -1 };
 
-            //ServiceController MyServiceController = new ServiceController();
-            // List<BasicPrimeModel> servicestatuslist = new List<BasicPrimeModel>();
-            // servicestatuslist = await MyServiceController.GetBasicPrime("SERVICESTATUS");
             partlevels1 = await MyServiceController.GetPartLevel(-1, -1, -1);
             foreach (PartLevelModel pl1 in partlevels1)
             {
@@ -140,6 +135,7 @@ namespace oto1
         }
 
 
+        /*
         private void pickerProduct_SelectedIndexChanged(object sender, EventArgs e)
         {
             //SelectedProduct.PartId = pickerProduct.SelectedIndex;
@@ -158,6 +154,7 @@ namespace oto1
 
 
         }
+        */
 
         private void pickerCar_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -173,7 +170,7 @@ namespace oto1
         {
             pickerManufacturer.SelectedIndex = -1;
             pickerCar.SelectedIndex = -1;
-            pickerProduct.SelectedIndex = -1;
+            txtPartName.Text= string.Empty;
             txtPerformanceLevel.Text = "";
             txtViscosity.Text = string.Empty;
             pickerVendor.SelectedIndex = -1;
@@ -184,22 +181,21 @@ namespace oto1
 
         private async void btnSearch_Clicked(object sender, EventArgs e)
         {
-            int PartId = -1, manufacturerid = -1, carid = -1, vendorid = -1;
-            string viscosity = "", performancelevel = "";
+            int PartId = -1, manufacturerid = -1, carid = -1, vendorid = -1, partlevel1id = -1, partlevel2id = -1, partlevel3id = -1, batteryamperage = -1, batteryvoltage = -1, tireyear = -1;
+            string partname = "", partcode = "", viscosity = "", performancelevel = "", tireringsize = "", tirewheels = "", partcolor = "", partattribute = "";
 
             activityIndicator.IsRunning = true;
 
-            viscosity = txtViscosity.Text;
-            performancelevel = txtPerformanceLevel.Text;
-
-
-
+            /*
+                       
             if (pickerProduct.SelectedIndex >= 0)
             {
                 PartId = ((PartModel)pickerProduct.ItemsSource[pickerProduct.SelectedIndex]).PartId;
                 //DisplayAlert("", picker.Items[pickerProduct.SelectedIndex], "ok");
                 //DisplayAlert("", ((ProductModel)pickerProduct.ItemsSource[pickerProduct.SelectedIndex]).PartId.ToString(), "ok");
             }
+            */
+
             if (pickerManufacturer.SelectedIndex >= 0)
             {
                 manufacturerid = ((ManufacturerModel)pickerManufacturer.ItemsSource[pickerManufacturer.SelectedIndex]).ManufacturerId;
@@ -215,7 +211,38 @@ namespace oto1
 
             }
 
-            searchresult = await MyServiceController.GetPart(PartId, manufacturerid, viscosity, performancelevel, carid, vendorid);
+                var selectedItem = _menuViewModel.MenuItems
+            .SelectMany(FindAllNodes)
+            .FirstOrDefault(x => x.GetFullPath(_menuViewModel.MenuItems) == _menuViewModel.SelectedMenuTitle);
+
+            if (_menuViewModel.SelectedMenuItem != null)
+            {
+                partlevel1id = _menuViewModel.SelectedMenuItem.PartLevel1Id ?? -1;
+                partlevel2id = _menuViewModel.SelectedMenuItem.PartLevel2Id ?? -1;
+                partlevel3id = _menuViewModel.SelectedMenuItem.PartLevel3Id ?? -1;
+            }
+
+
+            //partlevel1id = this._menuViewModel.MenuItems
+            //  , int partlevel2id = -1, int partlevel3id = -1
+            partname = txtPartName.Text;
+            partcode = txtPartCode.Text;
+            viscosity = txtViscosity.Text;
+            performancelevel = txtPerformanceLevel.Text;
+
+            batteryamperage = int.TryParse(txtAmperage.Text, out int result) ? result : -1;
+            batteryvoltage = int.TryParse(txtVoltage.Text, out int result1) ? result1 : -1;
+            tireyear = int.TryParse(txtTireYear.Text, out int result2) ? result2 : -1;
+
+            tireringsize = txtTireRingSize.Text;
+            tirewheels = txtTireWheels.Text;
+            //partcolor = txtColor.Text;
+            partattribute = txtAttribute.Text;
+
+
+
+
+            searchresult = await MyServiceController.GetPart(PartId, manufacturerid, carid, vendorid,partlevel1id,partlevel2id,partlevel3id,partname,partcode,viscosity,performancelevel,batteryamperage,batteryvoltage,tireyear,tireringsize,tirewheels,partcolor,partattribute);
 
 
             if (searchresult != null && searchresult.Count > 0)
@@ -244,20 +271,6 @@ namespace oto1
             string res = "";
             string msg = "";
 
-            // if(GlobalClass.Latitude==0 && GlobalClass.Longitude==0)
-
-            /*
-            if (GlobalClass.m_LocationAddressId == 0 )
-            {
-
-                //var toast = Toast.Make("جایگاه (موقعیت مکانی) انتخاب نشده است",CommunityToolkit.Maui.Core.ToastDuration.Short, 12);
-                //await toast.Show();
-
-                await DisplayAlert("", "جایگاه (موقعیت مکانی) انتخاب نشده است", "ok");
-                return;
-
-            }
-            */
 
             var allItems = collectionviewProducts.ItemsSource;
 
@@ -285,6 +298,18 @@ namespace oto1
         {
             await Navigation.PopAsync();
 
+        }
+        // متد کمکی برای پیدا کردن تمام گره‌ها در درخت (برای جستجوی سریع‌تر)
+        private IEnumerable<MenuItemModel> FindAllNodes(MenuItemModel node)
+        {
+            yield return node;
+            foreach (var child in node.Children)
+            {
+                foreach (var descendant in FindAllNodes(child))
+                {
+                    yield return descendant;
+                }
+            }
         }
     }
 }

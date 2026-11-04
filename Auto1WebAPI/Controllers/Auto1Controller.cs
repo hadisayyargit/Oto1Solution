@@ -160,18 +160,20 @@ namespace Auto1API.Controllers
         }
 
         [HttpGet(Name = "GetPart")]
-        public IEnumerable<PartCarVendorModel> GetPart(int partid=-1, int manufacturerid = -1, string viscosity="",string performancelevel = "", int carid=-1, int vendorid=-1)
+        public IEnumerable<PartCarVendorModel> GetPart(int partid = -1, int manufacturerid = -1, int carid = -1, int vendorid = -1
+            , int partlevel1id = -1, int partlevel2id = -1, int partlevel3id = -1, string partname = "", string partcode = ""
+            , string viscosity = "", string performancelevel = ""   , int batteryamperage = -1, int batteryvoltage = -1, int tireyear = -1, string tireringsize = "", string tirewheels = "", string partcolor = "", string partattribute = "")
         {
-            System.FormattableString s3 = $"sp_GetPart @partid ={partid}, @manufacturerid={manufacturerid}, @viscosity={viscosity},@performancelevel={performancelevel},@carid={carid} ,@vendorid={vendorid} ";
+            System.FormattableString s3 = $"sp_GetPart @partid ={partid}, @manufacturerid={manufacturerid},@carid={carid} ,@vendorid={vendorid} ,@partlevel1id={partlevel1id} ,@partlevel2id={partlevel2id} ,@partlevel3id={partlevel3id} ,@partname={partname} ,@partcode={partcode} , @viscosity={viscosity},@performancelevel={performancelevel}  ,@batteryamperage={batteryamperage} ,@batteryvoltage={batteryvoltage} ,@tireyear={tireyear} ,@tireringsize={tireringsize} ,@tirewheels={tirewheels} ,@partcolor={partcolor} ,@partattribute={partattribute}";
 
 
             List<PartCarVendorModel> res = this.Auto1Context.Set<PartCarVendorModel>().FromSql(s3).ToList();
-           
+
             ///doesnt work
             //return this.Auto1Context.Database.SqlQuery<ProductCarVendorModel>(s3).OrderBy(m => m.PartId).OrderBy(m => m.CarId).ToList();
 
             return res;
-            
+
         }
 
 

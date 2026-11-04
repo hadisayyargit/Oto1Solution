@@ -76,7 +76,8 @@
             </HorizontalStackLayout>
         </Border>
         
-        <Picker Title="نام محصول:"                     Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" x:Name="pickerProduct" ItemsSource="{Binding Products}" ItemDisplayBinding="{Binding PName}"  ></Picker>
+        <!--<Picker Title="نام محصول:"                     Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" x:Name="pickerProduct" ItemsSource="{Binding Products}" ItemDisplayBinding="{Binding PName}"  ></Picker>-->
+        <Entry  Placeholder="نام محصول:"               Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" x:Name="txtPartName"></Entry>
         <Entry  Placeholder="کد محصول:"                Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2" x:Name="txtPartCode"></Entry>
         <Entry  Placeholder="ویژگی:"                   Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="2" x:Name="txtAttribute"></Entry>
 

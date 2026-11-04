@@ -485,12 +485,22 @@ namespace oto1.Services
             }
 
         }
-        public async Task<List<PartCarVendorModel>> GetPart(int PartId = -1, int manufacturerid = -1, string viscosity = "", string performancelevel = "", int carid = -1, int vendorid = -1, string pricedate = "2000-1-1")
+        
+        public async Task<List<PartCarVendorModel>> GetPart(int partid = -1, int manufacturerid = -1, int carid = -1, int vendorid = -1
+            , int partlevel1id = -1, int partlevel2id = -1, int partlevel3id = -1, string partname = "", string partcode = ""
+            , string viscosity = "", string performancelevel = "", int batteryamperage = -1, int batteryvoltage = -1, int tireyear = -1, string tireringsize = "", string tirewheels = "", string partcolor = "", string partattribute = "")
+        //, string pricedate = "2000-1-1")
         {
             try
             {
                 List<PartCarVendorModel> myList = new List<PartCarVendorModel>();
-                string fullurl = this.baseUrl + "/GetPart?PartId=" + PartId + "&manufacturerid=" + manufacturerid + "&viscosity=" + viscosity + "&performancelevel=" + performancelevel + "&carid=" + carid + "&vendorid=" + vendorid + "&pricedate=" + pricedate;
+                string fullurl = this.baseUrl + "/GetPart?PartId=" + partid + "&manufacturerid=" + manufacturerid + "&carid=" + carid + "&vendorid=" + vendorid
+                    + "&partlevel1id=" + partlevel1id + "&partlevel2id=" + partlevel2id + "&partlevel3id=" + partlevel3id + "&partname=" + partname + "&partcode=" + partcode
+                    + "&viscosity=" + viscosity + "&performancelevel=" + performancelevel + "&batteryamperage=" + batteryamperage + "&batteryvoltage=" + batteryvoltage + "&tireyear=" + tireyear + "&tireringsize=" + tireringsize + "&tirewheels=" + tirewheels + "&partcolor=" + partcolor + "&partattribute=" + partattribute
+                    ;
+                    //+ "&pricedate=" + pricedate;
+
+          
                 HttpClient myhttpclient = new HttpClient();
 
                 myhttpclient.BaseAddress = new Uri(fullurl);
