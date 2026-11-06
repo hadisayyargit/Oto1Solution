@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:persian="clr-namespace:MauiPersianToolkit.Controls;assembly=MauiPersianToolkit"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              xmlns:vm="clr-namespace:oto1"
              xmlns:models="clr-namespace:oto1.Models;assembly=oto1Lib"
              xmlns:local="clr-namespace:oto1"
@@ -18,7 +20,7 @@
                 <HorizontalStackLayout Spacing="10" VerticalOptions="Center">
                     <!-- نمایش عنوان انتخاب شده -->
                     <Label Text="{Binding SelectedMenuTitle}"
-                   TextColor="Yellow"
+                   TextColor="Blue"
                    FontSize="14"
                    Margin="0,0,0,10" />
 
@@ -53,9 +55,35 @@
 
         <Picker Title="نام خودرو:"                     Grid.Row="2" Grid.Column="0" x:Name="pickerCar"  ItemsSource="{Binding cars}" ItemDisplayBinding="{Binding PName}"  SelectedIndexChanged="pickerCar_SelectedIndexChanged" ></Picker>
         <Picker Title="نام سازنده:"                    Grid.Row="2" Grid.Column="1" x:Name="pickerManufacturer" ItemsSource="{Binding Manufacturers}" ItemDisplayBinding="{Binding PName}" SelectedIndexChanged="pickerManufacturer_SelectedIndexChanged" ></Picker>
-        <Picker Title="تامین کننده:"                   Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" x:Name="pickerVendor" ItemsSource="{Binding Vendors}" ItemDisplayBinding="{Binding PName}" SelectedIndexChanged="pickerVendor_SelectedIndexChanged" ></Picker>
+        <!--<Picker Title="تامین کننده:"                   Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" x:Name="pickerVendor" ItemsSource="{Binding Vendors}" ItemDisplayBinding="{Binding PName}" SelectedIndexChanged="pickerVendor_SelectedIndexChanged" ></Picker>-->
 
-      <Border Grid.Row="4" Grid.ColumnSpan="2" IsVisible="False" x:Name="frameLubricant" >
+        <Label Text="انتخاب تامین کننده"  Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" />
+        <Grid  Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" >
+            <SearchBar x:Name="searchbarVendor" 
+                         Placeholder="جستجو در نام تامین کننده..."
+                         TextChanged="OnVendorSearchTextChanged"
+                         HeightRequest="50"/>
+
+            <!-- لیست نتایج که زیر سرچ‌بار باز می‌شود -->
+            <CollectionView x:Name="cvVendorResults"
+                              ItemsSource="{Binding FilteredVendors}"
+                              IsVisible="False"
+                              MaximumHeightRequest="200"
+                              SelectionMode="Single"
+                              SelectionChanged="OnVendorSelected"
+                              BackgroundColor="White">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid Padding="10">
+                            <Label Text="{Binding PName}" FontSize="14" />
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </Grid>
+
+
+        <Border Grid.Row="4" Grid.ColumnSpan="2" IsVisible="False" x:Name="frameLubricant" >
             <HorizontalStackLayout Padding="5">
             <Entry  Placeholder="درجه گرانروی(ویسکوزیته):" x:Name="txtViscosity"></Entry>
             <Entry  Placeholder="سطح کارایی:"              x:Name="txtPerformanceLevel"></Entry>
@@ -70,9 +98,9 @@
         </Border>
         <Border Grid.Row="4" Grid.ColumnSpan="2" IsVisible="False" x:Name="frameTire" >
             <HorizontalStackLayout Padding="5">
-                <Entry  Placeholder="سال ساخت:" x:Name="txtTireYear" WidthRequest="100"></Entry>
+                <Entry  Placeholder="سال ساخت:"    x:Name="txtTireYear" WidthRequest="100"></Entry>
                 <Entry  Placeholder="اندازه رینگ:" x:Name="txtTireRingSize" WidthRequest="100"></Entry>
-                <Entry  Placeholder="پهنا:"              x:Name="txtTireWheels" ></Entry>
+                <Entry  Placeholder="پهنا:"        x:Name="txtTireWheels" ></Entry>
             </HorizontalStackLayout>
         </Border>
         
@@ -87,11 +115,11 @@
 
         <CollectionView x:Name="collectionviewProducts" Grid.Row="8" Grid.ColumnSpan="2" SelectionMode="None" >
             <CollectionView.ItemsLayout>
-                <GridItemsLayout Orientation="Vertical" Span="2" VerticalItemSpacing="8" HorizontalItemSpacing="8" />
+                <GridItemsLayout Orientation="Vertical" Span="1" VerticalItemSpacing="8" HorizontalItemSpacing="8" />
             </CollectionView.ItemsLayout>
             <CollectionView.ItemTemplate>
                 <DataTemplate>
-                    <Frame Padding="4">
+                    <Border Padding="4">
                         <Grid RowDefinitions="*,30,30,30,30" ColumnDefinitions=".3*,.7*"  BackgroundColor="MistyRose">
                             <Image Source="{Binding PhotoFileName}" Grid.Row="0" Grid.Column="0" Grid.RowSpan="4" BackgroundColor="Transparent" VerticalOptions="Start" ></Image>
                             <Label Text="{Binding PName}"           Grid.Row="0" Grid.Column="1" FontSize="Small" TextColor="Blue"></Label>
@@ -107,7 +135,7 @@
                             </StackLayout>
 
                         </Grid>
-                    </Frame>
+                    </Border>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>

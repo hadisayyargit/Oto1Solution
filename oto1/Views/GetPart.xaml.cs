@@ -8,7 +8,8 @@ namespace oto1
     public partial class GetPart : ContentPage
     {
         private  MenuViewModel _menuViewModel;
-
+        private  VendorModel _vendor;
+        public ObservableCollection<VendorModel> FilteredVendors { get; set; } = new ObservableCollection<VendorModel>();
 
         ServiceController MyServiceController = new ServiceController();
         CustomerServiceController MyCustomerServiceController = new CustomerServiceController();
@@ -70,15 +71,20 @@ namespace oto1
 
             LoadMenu(_menuViewModel);
 
-            //cars = await MyServiceController.GetAllCarsView();
+            cars = await MyServiceController.GetAllCarsView();
             manufacturers = await MyServiceController.GetAllManufacturers();
             products = await MyServiceController.GetAllParts();
             vendors = await MyServiceController.GetAllVendors();
 
+            await LoadVendorsAsync();
+
+
             //pickerCar.ItemsSource = cars;
             pickerManufacturer.ItemsSource = manufacturers;
             //pickerProduct.ItemsSource = products;
-            pickerVendor.ItemsSource = vendors;
+            // pickerVendor.ItemsSource = vendors;
+
+            cvVendorResults.ItemsSource = FilteredVendors;
 
             SelectedProduct = new PartModel { PName = "" };
 
@@ -168,12 +174,12 @@ namespace oto1
 
         private void btnClear_Clicked(object sender, EventArgs e)
         {
+          
             pickerManufacturer.SelectedIndex = -1;
             pickerCar.SelectedIndex = -1;
             txtPartName.Text= string.Empty;
             txtPerformanceLevel.Text = "";
             txtViscosity.Text = string.Empty;
-            pickerVendor.SelectedIndex = -1;
 
             collectionviewProducts.ItemsSource = null;
 
@@ -205,11 +211,15 @@ namespace oto1
                 carid = ((CarModel)pickerCar.ItemsSource[pickerCar.SelectedIndex]).CarId;
 
             }
-            if (pickerVendor.SelectedIndex >= 0)
-            {
-                vendorid = ((VendorModel)pickerVendor.ItemsSource[pickerVendor.SelectedIndex]).VendorId;
 
-            }
+            if (_vendor != null)
+                vendorid = _vendor.VendorId;
+
+            //if (pickerVendor.SelectedIndex >= 0)
+            //{
+            //    vendorid = ((VendorModel)pickerVendor.ItemsSource[pickerVendor.SelectedIndex]).VendorId;
+
+            //}
 
                 var selectedItem = _menuViewModel.MenuItems
             .SelectMany(FindAllNodes)
@@ -239,8 +249,25 @@ namespace oto1
             //partcolor = txtColor.Text;
             partattribute = txtAttribute.Text;
 
-
-
+           switch(GlobalClass.m_CustomerServiceItemView.ServiceItemType)
+            {
+                case (byte)GlobalClass.enumServiceItemType.serviceitemtype_LubricantSale:
+                    partlevel1id = 7;
+                    partlevel2id = 73;
+                    break;
+                case (byte)GlobalClass.enumServiceItemType.serviceitemtype_PartSale:
+                    break;
+                case (byte)GlobalClass.enumServiceItemType.serviceitemtype_BatterySale:
+                    partlevel1id = 5;
+                    partlevel2id = 51;
+                    partlevel3id = 510;
+                    break;
+                case (byte)GlobalClass.enumServiceItemType.serviceitemtype_tiresale:
+                    partlevel1id = 4;
+                    partlevel2id = 42;
+                    partlevel3id = 421;
+                    break;
+            }
 
             searchresult = await MyServiceController.GetPart(PartId, manufacturerid, carid, vendorid,partlevel1id,partlevel2id,partlevel3id,partname,partcode,viscosity,performancelevel,batteryamperage,batteryvoltage,tireyear,tireringsize,tirewheels,partcolor,partattribute);
 
@@ -280,9 +307,11 @@ namespace oto1
                 {
                     if (item.Quantity > 0)
                     {
-                        myServices.Add(new CustomerServiceItemViewModel() { CustomerId = GlobalClass.m_CustomerId, PartId = item.PartId, Quantity = item.Quantity, ServiceItemType = (byte)GlobalClass.enumServiceItemType.serviceitemtype_PartSale, ServiceItemStatus = (byte)GlobalClass.enumServiceItemStatus.serviceitemstatus_Request, NetAmount = item.NetAmount, PriceAmount = item.PriceAmount, VendorId = item.VendorId, Latitude = GlobalClass.m_Latitude, Longitude = GlobalClass.m_Longitude, Address = GlobalClass.m_Address });
+                        myServices.Add(new CustomerServiceItemViewModel() { CustomerId = GlobalClass.m_CustomerId, PartId = item.PartId, Quantity = item.Quantity,ServiceType= GlobalClass.m_CustomerServiceItemView.ServiceType, ServiceItemType = GlobalClass.m_CustomerServiceItemView.ServiceItemType, ServiceItemStatus = (byte)GlobalClass.enumServiceItemStatus.serviceitemstatus_Request, NetAmount = item.NetAmount, PriceAmount = item.PriceAmount, VendorId = item.VendorId, Latitude = GlobalClass.m_Latitude, Longitude = GlobalClass.m_Longitude, Address = GlobalClass.m_Address });
                     }
                 }
+
+                
                 res = await MyCustomerServiceController.AddCustomerService(myServices);
                 msg = "درخواست شما ثبت شد با شماره‌های: " + res;
                 await DisplayAlert("", msg, "ok");
@@ -311,5 +340,67 @@ namespace oto1
                 }
             }
         }
+
+
+        public async Task LoadVendorsAsync()
+        {
+           // allparts = await MyServiceController.GetAllParts();
+
+            // مقداردهی اولیه لیست فیلتر شده
+            FilteredVendors.Clear();
+            foreach (var item in vendors)
+                FilteredVendors.Add(item);
+
+            // پیدا کردن قطعه فعلی برای نمایش اولیه
+            //var selectedPart = allparts.FirstOrDefault(x => x.PartId == _part.PartId);
+            //if (selectedPart != null)
+            //{
+            //    _part.PartId = selectedPart.PartId;
+            //    _part.PName = selectedPart.PName;
+            //    sbPart.Text = selectedPart.PName; // نمایش نام در سرچ‌بار
+            //}
+        }
+
+        // منطق جستجو
+        private void OnVendorSearchTextChanged(object sender, TextChangedEventArgs e)
+        {
+            string searchText = e.NewTextValue;
+
+            if (string.IsNullOrWhiteSpace(searchText))
+            {
+                FilteredVendors.Clear();
+                foreach (var item in vendors) FilteredVendors.Add(item);
+                cvVendorResults.IsVisible = false;
+            }
+            else
+            {
+                var filtered = vendors
+                    .Where(x => x.PName.Contains(searchText, StringComparison.OrdinalIgnoreCase))
+                    .ToList();
+
+                FilteredVendors.Clear();
+                foreach (var item in filtered) FilteredVendors.Add(item);
+
+                cvVendorResults.IsVisible = filtered.Any();
+            }
+        }
+
+        // وقتی کاربر از لیست انتخاب می‌کند
+        private void OnVendorSelected(object sender, SelectionChangedEventArgs e)
+        {
+            if (e.CurrentSelection.FirstOrDefault() is VendorModel selectedVendor)
+            {
+                _vendor = new VendorModel();
+                _vendor.VendorId = selectedVendor.VendorId;
+                _vendor.PName = selectedVendor.PName;
+
+                // txtLName.Text = selectedPart.LName;
+                searchbarVendor.Text = selectedVendor.PName; // نمایش نام در سرچ‌بار
+
+                cvVendorResults.IsVisible = false; // بستن لیست
+                cvVendorResults.SelectedItem = null; // ریست کردن انتخاب
+            }
+        }
+
     }
 }

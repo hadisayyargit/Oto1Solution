@@ -14,7 +14,7 @@
 
         <RadioButton  x:Name="rdoPart"  Grid.Row="0" Grid.Column="0"  ControlTemplate="{x:Static RadioButton.DefaultTemplate}" IsChecked="True" CheckedChanged="RadioButton_CheckedChanged">
             <RadioButton.Content>
-                <Label Text="خرید قطعه/روانکار"    />
+                <Label Text="خرید محصول"    />
             </RadioButton.Content>
         </RadioButton>
         <Image Source="oil3.png"  Grid.Row="0" Grid.Column="1" WidthRequest="170" HeightRequest="50"/>

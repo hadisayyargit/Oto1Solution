@@ -74,8 +74,8 @@ namespace Auto1API.Controllers
 
                 //newcustomerservice.ServiceId = 0;
                 newcustomerservice.CustomerId = newitems[0].CustomerId;
-                newcustomerservice.ServiceType = 0;
-                newcustomerservice.ServiceStatus = 0;
+                newcustomerservice.ServiceType = newitems[0].ServiceType;
+                newcustomerservice.ServiceStatus = newitems[0].ServiceStatus;
                 newcustomerservice.TicketDateTime = DateTime.Now;
                 newcustomerservice.ServiceDateTime = DateTime.Now;
                 newcustomerservice.VendorId = vendors[i];

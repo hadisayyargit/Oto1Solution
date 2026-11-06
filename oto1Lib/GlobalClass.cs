@@ -11,7 +11,7 @@ namespace oto1
     {
         public enum enumServiceType:byte
         {
-            servicetype_Part=0, servicetype_CarTowing = 4, servicetype_OnLocationService = 2, servicetype_OnSiteService = 3, servicetype_SpecialService=5
+            servicetype_Part=1, servicetype_OnLocationService = 2, servicetype_OnSiteService = 3, servicetype_CarTowing = 4, servicetype_SpecialService=5
                 , servicetype_NoSelect=255
         }
 
