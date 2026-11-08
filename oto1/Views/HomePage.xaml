@@ -4,6 +4,7 @@
              x:Class="oto1.HomePage"
              Title="صفحه نخست" FlowDirection="RightToLeft">
 
+    <ScrollView>
     <VerticalStackLayout
             Spacing="5"
             Padding="5,5"
@@ -40,7 +41,7 @@
                 HorizontalOptions="Center" />
             <Label
       
-                Text="version:۱.۱۵"
+                Text="version:۱.۱۶"
                 SemanticProperties.HeadingLevel="Level1"
                 FontSize="16"
                 HorizontalOptions="Center" />
@@ -158,4 +159,6 @@
 
 
     </VerticalStackLayout>
+
+    </ScrollView>
 </ContentPage>

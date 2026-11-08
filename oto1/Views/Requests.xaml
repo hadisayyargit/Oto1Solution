@@ -8,7 +8,8 @@
     <!--<FlexLayout  Direction="Row" Wrap="Wrap" 
                  VerticalOptions="Start"      HorizontalOptions="Center"  Margin="5" HeightRequest="600">-->
 
-    <Grid  RowDefinitions="40,40,40,40,20,*,auto" ColumnDefinitions="*,auto" HeightRequest="600" VerticalOptions="Start">
+    <ScrollView>
+    <Grid  RowDefinitions="40,40,40,40,20,*,auto" ColumnDefinitions="*,auto" Padding="5" Margin="5" ColumnSpacing="5" RowSpacing="10"  >
 
 
 
@@ -73,35 +74,5 @@
     
     </Grid>
   
-    <!--<ListView x:Name="list1" IsVisible="True">
-                <ListView.ItemsSource>
-                    <x:Array x:Name="nn" Type="{x:Type x:String}">
-                        <x:String>تعویض روغن</x:String>
-                        <x:String>تعویض باتری</x:String>
-                        <x:String>پنچرگیری</x:String>
-                        <x:String>بنزین</x:String>
-                    </x:Array>
-
-                </ListView.ItemsSource>
-                        
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <ViewCell>
-                            <Grid Padding="10">
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="Auto" />
-                                </Grid.RowDefinitions>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto" />
-                                    <ColumnDefinition Width="Auto" />
-                                </Grid.ColumnDefinitions>
-                                <Image Grid.RowSpan="2" Source="oil2.png"   Aspect="AspectFill" HeightRequest="60"    WidthRequest="60" />
-                                <Label Grid.Column="1"  Text="{Binding nn}"                   FontAttributes="Bold" />
-                            </Grid>
-                        </ViewCell>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>-->
-
+    </ScrollView>
 </ContentPage>

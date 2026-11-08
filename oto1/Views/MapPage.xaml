@@ -8,7 +8,7 @@
                FlowDirection="RightToLeft"           
              >
 
-    <Grid RowDefinitions="50,*,50,50,auto"   ColumnDefinitions=".25*,0.25*,.25*,.25*" Padding="5" Margin="5" ColumnSpacing="5" RowSpacing="10" HeightRequest="600" VerticalOptions="Start"     >
+    <Grid RowDefinitions="50,*,50,50,auto"   ColumnDefinitions=".25*,0.25*,.25*,.25*" Padding="5" Margin="5" ColumnSpacing="5" RowSpacing="10" VerticalOptions="Start"     >
         <Label  Text="کجا هستی؟" HorizontalTextAlignment="Center"   Grid.Row="0" FontSize="Title" Grid.ColumnSpan="4"></Label>
 
 

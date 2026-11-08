@@ -29,7 +29,7 @@
 
         
             
-            <CollectionView x:Name="collectionviewOrders"  SelectionMode="Single" ItemsSource="{Binding myGroupServices}" IsGrouped="true" BackgroundColor="LightYellow">
+            <CollectionView x:Name="collectionviewOrders"  SelectionMode="Single" ItemsSource="{Binding myGroupServices}" IsGrouped="true" BackgroundColor="Transparent">
                 <CollectionView.ItemsLayout>
                     <GridItemsLayout Orientation="Vertical" Span="1" VerticalItemSpacing="0" HorizontalItemSpacing="0" />
                 </CollectionView.ItemsLayout>

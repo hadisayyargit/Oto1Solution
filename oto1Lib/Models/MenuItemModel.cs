@@ -54,7 +54,11 @@ public partial class MenuViewModel : ObservableObject
     public ObservableCollection<MenuItemModel> MenuItems { get; set; } = new();
 
     [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(HasSelectedMenuTitle))]
     private string _selectedMenuTitle;
+
+    public bool HasSelectedMenuTitle =>
+        !string.IsNullOrWhiteSpace(SelectedMenuTitle);
 
     // به جای استفاده از [ObservableProperty] روی فیلد، آن را دستی تعریف می‌کنیم تا خطا رفع شود
     private MenuItemModel _selectedMenuItem;

@@ -29,71 +29,109 @@ namespace oto1
 
         }
 
+        private bool _isLoading = false;
+
         protected override async void OnAppearing()
         {
             base.OnAppearing();
 
-            _menuViewModel = new MenuViewModel();
-            BindingContext = _menuViewModel;
+            if (_isLoading)
+                return;
 
-            
-            if (NetClass.CheckNetConnection() == false)
-            {
-                await DisplayAlert("خطا", "خطا در اتصال شبکه", "ok");
-            }
-
-            // mycarlist = await myCar.GetAllCars();
-
+            _isLoading = true;
             activityIndicator.IsRunning = true;
-            frameLubricant.IsVisible = false;
-            frameBattery.IsVisible = false;
-            frameTire.IsVisible = false;
-            myCascadeMenu.IsVisible = false;
 
-            switch ((byte)GlobalClass.m_CustomerServiceItemView.ServiceItemType)
+            try
             {
-                case (byte)GlobalClass.enumServiceItemType.serviceitemtype_LubricantSale:
-                    frameLubricant.IsVisible = true;
-                    break;
-                case (byte)GlobalClass.enumServiceItemType.serviceitemtype_PartSale:
-                    myCascadeMenu.IsVisible = true;
-                    break;
-                case (byte)GlobalClass.enumServiceItemType.serviceitemtype_BatterySale:
-                    frameBattery.IsVisible = true;
-                    break;
-                case (byte)GlobalClass.enumServiceItemType.serviceitemtype_tiresale:
-                    frameTire.IsVisible = true;
-                    break;
+                if (GlobalClass.m_CustomerServiceItemView == null)
+                {
+                    await DisplayAlert(
+                        "خطا",
+                        "اطلاعات نوع سرویس مشخص نشده است.",
+                        "باشه");
+
+                    return;
+                }
+
+                if (!NetClass.CheckNetConnection())
+                {
+                    await DisplayAlert(
+                        "خطا",
+                        "خطا در اتصال شبکه",
+                        "باشه");
+
+                    return;
+                }
+
+                _menuViewModel = new MenuViewModel();
+
+                BindingContext = _menuViewModel;
+
+                frameLubricant.IsVisible = false;
+                frameBattery.IsVisible = false;
+               frameTire.IsVisible = false;
+                stacklayoutPartClass.IsVisible = false;
+
+                switch ((byte)GlobalClass.m_CustomerServiceItemView.ServiceItemType)
+                {
+                    case (byte)GlobalClass.enumServiceItemType.serviceitemtype_LubricantSale:
+                        frameLubricant.IsVisible = true;
+                        break;
+
+                    case (byte)GlobalClass.enumServiceItemType.serviceitemtype_PartSale:
+                        stacklayoutPartClass.IsVisible = true;
+                        break;
+
+                    case (byte)GlobalClass.enumServiceItemType.serviceitemtype_BatterySale:
+                        frameBattery.IsVisible = true;
+                        break;
+
+                    case (byte)GlobalClass.enumServiceItemType.serviceitemtype_tiresale:
+                        frameTire.IsVisible = true;
+                        break;
+                }
+
+                // حتماً با await اجرا شود
+                await LoadMenuAsync(_menuViewModel);
+
+                cars = await MyServiceController.GetAllCarsView()
+                       ?? new List<CarModel>();
+
+                manufacturers = await MyServiceController.GetAllManufacturers()
+                               ?? new List<ManufacturerModel>();
+
+                products = await MyServiceController.GetAllParts()
+                           ?? new List<PartModel>();
+
+                vendors = await MyServiceController.GetAllVendors()
+                          ?? new List<VendorModel>();
+
+                await LoadVendorsAsync();
+
+                pickerCar.ItemsSource = cars;
+                pickerManufacturer.ItemsSource = manufacturers;
+
+                cvVendorResults.ItemsSource = FilteredVendors;
+
+                SelectedProduct = new PartModel { PName = "" };
             }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex.ToString());
 
-
-
-
-            LoadMenu(_menuViewModel);
-
-            cars = await MyServiceController.GetAllCarsView();
-            manufacturers = await MyServiceController.GetAllManufacturers();
-            products = await MyServiceController.GetAllParts();
-            vendors = await MyServiceController.GetAllVendors();
-
-            await LoadVendorsAsync();
-
-
-            //pickerCar.ItemsSource = cars;
-            pickerManufacturer.ItemsSource = manufacturers;
-            //pickerProduct.ItemsSource = products;
-            // pickerVendor.ItemsSource = vendors;
-
-            cvVendorResults.ItemsSource = FilteredVendors;
-
-            SelectedProduct = new PartModel { PName = "" };
-
-            activityIndicator.IsRunning = false;
-            // نمونه‌سازی و تنظیم BindingContext در کد پشت صفحه
-
+                await DisplayAlert(
+                    "خطای GetPart",
+                    ex.Message,
+                    "باشه");
+            }
+            finally
+            {
+                activityIndicator.IsRunning = false;
+                _isLoading = false;
+            }
         }
 
-        private async void LoadMenu(MenuViewModel vm)
+        private async Task LoadMenuAsync(MenuViewModel vm)
         {
             List<PartLevelModel> partlevels1 = new List<PartLevelModel>();
             List<PartLevelModel> partlevels2 = new List<PartLevelModel>();
@@ -101,7 +139,7 @@ namespace oto1
 
             vm.MenuItems.Clear();
 
-            var rootCategory = new MenuItemModel { Title = "دسته‌بندی قطعات", PartLevel1Id = 0, PartLevel2Id = -1, PartLevel3Id = -1 };
+            var rootCategory = new MenuItemModel { Title = "دسته‌بندی قطعات", PartLevel1Id = -1, PartLevel2Id = -1, PartLevel3Id = -1 };
 
             partlevels1 = await MyServiceController.GetPartLevel(-1, -1, -1);
             foreach (PartLevelModel pl1 in partlevels1)
@@ -125,42 +163,11 @@ namespace oto1
 
                 rootCategory.Children.Add(node1);
             }
-
-            /*
-            var engine = new MenuItemModel { Title = "پیشرانه", PartLevel1Id = 1, PartLevel2Id = -1, PartLevel3Id = -1 };
-            engine.Children.Add(new MenuItemModel { Title = "پیستون", PartLevel1Id = 1, PartLevel2Id = 11, PartLevel3Id = -1 });
-            rootCategory.Children.Add(engine);
-
-            var suspension = new MenuItemModel { Title = "تعلیق و هدایت", PartLevel1Id = 4, PartLevel2Id = -1, PartLevel3Id = -1 };
-            var wheel = new MenuItemModel { Title = "چرخ", PartLevel1Id = 4, PartLevel2Id = 41, PartLevel3Id = -1 };
-            wheel.Children.Add(new MenuItemModel { Title = "لاستیک", PartLevel1Id = 4, PartLevel2Id = 41, PartLevel3Id = 411 });
-            suspension.Children.Add(wheel);
-            rootCategory.Children.Add(suspension);
-            */
+           
             vm.MenuItems.Add(rootCategory);
         }
 
 
-        /*
-        private void pickerProduct_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            //SelectedProduct.PartId = pickerProduct.SelectedIndex;
-
-
-            var picker = (Picker)sender;
-
-
-            if (pickerProduct.SelectedIndex != -1)
-            {
-                //DisplayAlert("", SelectedProduct.PartId.ToString(), "ok");
-                //DisplayAlert("", picker.Items[pickerProduct.SelectedIndex], "ok");
-                //DisplayAlert("", ((ProductModel)picker.ItemsSource[pickerProduct.SelectedIndex]).PartId.ToString(), "ok");
-
-            }
-
-
-        }
-        */
 
         private void pickerCar_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -180,9 +187,18 @@ namespace oto1
             txtPartName.Text= string.Empty;
             txtPerformanceLevel.Text = "";
             txtViscosity.Text = string.Empty;
-
+            txtVoltage.Text = string.Empty;
+            txtAmperage.Text = string.Empty;
+            txtPartCode.Text = string.Empty;
+            txtAttribute.Text = string.Empty;
+            txtTireRingSize.Text = string.Empty;
+            txtTireYear.Text = string.Empty;
+            txtTireWheels.Text = string.Empty;
+            
             collectionviewProducts.ItemsSource = null;
 
+            FilteredVendors.Clear();
+            _vendor = null;
         }
 
         private async void btnSearch_Clicked(object sender, EventArgs e)
@@ -215,12 +231,6 @@ namespace oto1
             if (_vendor != null)
                 vendorid = _vendor.VendorId;
 
-            //if (pickerVendor.SelectedIndex >= 0)
-            //{
-            //    vendorid = ((VendorModel)pickerVendor.ItemsSource[pickerVendor.SelectedIndex]).VendorId;
-
-            //}
-
                 var selectedItem = _menuViewModel.MenuItems
             .SelectMany(FindAllNodes)
             .FirstOrDefault(x => x.GetFullPath(_menuViewModel.MenuItems) == _menuViewModel.SelectedMenuTitle);
@@ -232,9 +242,6 @@ namespace oto1
                 partlevel3id = _menuViewModel.SelectedMenuItem.PartLevel3Id ?? -1;
             }
 
-
-            //partlevel1id = this._menuViewModel.MenuItems
-            //  , int partlevel2id = -1, int partlevel3id = -1
             partname = txtPartName.Text;
             partcode = txtPartCode.Text;
             viscosity = txtViscosity.Text;
@@ -248,6 +255,8 @@ namespace oto1
             tirewheels = txtTireWheels.Text;
             //partcolor = txtColor.Text;
             partattribute = txtAttribute.Text;
+
+
 
            switch(GlobalClass.m_CustomerServiceItemView.ServiceItemType)
             {
@@ -344,24 +353,12 @@ namespace oto1
 
         public async Task LoadVendorsAsync()
         {
-           // allparts = await MyServiceController.GetAllParts();
-
-            // مقداردهی اولیه لیست فیلتر شده
             FilteredVendors.Clear();
             foreach (var item in vendors)
                 FilteredVendors.Add(item);
 
-            // پیدا کردن قطعه فعلی برای نمایش اولیه
-            //var selectedPart = allparts.FirstOrDefault(x => x.PartId == _part.PartId);
-            //if (selectedPart != null)
-            //{
-            //    _part.PartId = selectedPart.PartId;
-            //    _part.PName = selectedPart.PName;
-            //    sbPart.Text = selectedPart.PName; // نمایش نام در سرچ‌بار
-            //}
         }
 
-        // منطق جستجو
         private void OnVendorSearchTextChanged(object sender, TextChangedEventArgs e)
         {
             string searchText = e.NewTextValue;
@@ -385,7 +382,6 @@ namespace oto1
             }
         }
 
-        // وقتی کاربر از لیست انتخاب می‌کند
         private void OnVendorSelected(object sender, SelectionChangedEventArgs e)
         {
             if (e.CurrentSelection.FirstOrDefault() is VendorModel selectedVendor)
@@ -394,7 +390,6 @@ namespace oto1
                 _vendor.VendorId = selectedVendor.VendorId;
                 _vendor.PName = selectedVendor.PName;
 
-                // txtLName.Text = selectedPart.LName;
                 searchbarVendor.Text = selectedVendor.PName; // نمایش نام در سرچ‌بار
 
                 cvVendorResults.IsVisible = false; // بستن لیست
