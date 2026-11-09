@@ -563,6 +563,7 @@ namespace oto1.Services
         public async Task<List<LocationAddressModel>> GetAllLocationAddressess(Int64 customerid, int vendorid, bool iscustomeraddress)
         {
 
+
             try
             {
                 List<LocationAddressModel> myList = new List<LocationAddressModel>();
@@ -937,6 +938,93 @@ namespace oto1.Services
             }
 
         }
+
+        public async Task<string> UploadImageAsync(byte[] imageBytes, string subFolder)
+        {
+            // ۱. ساخت URL دقیق مطابق با Route های API شما
+            // ساختار: [BaseUrl] / api / User / upload / [subFolder]
+            // فرض بر این است که this.baseUrl برابر است با: "https://khordadnet.ir/mysites/auto1api"
+
+            string baseUrl = this.baseUrl.TrimEnd('/');
+            
+            string uploadUrl = $"{baseUrl}/api/User/upload/{subFolder}";
+            //string uploadUrl = $"{baseUrl}/upload/{subFolder}";
+
+
+            using (var client = new HttpClient())
+            {
+                client.Timeout = TimeSpan.FromMinutes(5);
+
+                using (var content = new MultipartFormDataContent())
+                {
+                    var byteContent = new ByteArrayContent(imageBytes);
+                    byteContent.Headers.ContentType = new MediaTypeHeaderValue("image/jpeg");
+
+                    // نام فیلد "file" باید دقیقاً با نام ورودی متد در API یکی باشد
+                    content.Add(byteContent, "file", $"img_{DateTime.Now.Ticks}.jpg");
+
+                    try
+                    {
+                        var response = await client.PostAsync(uploadUrl, content);
+
+                        if (response.IsSuccessStatusCode)
+                        {
+                            string relativePath = await response.Content.ReadAsStringAsync();
+                            return relativePath;
+                        }
+                        else
+                        {
+                            string errorDetail = await response.Content.ReadAsStringAsync();
+                            return $"Error: {response.StatusCode} - {errorDetail}";
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        return $"Exception: {ex.Message}";
+                    }
+                }
+            }
+        }
+
+
+        /*
+        public async Task<string> UploadBytesAsync(byte[] imageBytes, string imageURL)
+        {
+            using (var client = new HttpClient())
+            {
+                using (var content = new MultipartFormDataContent())
+                {
+                    // استفاده از ByteArrayContent به جای StreamContent که احتمال باگ استریم را صفر می‌کند
+                    var byteContent = new ByteArrayContent(imageBytes);
+                    byteContent.Headers.ContentType = new MediaTypeHeaderValue("image/jpeg");
+
+                    content.Add(byteContent, "file", "p100.jpg");
+
+                    try
+                    {
+                        var response = await client.PostAsync(imageURL, content);
+
+                        if (response.IsSuccessStatusCode)
+                        {
+                            return "1";
+                        }
+                        else
+                        {
+                            string errorContent = await response.Content.ReadAsStringAsync();
+                            Console.WriteLine($"Error Code: {response.StatusCode}, Message: {errorContent}");
+                            return $"0 - Error: {response.StatusCode}";
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        return $"0 - Exception: {ex.Message}";
+                    }
+                }
+            }
+        }
+        */
+
+        /*
         public async Task<string> UploadImageAsync(Stream imageStream, string imageURL)
         {
             using (var client = new HttpClient())
@@ -967,6 +1055,22 @@ namespace oto1.Services
                 }
             }
         }
+        */
+
+        public async Task<string> UploadImageAsync(byte[] imageBytes, string uploadUrl, string fileName)
+        {
+            using var client = new HttpClient();
+            using var content = new MultipartFormDataContent();
+            var fileContent = new ByteArrayContent(imageBytes);
+            fileContent.Headers.ContentType = new MediaTypeHeaderValue("image/jpeg");
+            content.Add(fileContent, "file", fileName);
+            var response = await client.PostAsync(uploadUrl, content);
+            var body = await response.Content.ReadAsStringAsync();
+            if (!response.IsSuccessStatusCode)
+                return $"{(int)response.StatusCode} {body}";
+            return "1";
+        }
+
 
         public async Task<bool> UpdateCustomer(CustomerModel myCustomer)
         {

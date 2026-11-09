@@ -1,15 +1,14 @@
- using Auto1API.Models;
+﻿using Auto1API.Models;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddDbContext<Auto1Context>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("Auto1ConnectionString")));
+builder.Services.AddDbContext<Auto1Context>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("Auto1ConnectionString")));
 
 var app = builder.Build();
 
@@ -20,7 +19,11 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
- app.UseHttpsRedirection();
+app.UseHttpsRedirection();
+
+
+app.UseStaticFiles();
+
 
 app.UseAuthorization();
 

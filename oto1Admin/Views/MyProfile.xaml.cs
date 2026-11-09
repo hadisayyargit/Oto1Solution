@@ -41,9 +41,93 @@ public partial class MyProfile : ContentPage
         framePassword.IsVisible = false;
     }
 
-    private async void btnUpdatePerson_Clicked(object sender, EventArgs e)
+    private async void btnSelectImage_Clicked(object sender, EventArgs e)
     {
 
+
+        try
+        {
+            FileResult photo = await MediaPicker.PickPhotoAsync();
+            if (photo != null)
+            {
+                // خواندن مستقیم استریم و تبدیل به بایت به صورت کاملاً امن و Async
+                using (var stream = await photo.OpenReadAsync())
+                {
+                    using (var memoryStream = new MemoryStream())
+                    {
+                        await stream.CopyToAsync(memoryStream);
+                        m_imageBytes = memoryStream.ToArray();
+                    }
+                }
+
+                // نمایش عکس در UI (برای نمایش مجدد از بایت‌ها استفاده می‌کنیم تا استریم بسته نشود)
+                if (m_imageBytes != null && m_imageBytes.Length > 0)
+                {
+                    imgUser.Source = ImageSource.FromStream(() => new MemoryStream(m_imageBytes));
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlert("خطا", $"خطا در انتخاب عکس: {ex.Message}", "قبول");
+        }
+
+
+        //try
+        //{
+        //    var photo = await MediaPicker.PickPhotoAsync();
+        //    if (photo == null)
+        //        return;
+        //    await using var stream = await photo.OpenReadAsync();
+        //    using var ms = new MemoryStream();
+        //    await stream.CopyToAsync(ms);
+        //    m_imageBytes = ms.ToArray();
+        //    imgUser.Source = ImageSource.FromStream(() => new MemoryStream(m_imageBytes));
+        //}
+        //catch (Exception ex)
+        //{
+        //    await DisplayAlert("خطا", ex.Message, "قبول");
+        //}
+
+
+    }
+    private async void btnUpdatePerson_Clicked(object sender, EventArgs e)
+    {
+        try
+        {
+            // ۱. اول آپلود عکس (اگر عکسی انتخاب شده باشد)
+            if (m_imageBytes != null && m_imageBytes.Length > 0)
+            {
+               // string imageURL = "https://khordadnet.ir/mysites/oto1/assets/person/p100.png";
+
+
+
+                // اصلاح متد آپلود برای گرفتن مستقیم بایت‌ها (بسیار پایدارتر)
+                string resultUpload = await this.MyServiceController.UploadImageAsync(m_imageBytes, "person");
+
+                if (resultUpload.StartsWith("Error") || resultUpload.StartsWith("Exception"))
+                {
+                    // نمایش خطا به کاربر
+                    await Shell.Current.DisplayAlert("خطا در آپلود", resultUpload, "OK");
+                }
+                else
+                {
+                    // result حالا حاوی آدرس است، مثلاً: /assets/person/2026...jpg
+                    // این آدرس را در مدل خود (مثلاً CustomerModel) برای ذخیره در دیتابیس قرار بده
+                    string imagePathForDb = resultUpload;
+                }
+            }
+
+            // ۲. آپدیت اطلاعات شخص
+            await this.MyServiceController.UpdatePerson(m_myperson);
+            await DisplayAlert("پیام", "مشخصاتت اصلاح شد", "قبول");
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlert("خطا", ex.Message, "قبول");
+        }
+
+        /*
         string resultUpload = "";
 
         if (m_imageBytes != null)
@@ -51,14 +135,15 @@ public partial class MyProfile : ContentPage
             using (var memoryStream = new MemoryStream())
             {
 
-                memoryStream.WriteAsync(m_imageBytes, 0, m_imageBytes.Length);
+                await memoryStream.WriteAsync(m_imageBytes, 0, m_imageBytes.Length);
 
                 //await m_stream.CopyToAsync(memoryStream);
 
                 memoryStream.Position = 0;
 
-                string imageURL = "https://khordadnet.ir/mysites/oto1/assets/person";
-                //resultUpload = await this.MyServiceController.UploadImageAsync(memoryStream, imageURL);\
+                string imageURL = "https://khordadnet.ir/mysites/oto1/assets/person/a100.png";
+                                 
+                resultUpload = await this.MyServiceController.UploadImageAsync(memoryStream, imageURL);
 
             }
 
@@ -74,7 +159,33 @@ public partial class MyProfile : ContentPage
         {
             await DisplayAlert("خطا", ex.Message, "قبول");
         }
-
+        */
+        /*
+        try
+        {
+            if (m_imageBytes is { Length: > 0 })
+            {
+                // این باید اسکریپت/API دریافت فایل باشد، نه خود p100.png
+                //string uploadUrl = "https://khordadnet.ir/mysites/oto1/api/upload-person.php";
+                string uploadUrl = "https://khordadnet.ir/mysites/oto1/assets/person";
+                string resultUpload = await MyServiceController.UploadImageAsync(
+                    m_imageBytes,
+                    uploadUrl,
+                    "p100.jpg");
+                if (resultUpload != "1")
+                {
+                    await DisplayAlert("خطا", "آپلود عکس انجام نشد: " + resultUpload, "قبول");
+                    return;
+                }
+            }
+            await MyServiceController.UpdatePerson(m_myperson);
+            await DisplayAlert("پیام", "مشخصاتت اصلاح شد", "قبول");
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlert("خطا", ex.Message, "قبول");
+        }
+        */
     }
 
     private void btnCancel_Clicked(object sender, EventArgs e)
@@ -112,34 +223,7 @@ public partial class MyProfile : ContentPage
             await DisplayAlert("", ex.Message, "قبول", flowDirection: FlowDirection.LeftToRight);
         }
     }
-    private async void btnSelectImage_Clicked(object sender, EventArgs e)
-    {
 
-
-        FileResult photo = await MediaPicker.PickPhotoAsync();
-        if (photo != null)
-        {
-            m_stream = await photo.OpenReadAsync();
-
-
-
-            if (m_stream != null)
-            {
-                streamtobytes();
-                m_stream.Position = 0;
-
-
-                await Task.Delay(200);
-
-                imgUser.Source = ImageSource.FromStream(() => m_stream);
-
-
-            }
-
-
-
-        }
-    }
 
     private void toolbaritemRefresh_Clicked(object sender, EventArgs e)
     {
@@ -191,13 +275,13 @@ public partial class MyProfile : ContentPage
         }
     }
 
-    private void streamtobytes()
+    private async void streamtobytes()
     {
 
         //// تبدیل عکس به بایت
         using (var memoryStream = new MemoryStream())
         {
-            m_stream.CopyToAsync(memoryStream);
+           await m_stream.CopyToAsync(memoryStream);
             m_imageBytes = memoryStream.ToArray();
         }
 
