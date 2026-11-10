@@ -25,11 +25,11 @@ namespace oto1
         ObservableCollection<PartCarVendorModel> myItems { get; set; }
 
         private int _pageNumber = 1;
-        private const int _pageSize = 20;
+        private const int _pageSize = 2;
         private bool _isLoading = false;
         private bool _hasMoreData = true;
 
-        private const int PageSize = 20;
+        private const int PageSize = 2;
 
         private bool _isLoadingPage = false;
 
@@ -296,7 +296,7 @@ namespace oto1
                     break;
             }
 
-            searchresult = await MyServiceController.GetPart(PartId, manufacturerid, carid, vendorid, partlevel1id, partlevel2id, partlevel3id, partname, partcode, viscosity, performancelevel, batteryamperage, batteryvoltage, tireyear, tireringsize, tirewheels, partcolor, partattribute);
+            //searchresult = await MyServiceController.GetPart(PartId, manufacturerid, carid, vendorid, partlevel1id, partlevel2id, partlevel3id, partname, partcode, viscosity, performancelevel, batteryamperage, batteryvoltage, tireyear, tireringsize, tirewheels, partcolor, partattribute);
 
             /*
             if (searchresult != null && searchresult.Count > 0)
