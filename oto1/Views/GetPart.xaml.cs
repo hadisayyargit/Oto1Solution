@@ -7,8 +7,8 @@ namespace oto1
 {
     public partial class GetPart : ContentPage
     {
-        private  MenuViewModel _menuViewModel;
-        private  VendorModel _vendor;
+        private MenuViewModel _menuViewModel;
+        private VendorModel _vendor;
         public ObservableCollection<VendorModel> FilteredVendors { get; set; } = new ObservableCollection<VendorModel>();
 
         ServiceController MyServiceController = new ServiceController();
@@ -19,17 +19,31 @@ namespace oto1
         List<ManufacturerModel> manufacturers = new List<ManufacturerModel>();
         List<PartModel> products = new List<PartModel>();
         List<PartCarVendorModel> searchresult = new List<PartCarVendorModel>();
-       
+
         List<VendorModel> vendors = new List<VendorModel>();
         PartModel SelectedProduct { get; set; }
         ObservableCollection<PartCarVendorModel> myItems { get; set; }
+
+        private int _pageNumber = 1;
+        private const int _pageSize = 20;
+        private bool _isLoading = false;
+        private bool _hasMoreData = true;
+
+        private const int PageSize = 20;
+
+        private bool _isLoadingPage = false;
+
+        private Func<int, int, Task<List<PartCarVendorModel>>>? _getPartPageAsync;
+
+        private ObservableCollection<PartCarVendorModel> displayedProducts
+            = new ObservableCollection<PartCarVendorModel>();
+
         public GetPart()
         {
             InitializeComponent();
-
+            collectionviewProducts.ItemsSource = displayedProducts;
         }
 
-        private bool _isLoading = false;
 
         protected override async void OnAppearing()
         {
@@ -69,7 +83,7 @@ namespace oto1
 
                 frameLubricant.IsVisible = false;
                 frameBattery.IsVisible = false;
-               frameTire.IsVisible = false;
+                frameTire.IsVisible = false;
                 stacklayoutPartClass.IsVisible = false;
 
                 switch ((byte)GlobalClass.m_CustomerServiceItemView.ServiceItemType)
@@ -144,8 +158,8 @@ namespace oto1
             partlevels1 = await MyServiceController.GetPartLevel(-1, -1, -1);
             foreach (PartLevelModel pl1 in partlevels1)
             {
-                var node1 = new MenuItemModel { Title =pl1.PName, PartLevel1Id = pl1.PartLevel1Id, PartLevel2Id = pl1.PartLevel2Id, PartLevel3Id = pl1.PartLevel3Id };
-              
+                var node1 = new MenuItemModel { Title = pl1.PName, PartLevel1Id = pl1.PartLevel1Id, PartLevel2Id = pl1.PartLevel2Id, PartLevel3Id = pl1.PartLevel3Id };
+
 
                 partlevels2 = await MyServiceController.GetPartLevel(pl1.PartLevel1Id, -1, -1);
                 foreach (PartLevelModel pl2 in partlevels2)
@@ -163,7 +177,7 @@ namespace oto1
 
                 rootCategory.Children.Add(node1);
             }
-           
+
             vm.MenuItems.Add(rootCategory);
         }
 
@@ -181,10 +195,10 @@ namespace oto1
 
         private void btnClear_Clicked(object sender, EventArgs e)
         {
-          
+
             pickerManufacturer.SelectedIndex = -1;
             pickerCar.SelectedIndex = -1;
-            txtPartName.Text= string.Empty;
+            txtPartName.Text = string.Empty;
             txtPerformanceLevel.Text = "";
             txtViscosity.Text = string.Empty;
             txtVoltage.Text = string.Empty;
@@ -194,8 +208,12 @@ namespace oto1
             txtTireRingSize.Text = string.Empty;
             txtTireYear.Text = string.Empty;
             txtTireWheels.Text = string.Empty;
-            
-            collectionviewProducts.ItemsSource = null;
+
+            displayedProducts.Clear();
+
+            _getPartPageAsync = null;
+            _pageNumber = 1;
+            _hasMoreData = false;
 
             FilteredVendors.Clear();
             _vendor = null;
@@ -231,9 +249,9 @@ namespace oto1
             if (_vendor != null)
                 vendorid = _vendor.VendorId;
 
-                var selectedItem = _menuViewModel.MenuItems
-            .SelectMany(FindAllNodes)
-            .FirstOrDefault(x => x.GetFullPath(_menuViewModel.MenuItems) == _menuViewModel.SelectedMenuTitle);
+            var selectedItem = _menuViewModel.MenuItems
+        .SelectMany(FindAllNodes)
+        .FirstOrDefault(x => x.GetFullPath(_menuViewModel.MenuItems) == _menuViewModel.SelectedMenuTitle);
 
             if (_menuViewModel.SelectedMenuItem != null)
             {
@@ -258,7 +276,7 @@ namespace oto1
 
 
 
-           switch(GlobalClass.m_CustomerServiceItemView.ServiceItemType)
+            switch (GlobalClass.m_CustomerServiceItemView.ServiceItemType)
             {
                 case (byte)GlobalClass.enumServiceItemType.serviceitemtype_LubricantSale:
                     partlevel1id = 7;
@@ -278,9 +296,9 @@ namespace oto1
                     break;
             }
 
-            searchresult = await MyServiceController.GetPart(PartId, manufacturerid, carid, vendorid,partlevel1id,partlevel2id,partlevel3id,partname,partcode,viscosity,performancelevel,batteryamperage,batteryvoltage,tireyear,tireringsize,tirewheels,partcolor,partattribute);
+            searchresult = await MyServiceController.GetPart(PartId, manufacturerid, carid, vendorid, partlevel1id, partlevel2id, partlevel3id, partname, partcode, viscosity, performancelevel, batteryamperage, batteryvoltage, tireyear, tireringsize, tirewheels, partcolor, partattribute);
 
-
+            /*
             if (searchresult != null && searchresult.Count > 0)
             {
                 foreach (var pr in searchresult)
@@ -295,6 +313,40 @@ namespace oto1
 
             collectionviewProducts.ItemsSource = searchresult;
             activityIndicator.IsRunning = false;
+            */
+
+            // ذخیره فیلترهای جستجوی فعلی برای صفحات بعدی
+            _getPartPageAsync = (pageNumber, pageSize) =>
+                MyServiceController.GetPart(
+                    partid: PartId,
+                    manufacturerid: manufacturerid,
+                    carid: carid,
+                    vendorid: vendorid,
+                    partlevel1id: partlevel1id,
+                    partlevel2id: partlevel2id,
+                    partlevel3id: partlevel3id,
+                    partname: partname,
+                    partcode: partcode,
+                    viscosity: viscosity,
+                    performancelevel: performancelevel,
+                    batteryamperage: batteryamperage,
+                    batteryvoltage: batteryvoltage,
+                    tireyear: tireyear,
+                    tireringsize: tireringsize,
+                    tirewheels: tirewheels,
+                    partcolor: partcolor,
+                    partattribute: partattribute,
+                    pagenumber: pageNumber,
+                    pagesize: pageSize
+                );
+
+            // شروع جستجوی جدید
+            _pageNumber = 1;
+            _hasMoreData = true;
+
+            displayedProducts.Clear();
+
+            await LoadNextPageAsync();
 
         }
 
@@ -316,11 +368,11 @@ namespace oto1
                 {
                     if (item.Quantity > 0)
                     {
-                        myServices.Add(new CustomerServiceItemViewModel() { CustomerId = GlobalClass.m_CustomerId, PartId = item.PartId, Quantity = item.Quantity,ServiceType= GlobalClass.m_CustomerServiceItemView.ServiceType, ServiceItemType = GlobalClass.m_CustomerServiceItemView.ServiceItemType, ServiceItemStatus = (byte)GlobalClass.enumServiceItemStatus.serviceitemstatus_Request, NetAmount = item.NetAmount, PriceAmount = item.PriceAmount, VendorId = item.VendorId, Latitude = GlobalClass.m_Latitude, Longitude = GlobalClass.m_Longitude, Address = GlobalClass.m_Address });
+                        myServices.Add(new CustomerServiceItemViewModel() { CustomerId = GlobalClass.m_CustomerId, PartId = item.PartId, Quantity = item.Quantity, ServiceType = GlobalClass.m_CustomerServiceItemView.ServiceType, ServiceItemType = GlobalClass.m_CustomerServiceItemView.ServiceItemType, ServiceItemStatus = (byte)GlobalClass.enumServiceItemStatus.serviceitemstatus_Request, NetAmount = item.NetAmount, PriceAmount = item.PriceAmount, VendorId = item.VendorId, Latitude = GlobalClass.m_Latitude, Longitude = GlobalClass.m_Longitude, Address = GlobalClass.m_Address });
                     }
                 }
 
-                
+
                 res = await MyCustomerServiceController.AddCustomerService(myServices);
                 msg = "درخواست شما ثبت شد با شماره‌های: " + res;
                 await DisplayAlert("", msg, "ok");
@@ -396,6 +448,60 @@ namespace oto1
                 cvVendorResults.SelectedItem = null; // ریست کردن انتخاب
             }
         }
+
+
+        private async Task LoadNextPageAsync()
+        {
+            if (_isLoadingPage || !_hasMoreData || _getPartPageAsync == null)
+                return;
+
+            _isLoadingPage = true;
+            activityIndicator.IsRunning = true;
+
+            try
+            {
+                var pageItems = await _getPartPageAsync(_pageNumber, PageSize);
+
+                if (pageItems == null || pageItems.Count == 0)
+                {
+                    _hasMoreData = false;
+                    return;
+                }
+
+                foreach (var pr in pageItems)
+                {
+                    pr.PhotoFileName =
+                        $"https://khordadnet.ir/mysites/oto1/assets/part/prt{pr.PartId}.png";
+
+                    displayedProducts.Add(pr);
+                }
+
+                _pageNumber++;
+
+                // اگر تعداد رکوردها کمتر از PageSize باشد، صفحه آخر است
+                if (pageItems.Count < PageSize)
+                {
+                    _hasMoreData = false;
+                }
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("خطا", ex.Message, "OK");
+            }
+            finally
+            {
+                _isLoadingPage = false;
+                activityIndicator.IsRunning = false;
+            }
+        }
+
+
+        private async void collectionviewProducts_RemainingItemsThresholdReached(    object sender, EventArgs e)
+        {
+            await LoadNextPageAsync();
+        }
+
+
 
     }
 }

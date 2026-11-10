@@ -111,7 +111,8 @@
         <Button Text="پیدا کن" x:Name="btnSearch"      Grid.Row="7" Grid.Column="0"  Clicked="btnSearch_Clicked"  />
 
 
-        <CollectionView x:Name="collectionviewProducts" Grid.Row="8" Grid.ColumnSpan="2" SelectionMode="None" >
+            <CollectionView x:Name="collectionviewProducts" Grid.Row="8" Grid.ColumnSpan="2" SelectionMode="None" RemainingItemsThreshold="5"
+RemainingItemsThresholdReached="collectionviewProducts_RemainingItemsThresholdReached" >
             <CollectionView.ItemsLayout>
                 <GridItemsLayout Orientation="Vertical" Span="1" VerticalItemSpacing="8" HorizontalItemSpacing="8" />
             </CollectionView.ItemsLayout>

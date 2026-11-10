@@ -1,12 +1,13 @@
-﻿using oto1.Models;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
+using oto1.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
-using System.Net.Http.Headers;
+
 
 namespace oto1.Services
 {
@@ -488,7 +489,7 @@ namespace oto1.Services
         
         public async Task<List<PartCarVendorModel>> GetPart(int partid = -1, int manufacturerid = -1, int carid = -1, int vendorid = -1
             , int partlevel1id = -1, int partlevel2id = -1, int partlevel3id = -1, string partname = "", string partcode = ""
-            , string viscosity = "", string performancelevel = "", int batteryamperage = -1, int batteryvoltage = -1, int tireyear = -1, string tireringsize = "", string tirewheels = "", string partcolor = "", string partattribute = "")
+            , string viscosity = "", string performancelevel = "", int batteryamperage = -1, int batteryvoltage = -1, int tireyear = -1, string tireringsize = "", string tirewheels = "", string partcolor = "", string partattribute = "", int pagenumber=1, int pagesize=10)
         //, string pricedate = "2000-1-1")
         {
             try
@@ -497,7 +498,7 @@ namespace oto1.Services
                 string fullurl = this.baseUrl + "/GetPart?PartId=" + partid + "&manufacturerid=" + manufacturerid + "&carid=" + carid + "&vendorid=" + vendorid
                     + "&partlevel1id=" + partlevel1id + "&partlevel2id=" + partlevel2id + "&partlevel3id=" + partlevel3id + "&partname=" + partname + "&partcode=" + partcode
                     + "&viscosity=" + viscosity + "&performancelevel=" + performancelevel + "&batteryamperage=" + batteryamperage + "&batteryvoltage=" + batteryvoltage + "&tireyear=" + tireyear + "&tireringsize=" + tireringsize + "&tirewheels=" + tirewheels + "&partcolor=" + partcolor + "&partattribute=" + partattribute
-                    ;
+                    + "&pagenumber=" + pagenumber+ "&pagesize=" + pagesize; 
                     //+ "&pricedate=" + pricedate;
 
           
