@@ -120,7 +120,7 @@ select * from
 -- truncate table  
 CustomerServiceItem
 
- --dotnet publish -c Release -f:net7.0-android33.0
+ -- dotnet publish -c Release -f:net10.0-android
 
 
 -- sp_SearchProducts @carid=1  --@productid=1

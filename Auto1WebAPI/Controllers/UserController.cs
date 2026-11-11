@@ -2,7 +2,7 @@
 
 namespace Auto1API.Controllers
 {
-    [Route("[controller]")] // حذف api/ برای ساده‌سازی
+    [Route("api/[controller]")] // حذف api/ برای ساده‌سازی
     [ApiController]
     public class UserController : ControllerBase
     {
@@ -16,6 +16,13 @@ namespace Auto1API.Controllers
             // مسیر نهایی در هاست شما: httpdocs/wwwroot/assets
             _baseAssetsPath = Path.Combine(_env.WebRootPath, "assets");
         }
+
+        [HttpGet("sayhello2")]
+        public IActionResult SayHello2()
+        {
+            return Ok("Hello from Server! Connection is working.");
+        }
+
 
         [HttpPost("upload/{subFolder}")]
         public async Task<IActionResult> UploadFile(string subFolder, IFormFile file)

@@ -23,6 +23,9 @@ namespace oto1.Services
 
             DevicePlatform.Android ? "https://khordadnet.ir/mysites/auto1api/Auto1" : "https://khordadnet.ir/mysites/Auto1api/Auto1";
 
+
+          
+
         }
 
         public async Task<string> SayHello()
@@ -942,14 +945,10 @@ namespace oto1.Services
 
         public async Task<string> UploadImageAsync(byte[] imageBytes, string subFolder)
         {
-            // ۱. ساخت URL دقیق مطابق با Route های API شما
-            // ساختار: [BaseUrl] / api / User / upload / [subFolder]
-            // فرض بر این است که this.baseUrl برابر است با: "https://khordadnet.ir/mysites/auto1api"
 
             string baseUrl = this.baseUrl.TrimEnd('/');
             
             string uploadUrl = $"{baseUrl}/api/User/upload/{subFolder}";
-            //string uploadUrl = $"{baseUrl}/upload/{subFolder}";
 
 
             using (var client = new HttpClient())
@@ -1058,6 +1057,8 @@ namespace oto1.Services
         }
         */
 
+        /*
+
         public async Task<string> UploadImageAsync(byte[] imageBytes, string uploadUrl, string fileName)
         {
             using var client = new HttpClient();
@@ -1104,6 +1105,9 @@ namespace oto1.Services
             }
 
         }
+
+        */
+
         public async Task<bool> UpdateVendor(VendorModel myVendor)
         {
 
