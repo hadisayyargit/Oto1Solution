@@ -25,11 +25,11 @@ namespace oto1
         ObservableCollection<PartCarVendorModel> myItems { get; set; }
 
         private int _pageNumber = 1;
-        private const int _pageSize = 2;
+        private const int _pageSize = 10;
         private bool _isLoading = false;
         private bool _hasMoreData = true;
 
-        private const int PageSize = 2;
+        private const int PageSize = 10;
 
         private bool _isLoadingPage = false;
 

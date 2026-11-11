@@ -53,7 +53,7 @@
                 <CollectionView.GroupHeaderTemplate>
                     <DataTemplate>
 
-                        <Grid RowDefinitions="auto,auto,auto,auto" ColumnDefinitions=".6*,.4*" Margin="10" Padding="10" BackgroundColor="LightYellow">
+                        <Grid RowDefinitions="auto,auto,auto,auto" ColumnDefinitions=".6*,.4*" Margin="10" Padding="10" BackgroundColor="Transparent">
                             <Label Text="{Binding VendorName}"            Grid.Row="0" Grid.Column="0"   FontSize="Micro"></Label>
                             <Label Text="{Binding ServiceId, StringFormat='شماره سفارش: {0:D}'}" Grid.Row="0" Grid.Column="1" Margin="0,0,0,10" FontAttributes="Bold" FontFamily="BYekan"/>
                           
