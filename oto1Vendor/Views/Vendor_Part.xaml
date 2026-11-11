@@ -9,7 +9,7 @@
     <Grid RowDefinitions="30,50,*" >
         <ActivityIndicator x:Name="activityIndicator" IsVisible="False" Grid.Row="0" IsRunning="False" Color="BlueViolet"/>
    
-        <Button x:Name="btnAdd" Text="اضافه کردن"
+        <Button x:Name="btnAdd" Text="افزودن"
                 Grid.Row="1" Clicked="btnAdd_Clicked" />
         
         <dg:DataGrid x:Name="grdVendorPart" Grid.Row="2" ItemsSource="{Binding}"  >

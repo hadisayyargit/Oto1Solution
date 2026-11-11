@@ -12,7 +12,7 @@
             
              FlowDirection="RightToLeft">
     <ScrollView>
-    <Grid RowDefinitions="10,auto,auto,auto,auto,auto,auto,auto,*,auto" ColumnDefinitions="0.5*,0.5*"    Padding="5"  Margin="5" ColumnSpacing="5" RowSpacing="5"   >
+    <Grid RowDefinitions="30,auto,auto,auto,auto,auto,auto,auto,*,auto" ColumnDefinitions="0.5*,0.5*"    Padding="5"  Margin="5" ColumnSpacing="5" RowSpacing="5"   >
         <ActivityIndicator x:Name="activityIndicator" Grid.Row="0" IsVisible="True"  IsRunning="False"      Color="Orange"  Grid.ColumnSpan="2"   />
 
             <VerticalStackLayout Padding="10" Spacing="5" x:Name="stacklayoutPartClass" Grid.Row="1" Grid.ColumnSpan="2">
