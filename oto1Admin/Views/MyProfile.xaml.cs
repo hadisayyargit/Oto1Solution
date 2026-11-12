@@ -93,27 +93,23 @@ public partial class MyProfile : ContentPage
     }
     private async void btnUpdatePerson_Clicked(object sender, EventArgs e)
     {
+        string filename = "";
         try
         {
             // ۱. اول آپلود عکس (اگر عکسی انتخاب شده باشد)
             if (m_imageBytes != null && m_imageBytes.Length > 0)
             {
-               // string imageURL = "https://khordadnet.ir/mysites/oto1/assets/person/p100.png";
+               
+                    filename = $"a{GlobalClass.m_PersonId.ToString()}.png";
 
-
-
-                // اصلاح متد آپلود برای گرفتن مستقیم بایت‌ها (بسیار پایدارتر)
-                string resultUpload = await this.MyServiceController.UploadImageAsync(m_imageBytes, "person");
+                string resultUpload = await this.MyServiceController.UploadImageAsync(m_imageBytes, "person",filename);
 
                 if (resultUpload.StartsWith("Error") || resultUpload.StartsWith("Exception"))
                 {
-                    // نمایش خطا به کاربر
                     await Shell.Current.DisplayAlert("خطا در آپلود", resultUpload, "OK");
                 }
                 else
                 {
-                    // result حالا حاوی آدرس است، مثلاً: /assets/person/2026...jpg
-                    // این آدرس را در مدل خود (مثلاً CustomerModel) برای ذخیره در دیتابیس قرار بده
                     string imagePathForDb = resultUpload;
                 }
             }

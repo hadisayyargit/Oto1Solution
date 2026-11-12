@@ -32,27 +32,44 @@ namespace Auto1API.Controllers
 
             try
             {
-                // ۱. ساخت مسیر پوشه مقصد (مثلاً: wwwroot/assets/person)
-                string targetDirectory = Path.Combine(_baseAssetsPath, subFolder);
+                // مسیر فعلی پروژه: .../httpdocs/mysites/auto1api
+                var currentDir = Directory.GetCurrentDirectory();
+
+                // رفتن دو سطح به بالا برای رسیدن به httpdocs
+                // سطح 1: mysites
+                // سطح 2: httpdocs
+                var parentDir1 = Directory.GetParent(currentDir);
+
+                /*
+                var parentDir2 = parentDir1?.Parent;
+
+                if (parentDir2 == null)
+                {
+                    return BadRequest("مسیر روت اصلی هاست قابل تشخیص نیست.");
+                }
+
+                // ساخت مسیر نهایی: httpdocs/wwwroot/assets/oto1/subFolder
+                var targetDirectory = Path.Combine(parentDir2.FullName, "wwwroot", "assets", "oto1", subFolder);
+                */
+
+                // ساخت مسیر نهایی: httpdocs/mysites/oto1/assets/subFolder
+                var targetDirectory = Path.Combine(parentDir1.FullName, "oto1", "assets",  subFolder);
 
                 if (!Directory.Exists(targetDirectory))
                 {
                     Directory.CreateDirectory(targetDirectory);
                 }
 
-                // ۲. ساخت نام منحصر به فرد برای فایل (Timestamp + Original Name)
-                string fileName = $"{DateTime.Now:yyyyMMddHHmmss}_{file.FileName}";
+                string fileName = file.FileName;
                 string filePath = Path.Combine(targetDirectory, fileName);
 
-                // ۳. ذخیره فایل
                 using (var stream = new FileStream(filePath, FileMode.Create))
                 {
                     await file.CopyToAsync(stream);
                 }
 
-                // ۴. تولید مسیر نسبی برای استفاده در موبایل (مثلاً: /assets/person/file.jpg)
-                // این مسیر دقیقاً همان چیزی است که در مرورگر کار می‌کند
-                string relativePath = $"/assets/{subFolder}/{fileName}";
+                // آدرس نسبی برای ذخیره در دیتابیس یا بازگرداندن به کلاینت
+                string relativePath = $"/assets/oto1/{subFolder}/{fileName}";
 
                 return Ok(new
                 {
@@ -63,8 +80,15 @@ namespace Auto1API.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(500, $"خطای سرور: {ex.Message}");
+                return StatusCode(500, new
+                {
+                    message = "خطا در آپلود فایل",
+                    error = ex.Message
+                });
             }
         }
+
+
+
     }
 }

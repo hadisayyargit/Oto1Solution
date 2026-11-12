@@ -943,11 +943,15 @@ namespace oto1.Services
 
         }
 
-        public async Task<string> UploadImageAsync(byte[] imageBytes, string subFolder)
+        public async Task<string> UploadImageAsync(byte[] imageBytes, string subFolder, string filename)
         {
+            this.baseUrl = DeviceInfo.Platform ==
+          DevicePlatform.Android ? "https://khordadnet.ir/mysites/auto1api/" : "https://khordadnet.ir/mysites/Auto1api/";
+
+
 
             string baseUrl = this.baseUrl.TrimEnd('/');
-            
+    
             string uploadUrl = $"{baseUrl}/api/User/upload/{subFolder}";
 
 
@@ -958,11 +962,11 @@ namespace oto1.Services
                 using (var content = new MultipartFormDataContent())
                 {
                     var byteContent = new ByteArrayContent(imageBytes);
-                    byteContent.Headers.ContentType = new MediaTypeHeaderValue("image/jpeg");
+                    //byteContent.Headers.ContentType = new MediaTypeHeaderValue("image/jpeg");
+                    byteContent.Headers.ContentType = new MediaTypeHeaderValue("image/png");
 
-                    // نام فیلد "file" باید دقیقاً با نام ورودی متد در API یکی باشد
-                    content.Add(byteContent, "file", $"img_{DateTime.Now.Ticks}.jpg");
-
+                    // content.Add(byteContent, "file", $"img_{DateTime.Now.Ticks}.jpg");
+                    content.Add(byteContent, "file", filename);
                     try
                     {
                         var response = await client.PostAsync(uploadUrl, content);
@@ -987,75 +991,7 @@ namespace oto1.Services
         }
 
 
-        /*
-        public async Task<string> UploadBytesAsync(byte[] imageBytes, string imageURL)
-        {
-            using (var client = new HttpClient())
-            {
-                using (var content = new MultipartFormDataContent())
-                {
-                    // استفاده از ByteArrayContent به جای StreamContent که احتمال باگ استریم را صفر می‌کند
-                    var byteContent = new ByteArrayContent(imageBytes);
-                    byteContent.Headers.ContentType = new MediaTypeHeaderValue("image/jpeg");
 
-                    content.Add(byteContent, "file", "p100.jpg");
-
-                    try
-                    {
-                        var response = await client.PostAsync(imageURL, content);
-
-                        if (response.IsSuccessStatusCode)
-                        {
-                            return "1";
-                        }
-                        else
-                        {
-                            string errorContent = await response.Content.ReadAsStringAsync();
-                            Console.WriteLine($"Error Code: {response.StatusCode}, Message: {errorContent}");
-                            return $"0 - Error: {response.StatusCode}";
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        return $"0 - Exception: {ex.Message}";
-                    }
-                }
-            }
-        }
-        */
-
-        /*
-        public async Task<string> UploadImageAsync(Stream imageStream, string imageURL)
-        {
-            using (var client = new HttpClient())
-            {
-                var content = new MultipartFormDataContent();
-                var streamContent = new StreamContent(imageStream);
-                streamContent.Headers.ContentType = new MediaTypeHeaderValue("image/jpeg");
-                content.Add(streamContent, "file", "c22.jpg");
-
-                try
-                {
-                    var response = await client.PostAsync(imageURL, content);
-                    response.EnsureSuccessStatusCode();
-
-                    if (response.IsSuccessStatusCode)
-                    {
-                        return "1";
-
-                    }
-                    else
-                    {
-                        return "0";
-                    }
-                }
-                catch (Exception ex)
-                {
-                    return "0";
-                }
-            }
-        }
-        */
 
         /*
 
@@ -1073,7 +1009,7 @@ namespace oto1.Services
             return "1";
         }
 
-
+        */
         public async Task<bool> UpdateCustomer(CustomerModel myCustomer)
         {
 
@@ -1106,7 +1042,7 @@ namespace oto1.Services
 
         }
 
-        */
+        
 
         public async Task<bool> UpdateVendor(VendorModel myVendor)
         {
