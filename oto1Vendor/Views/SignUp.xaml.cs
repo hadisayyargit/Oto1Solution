@@ -156,32 +156,34 @@ public partial class SignUp : ContentPage
     }
     private async void btnSelectImage_Clicked(object sender, EventArgs e)
     {
-
-
-        FileResult photo = await MediaPicker.PickPhotoAsync();
-        if (photo != null)
+        try
         {
-            m_stream = await photo.OpenReadAsync();
-
-
-
-            if (m_stream != null)
+            FileResult photo = await MediaPicker.PickPhotoAsync();
+            if (photo != null)
             {
-                streamtobytes();
-                m_stream.Position = 0;
-
+                using (var stream = await photo.OpenReadAsync())
+                {
+                    using (var memoryStream = new MemoryStream())
+                    {
+                        await stream.CopyToAsync(memoryStream);
+                        m_imageBytes = memoryStream.ToArray();
+                    }
+                }
 
                 await Task.Delay(200);
-
-                imgUser.Source = ImageSource.FromStream(() => m_stream);
-
-
+                if (m_imageBytes != null && m_imageBytes.Length > 0)
+                {
+                    imgUser.Source = ImageSource.FromStream(() => new MemoryStream(m_imageBytes));
+                }
             }
-
-
-
         }
+        catch (Exception ex)
+        {
+            await DisplayAlert("خطا", $"خطا در انتخاب عکس: {ex.Message}", "قبول");
+        }
+
     }
+
 
 
     private void streamtobytes()

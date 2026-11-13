@@ -181,46 +181,20 @@ private async void InitmyMap()
         LocationAddressModel newLoc = new LocationAddressModel();
 
 
-        /*  update test
-        loc1.Id = 1;
-        loc1.FName = "تست شماره۲";
-
-        try
-        {
-           
-        }
-        catch (Exception ex)
-        {
-            await DisplayAlert("", ex.Message, "ok");
-        }
-        */
         try
         {
 
-            loc1.FName = txtPName.Text;
+            loc1.PName = txtPName.Text;
             loc1.VendorId = GlobalClass.m_VendorId;
             loc1.Latitude = GlobalClass.m_Latitude;
             loc1.Longitude = GlobalClass.m_Longitude;
             loc1.Address = txtAddress.Text;
-
-            //if (this.LocationAddressId > 0)
-            //{
-            //    loc1.LocationAddressId = Convert.ToInt64(this.LocationAddressId);
-            //    newLoc = await this.MyServiceController.UpdateLocationAddress(loc1);
-
-            //}
-            //else
-            //{
-            //    newLoc = await this.MyServiceController.AddLocationAddress(loc1);
-            //}
 
             newLoc = await this.MyServiceController.AddLocationAddress(loc1);
 
             if (newLoc != null)
             {
                 await DisplayAlert("پیام", "نشانی ذخیره شد", "ok");
-                //await DisplayAlert("", newLoc.Id.ToString(), "ok");
-
                 FillLocationCollection();
             }
         }

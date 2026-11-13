@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.Messaging;
 using CommunityToolkit.Mvvm.Messaging.Messages;
+
 using oto1.Services;
 
 namespace oto1;
@@ -65,20 +66,71 @@ public partial class AppShell : Shell
         // انجام عملیات مورد نظر با استفاده از currentTab
     }
 
+    /*
     private async void updateUserToolbarItem(string s)
     {
-
-        if (GlobalClass.m_UserId == "" || GlobalClass.m_PersonId == null)
+        if (string.IsNullOrEmpty(GlobalClass.m_UserId) || GlobalClass.m_PersonId == null)
+        {
             toolbaritemUser.IconImageSource = "user5.png";
+        }
         else
         {
-            string fileUrl = "https://khordadnet.ir/mysites/oto1/assets/person/a" + GlobalClass.m_PersonId.ToString() + ".png";
+            // اضافه کردن Cache Buster برای اطمینان بیشتر
+            string fileUrl = $"https://khordadnet.ir/mysites/oto1/assets/person/a{GlobalClass.m_PersonId}.png?v={Guid.NewGuid().ToString().Substring(0, 8)}";
+
+            try
+            {
+                using (HttpClient client = new HttpClient())
+                {
+                    // دریافت فایل به صورت Byte Array برای دور زدن تمام انواع کش
+                    var imageBytes = await client.GetByteArrayAsync(fileUrl);
+
+                    // تبدیل بایت‌ها به ImageSource
+                    using (var stream = new MemoryStream(imageBytes))
+                    {
+                        toolbaritemUser.IconImageSource = ImageSource.FromStream(() => stream);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                // اگر دانلود با خطا مواجه شد (مثلاً فایل نبود)، از عکس پیش‌فرض استفاده کن
+                System.Diagnostics.Debug.WriteLine($"Error loading image: {ex.Message}");
+                toolbaritemUser.IconImageSource = "user5.png";
+            }
+        }
+    }
+    */
+
+
+    
+    private async void updateUserToolbarItem(string s)
+    {
+        toolbaritemUser.IconImageSource = "user5.png";
+
+        if (GlobalClass.m_UserId != "" && GlobalClass.m_PersonId != null)
+        {
+            //string fileUrl = "https://khordadnet.ir/mysites/oto1/assets/person/a" + GlobalClass.m_PersonId.ToString() + ".png";
+
+            string fileUrl = $"https://khordadnet.ir/mysites/oto1/assets/person/a{GlobalClass.m_PersonId}.png?v={Guid.NewGuid().ToString().Substring(0, 8)}";
+
             bool fileExists = await NetClass.CheckNetFileExists(fileUrl);
+
             if (fileExists) toolbaritemUser.IconImageSource = fileUrl;
+            
+            // toolbaritemUser.IconImageSource = "https://khordadnet.ir/mysites/oto1/assets/person/a2.png";
+
+            /*
+            using (var client = new HttpClient())
+            {
+                var bytes = await client.GetByteArrayAsync(url);
+                toolbaritemUser.IconImageSource = ImageSource.FromStream(() => new MemoryStream(bytes));
+            }
+            */
         }
 
     }
-
+    
 
     private async void toolbaritemUser_Clicked(object sender, EventArgs e)
     {

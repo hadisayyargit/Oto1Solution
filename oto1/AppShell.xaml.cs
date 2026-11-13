@@ -90,11 +90,43 @@ public partial class AppShell : Shell
 
         if (GlobalClass.m_UserId != "")
         {
-            string fileUrl = "https://khordadnet.ir/mysites/oto1/assets/customer/c" + GlobalClass.m_CustomerId.ToString() + ".png";
+            string fileUrl = $"https://khordadnet.ir/mysites/oto1/assets/customer/c{GlobalClass.m_CustomerId.ToString()}.png";
 
             bool fileExists = await NetClass.CheckNetFileExists(fileUrl);
-            if (fileExists) toolbaritemUser.IconImageSource = fileUrl;
+            if (fileExists)
+            {
+               // toolbaritemUser.IconImageSource = fileUrl;
+
+                using (var client = new HttpClient())
+                {
+                    var bytes = await client.GetByteArrayAsync(fileUrl);
+                    toolbaritemUser.IconImageSource = ImageSource.FromStream(() => new MemoryStream(bytes));
+                }
+            }
         }
+
+
+
+        if (GlobalClass.m_UserId != "" && GlobalClass.m_PersonId != null)
+        {
+            //string fileUrl = "https://khordadnet.ir/mysites/oto1/assets/person/a" + GlobalClass.m_PersonId.ToString() + ".png";
+
+            string fileUrl = $"https://khordadnet.ir/mysites/oto1/assets/person/a{GlobalClass.m_PersonId}.png?v={Guid.NewGuid().ToString().Substring(0, 8)}";
+
+            bool fileExists = await NetClass.CheckNetFileExists(fileUrl);
+
+            if (fileExists) toolbaritemUser.IconImageSource = fileUrl;
+            // toolbaritemUser.IconImageSource = "https://khordadnet.ir/mysites/oto1/assets/person/a2.png";
+
+            /*
+            using (var client = new HttpClient())
+            {
+                var bytes = await client.GetByteArrayAsync(url);
+                toolbaritemUser.IconImageSource = ImageSource.FromStream(() => new MemoryStream(bytes));
+            }
+            */
+        }
+
 
 
     }

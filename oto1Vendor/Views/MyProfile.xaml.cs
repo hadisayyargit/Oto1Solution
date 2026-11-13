@@ -70,64 +70,28 @@ public partial class MyProfile : ContentPage
     private async void btnUpdateVendor_Clicked(object sender, EventArgs e)
     {
 
-        string resultUpload = "";
-
-        if (m_imageBytes != null)
-        {
-            using (var memoryStream = new MemoryStream())
-            {
-
-                memoryStream.WriteAsync(m_imageBytes, 0, m_imageBytes.Length);
-
-                //await m_stream.CopyToAsync(memoryStream);
-
-                memoryStream.Position = 0;
-
-                string imageURL = "https://khordadnet.ir/mysites/oto1/assets/person";
-                //imageURL = "https://example.com/upload/";
-                //imageURL = "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fc/";
-
-
-
-                //resultUpload = await this.MyServiceController.UploadImageAsync(memoryStream, imageURL);
-
-
-                /*
-
-                using (var client = new HttpClient())
-                {
-                    var content = new MultipartFormDataContent();
-                    var streamContent = new StreamContent(memoryStream);
-                    streamContent.Headers.ContentType = new MediaTypeHeaderValue("image/jpeg");
-                    content.Add(streamContent, "file", "cst2.jpg");
-
-                    try
-                    {
-                        var response = await client.PostAsync(imageURL, content);
-                        response.EnsureSuccessStatusCode();
-
-                        if (response.IsSuccessStatusCode)
-                        {
-                            resultUpload = "1";
-                        }
-                        else
-                        {
-                            resultUpload = "0";
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        resultUpload = "0";
-                    }
-                }
-                */
-
-            }
-
-        }
-
+        string filename = "";
         try
         {
+            /// uploading
+            if (m_imageBytes != null && m_imageBytes.Length > 0)
+            {
+
+                filename = $"v{GlobalClass.m_VendorId.ToString()}.png";
+
+                string resultUpload = await this.MyServiceController.UploadImageAsync(m_imageBytes, "person", filename);
+
+                if (resultUpload.StartsWith("Error") || resultUpload.StartsWith("Exception"))
+                {
+                    await Shell.Current.DisplayAlert("خطا در آپلود", resultUpload, "OK");
+                }
+                else
+                {
+                    string imagePathForDb = resultUpload;
+                }
+            }
+
+            // ۲. آپدیت اطلاعات شخص
             await this.MyServiceController.UpdateVendor(m_myvendor);
             await DisplayAlert("پیام", "مشخصاتت اصلاح شد", "قبول");
         }
@@ -175,31 +139,32 @@ public partial class MyProfile : ContentPage
     }
     private async void btnSelectImage_Clicked(object sender, EventArgs e)
     {
-
-
-        FileResult photo = await MediaPicker.PickPhotoAsync();
-        if (photo != null)
+        try
         {
-            m_stream = await photo.OpenReadAsync();
-
-
-
-            if (m_stream != null)
+            FileResult photo = await MediaPicker.PickPhotoAsync();
+            if (photo != null)
             {
-                streamtobytes();
-                m_stream.Position = 0;
-
+                using (var stream = await photo.OpenReadAsync())
+                {
+                    using (var memoryStream = new MemoryStream())
+                    {
+                        await stream.CopyToAsync(memoryStream);
+                        m_imageBytes = memoryStream.ToArray();
+                    }
+                }
 
                 await Task.Delay(200);
-
-                imgUser.Source = ImageSource.FromStream(() => m_stream);
-
-
+                if (m_imageBytes != null && m_imageBytes.Length > 0)
+                {
+                    imgUser.Source = ImageSource.FromStream(() => new MemoryStream(m_imageBytes));
+                }
             }
-
-
-
         }
+        catch (Exception ex)
+        {
+            await DisplayAlert("خطا", $"خطا در انتخاب عکس: {ex.Message}", "قبول");
+        }
+
     }
 
     private void toolbaritemRefresh_Clicked(object sender, EventArgs e)
@@ -221,16 +186,30 @@ public partial class MyProfile : ContentPage
             try
             {
                 //imgUser.Source = GlobalClass.m_UserThumbnailPhotoString;
-                imgUser.Source = "https://khordadnet.ir/mysites/oto1/assets/person/v" + GlobalClass.m_VendorId.ToString() + ".png";
+                //imgUser.Source = "https://khordadnet.ir/mysites/oto1/assets/person/v" + GlobalClass.m_VendorId.ToString() + ".png";
+
+                imgUser.Source = "user5.png";
+
+                if (GlobalClass.m_UserId != "")
+                {
+                    string fileUrl = $"https://khordadnet.ir/mysites/oto1/assets/person/v{GlobalClass.m_VendorId.ToString()}.png";
+
+                    bool fileExists = await NetClass.CheckNetFileExists(fileUrl);
+                    if (fileExists)
+                    {
+                        // toolbaritemUser.IconImageSource = fileUrl;
+
+                        using (var client = new HttpClient())
+                        {
+                            var bytes = await client.GetByteArrayAsync(fileUrl);
+                            imgUser.Source = ImageSource.FromStream(() => new MemoryStream(bytes));
+                        }
+                    }
+                }
 
                 labelUsername.Text = GlobalClass.m_VendorName;
-
-
                 MyServiceController = new ServiceController();
-
-
                 m_myvendor = await MyServiceController.GetVendorByUserId(GlobalClass.m_UserId);
-
 
                 /*
                  ///for displaying supported languages

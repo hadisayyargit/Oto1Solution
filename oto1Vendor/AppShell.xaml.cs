@@ -72,14 +72,31 @@ public partial class AppShell : Shell
 
         if (GlobalClass.m_UserId != "")
         {
-            string fileUrl = "https://khordadnet.ir/mysites/oto1/assets/person/v" + GlobalClass.m_VendorId.ToString() + ".png";
+            string fileUrl = $"https://khordadnet.ir/mysites/oto1/assets/customer/c{GlobalClass.m_CustomerId.ToString()}.png";
 
             bool fileExists = await NetClass.CheckNetFileExists(fileUrl);
-            if (fileExists) toolbaritemUser.IconImageSource = fileUrl;
+            if (fileExists)
+            {
+                // toolbaritemUser.IconImageSource = fileUrl;
+
+                using (var client = new HttpClient())
+                {
+                    var bytes = await client.GetByteArrayAsync(fileUrl);
+                    toolbaritemUser.IconImageSource = ImageSource.FromStream(() => new MemoryStream(bytes));
+                }
+            }
         }
 
-    }
+        if (GlobalClass.m_UserId != "" && GlobalClass.m_PersonId != null)
+        {
+            string fileUrl = $"https://khordadnet.ir/mysites/oto1/assets/person/v{GlobalClass.m_VendorId}.png?v={Guid.NewGuid().ToString().Substring(0, 8)}";
 
+            bool fileExists = await NetClass.CheckNetFileExists(fileUrl);
+
+            if (fileExists) toolbaritemUser.IconImageSource = fileUrl;
+
+        }
+    }
 
     private async void toolbaritemUser_Clicked(object sender, EventArgs e)
     {

@@ -43,8 +43,6 @@ public partial class MyProfile : ContentPage
 
     private async void btnSelectImage_Clicked(object sender, EventArgs e)
     {
-
-
         try
         {
             FileResult photo = await MediaPicker.PickPhotoAsync();
@@ -72,37 +70,19 @@ public partial class MyProfile : ContentPage
             await DisplayAlert("خطا", $"خطا در انتخاب عکس: {ex.Message}", "قبول");
         }
 
-
-        //try
-        //{
-        //    var photo = await MediaPicker.PickPhotoAsync();
-        //    if (photo == null)
-        //        return;
-        //    await using var stream = await photo.OpenReadAsync();
-        //    using var ms = new MemoryStream();
-        //    await stream.CopyToAsync(ms);
-        //    m_imageBytes = ms.ToArray();
-        //    imgUser.Source = ImageSource.FromStream(() => new MemoryStream(m_imageBytes));
-        //}
-        //catch (Exception ex)
-        //{
-        //    await DisplayAlert("خطا", ex.Message, "قبول");
-        //}
-
-
     }
     private async void btnUpdatePerson_Clicked(object sender, EventArgs e)
     {
         string filename = "";
         try
         {
-            // ۱. اول آپلود عکس (اگر عکسی انتخاب شده باشد)
+            /// uploading
             if (m_imageBytes != null && m_imageBytes.Length > 0)
             {
-               
-                    filename = $"a{GlobalClass.m_PersonId.ToString()}.png";
 
-                string resultUpload = await this.MyServiceController.UploadImageAsync(m_imageBytes, "person",filename);
+                filename = $"a{GlobalClass.m_PersonId.ToString()}.png";
+
+                string resultUpload = await this.MyServiceController.UploadImageAsync(m_imageBytes, "person", filename);
 
                 if (resultUpload.StartsWith("Error") || resultUpload.StartsWith("Exception"))
                 {
@@ -123,65 +103,6 @@ public partial class MyProfile : ContentPage
             await DisplayAlert("خطا", ex.Message, "قبول");
         }
 
-        /*
-        string resultUpload = "";
-
-        if (m_imageBytes != null)
-        {
-            using (var memoryStream = new MemoryStream())
-            {
-
-                await memoryStream.WriteAsync(m_imageBytes, 0, m_imageBytes.Length);
-
-                //await m_stream.CopyToAsync(memoryStream);
-
-                memoryStream.Position = 0;
-
-                string imageURL = "https://khordadnet.ir/mysites/oto1/assets/person/a100.png";
-                                 
-                resultUpload = await this.MyServiceController.UploadImageAsync(memoryStream, imageURL);
-
-            }
-
-        }
-
-
-        try
-        {
-            await this.MyServiceController.UpdatePerson(m_myperson);
-            await DisplayAlert("پیام", "مشخصاتت اصلاح شد", "قبول");
-        }
-        catch (Exception ex)
-        {
-            await DisplayAlert("خطا", ex.Message, "قبول");
-        }
-        */
-        /*
-        try
-        {
-            if (m_imageBytes is { Length: > 0 })
-            {
-                // این باید اسکریپت/API دریافت فایل باشد، نه خود p100.png
-                //string uploadUrl = "https://khordadnet.ir/mysites/oto1/api/upload-person.php";
-                string uploadUrl = "https://khordadnet.ir/mysites/oto1/assets/person";
-                string resultUpload = await MyServiceController.UploadImageAsync(
-                    m_imageBytes,
-                    uploadUrl,
-                    "p100.jpg");
-                if (resultUpload != "1")
-                {
-                    await DisplayAlert("خطا", "آپلود عکس انجام نشد: " + resultUpload, "قبول");
-                    return;
-                }
-            }
-            await MyServiceController.UpdatePerson(m_myperson);
-            await DisplayAlert("پیام", "مشخصاتت اصلاح شد", "قبول");
-        }
-        catch (Exception ex)
-        {
-            await DisplayAlert("خطا", ex.Message, "قبول");
-        }
-        */
     }
 
     private void btnCancel_Clicked(object sender, EventArgs e)
@@ -243,7 +164,26 @@ public partial class MyProfile : ContentPage
             try
             {
                 //imgUser.Source = GlobalClass.m_UserThumbnailPhotoString;
-                imgUser.Source = "https://khordadnet.ir/mysites/oto1/assets/person/a" + GlobalClass.m_PersonId.ToString() + ".png";
+                //imgUser.Source = "https://khordadnet.ir/mysites/oto1/assets/person/a" + GlobalClass.m_PersonId.ToString() + ".png";
+
+
+
+                string fileUrl = $"https://khordadnet.ir/mysites/oto1/assets/person/a{GlobalClass.m_PersonId.ToString()}.png";
+
+                bool fileExists = await NetClass.CheckNetFileExists(fileUrl);
+                if (fileExists)
+                {
+                    // toolbaritemUser.IconImageSource = fileUrl;
+
+                    using (var client = new HttpClient())
+                    {
+                        var bytes = await client.GetByteArrayAsync(fileUrl);
+                        imgUser.Source = ImageSource.FromStream(() => new MemoryStream(bytes));
+                    }
+                }
+
+
+
 
                 labelUsername.Text = GlobalClass.m_PersonName;
 

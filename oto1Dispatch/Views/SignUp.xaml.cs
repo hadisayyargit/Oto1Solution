@@ -160,7 +160,6 @@ public partial class SignUp : ContentPage
     private async void btnSelectImage_Clicked(object sender, EventArgs e)
     {
 
-
         FileResult photo = await MediaPicker.PickPhotoAsync();
         if (photo != null)
         {
