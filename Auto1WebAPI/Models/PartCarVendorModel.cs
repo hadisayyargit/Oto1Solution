@@ -14,7 +14,7 @@ namespace Auto1API.Models
 
         public string? Viscosity { get; set; }
         public string? PerformanceLevel { get; set; }
-        public int? CarId { get; set; }
+      //  public int? CarId { get; set; }
         public int? VendorId { get; set; }
         public int? PriceAmount { get; set; }
         public int? NetAmount { get; set; }

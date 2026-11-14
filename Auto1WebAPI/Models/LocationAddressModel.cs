@@ -16,6 +16,7 @@ namespace Auto1API.Models
         public decimal? Latitude { get; set; }
         public decimal? Longitude { get; set; }
         public byte[]? GeoLocation { get; set; }
+        public int? CityId { get; set; }
 
         [Column(TypeName = "timestamp")]
         [DatabaseGenerated(DatabaseGeneratedOption.Computed)]

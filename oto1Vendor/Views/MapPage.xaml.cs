@@ -232,7 +232,7 @@ private async void InitmyMap()
         }
         else
         {
-            myLocationList = await MyServiceController.GetAllLocationAddressess(0,GlobalClass.m_VendorId, false);
+            myLocationList = await MyServiceController.GetAllLocationAddressess(-1,GlobalClass.m_VendorId, -1);
             collectionviewLocations.ItemsSource = myLocationList;
         }
 

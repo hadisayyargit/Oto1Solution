@@ -48,6 +48,7 @@ namespace oto1
         public static string m_UserId;
         public static string m_VendorName;
         public static int m_VendorId;
+        public static int m_CityId;
         public static long m_CustomerId;
         public static string m_CustomerName;
         public static int m_PersonId;

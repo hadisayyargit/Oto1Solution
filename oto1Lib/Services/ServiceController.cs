@@ -490,18 +490,19 @@ namespace oto1.Services
 
         }
         
-        public async Task<List<PartCarVendorModel>> GetPart(int partid = -1, int manufacturerid = -1, int carid = -1, int vendorid = -1
+        public async Task<List<PartCarVendorModel>> GetPart(int partid = -1, int manufacturerid = -1,  int vendorid = -1
             , int partlevel1id = -1, int partlevel2id = -1, int partlevel3id = -1, string partname = "", string partcode = ""
-            , string viscosity = "", string performancelevel = "", int batteryamperage = -1, int batteryvoltage = -1, int tireyear = -1, string tireringsize = "", string tirewheels = "", string partcolor = "", string partattribute = "", int pagenumber=1, int pagesize=10)
+            , string viscosity = "", string performancelevel = "", int batteryamperage = -1, int batteryvoltage = -1, int tireyear = -1, string tireringsize = "", string tirewheels = "", string partcolor = "", string partattribute = "", int cityid=-1, int pagenumber=1, int pagesize=10)
         //, string pricedate = "2000-1-1")
         {
             try
             {
                 List<PartCarVendorModel> myList = new List<PartCarVendorModel>();
-                string fullurl = this.baseUrl + "/GetPart?PartId=" + partid + "&manufacturerid=" + manufacturerid + "&carid=" + carid + "&vendorid=" + vendorid
-                    + "&partlevel1id=" + partlevel1id + "&partlevel2id=" + partlevel2id + "&partlevel3id=" + partlevel3id + "&partname=" + partname + "&partcode=" + partcode
-                    + "&viscosity=" + viscosity + "&performancelevel=" + performancelevel + "&batteryamperage=" + batteryamperage + "&batteryvoltage=" + batteryvoltage + "&tireyear=" + tireyear + "&tireringsize=" + tireringsize + "&tirewheels=" + tirewheels + "&partcolor=" + partcolor + "&partattribute=" + partattribute
-                    + "&pagenumber=" + pagenumber+ "&pagesize=" + pagesize; 
+                string fullurl = $"{this.baseUrl}/GetPart?PartId={partid.ToString()}&manufacturerid={manufacturerid.ToString()}&vendorid={vendorid.ToString()}"
+                    + $"&partlevel1id={partlevel1id.ToString()} &partlevel2id={partlevel2id.ToString()} &partlevel3id={partlevel3id.ToString()} &partname={partname} &partcode={partcode}"
+                    + $"&viscosity={viscosity}&performancelevel={performancelevel}&batteryamperage={batteryamperage}&batteryvoltage={batteryvoltage}&tireyear={tireyear}&tireringsize={tireringsize}&tirewheels={tirewheels}"
+                    + $"&partcolor={partcolor} &partattribute={partattribute}&cityid={cityid}"
+                    + $"&pagenumber={pagenumber}&pagesize={pagesize}"; 
                     //+ "&pricedate=" + pricedate;
 
           
@@ -564,14 +565,14 @@ namespace oto1.Services
 
         ////////////////////////////////////////// 
 
-        public async Task<List<LocationAddressModel>> GetAllLocationAddressess(Int64 customerid, int vendorid, bool iscustomeraddress)
+        public async Task<List<LocationAddressModel>> GetAllLocationAddressess(Int64 customerid, int vendorid, int personid)
         {
 
 
             try
             {
                 List<LocationAddressModel> myList = new List<LocationAddressModel>();
-                string fullurl = this.baseUrl + $"/GetAllLocationAddresses?customerid={customerid}&vendorid={vendorid}&iscustomeraddress=true";
+                string fullurl = this.baseUrl + $"/GetAllLocationAddresses?customerid={customerid}&vendorid={vendorid}&personid={personid}";
 
 
                 HttpClient myhttpclient = new HttpClient();
@@ -631,6 +632,70 @@ namespace oto1.Services
             }
 
         }
+
+        public async Task<List<ProvinceModel>> GetAllProvince()
+        {
+            try
+            {
+                List<ProvinceModel> myList = new List<ProvinceModel>();
+                string fullurl = this.baseUrl + "/GetAllProvince";
+                HttpClient myhttpclient = new HttpClient();
+
+                myhttpclient.BaseAddress = new Uri(fullurl);
+                myhttpclient.Timeout = TimeSpan.FromSeconds(300);
+                HttpResponseMessage myhttpresponsemessage = await myhttpclient.GetAsync("");
+                if (myhttpresponsemessage.IsSuccessStatusCode)
+                {
+                    string contentResponse = await myhttpresponsemessage.Content.ReadAsStringAsync();
+
+                    myList = JsonConvert.DeserializeObject<List<ProvinceModel>>(contentResponse);
+                }
+
+                return await Task.FromResult(myList.ToList());
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+
+        }
+
+
+        public async Task<List<CityModel>> GetAllCity()
+        {
+            try
+            {
+                List<CityModel> myList = new List<CityModel>();
+                string fullurl = this.baseUrl + "/GetAllCity";
+                HttpClient myhttpclient = new HttpClient();
+
+                myhttpclient.BaseAddress = new Uri(fullurl);
+                myhttpclient.Timeout = TimeSpan.FromSeconds(300);
+                HttpResponseMessage myhttpresponsemessage = await myhttpclient.GetAsync("");
+                if (myhttpresponsemessage.IsSuccessStatusCode)
+                {
+                    string contentResponse = await myhttpresponsemessage.Content.ReadAsStringAsync();
+
+                    myList = JsonConvert.DeserializeObject<List<CityModel>>(contentResponse);
+                }
+
+                return await Task.FromResult(myList.ToList());
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
+        public async Task<List<CityModel>> GetFilterCitiesByProvince(List<CityModel> allcities,int provinceid)
+        {
+            List<CityModel> myList = new List<CityModel>();
+
+            myList = allcities.Where(p => p.ProvinceId == provinceid).ToList();
+
+            return myList;
+        }
+
 
         public async Task<LocationAddressModel> AddLocationAddress(LocationAddressModel mylocation)
         {

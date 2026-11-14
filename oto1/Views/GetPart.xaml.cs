@@ -108,8 +108,12 @@ namespace oto1
                 // حتماً با await اجرا شود
                 await LoadMenuAsync(_menuViewModel);
 
+                /*
                 cars = await MyServiceController.GetAllCarsView()
                        ?? new List<CarModel>();
+                pickerCar.ItemsSource = cars;
+                */
+
 
                 manufacturers = await MyServiceController.GetAllManufacturers()
                                ?? new List<ManufacturerModel>();
@@ -122,7 +126,7 @@ namespace oto1
 
                 await LoadVendorsAsync();
 
-                pickerCar.ItemsSource = cars;
+               
                 pickerManufacturer.ItemsSource = manufacturers;
 
                 cvVendorResults.ItemsSource = FilteredVendors;
@@ -197,7 +201,6 @@ namespace oto1
         {
 
             pickerManufacturer.SelectedIndex = -1;
-            pickerCar.SelectedIndex = -1;
             txtPartName.Text = string.Empty;
             txtPerformanceLevel.Text = "";
             txtViscosity.Text = string.Empty;
@@ -221,7 +224,7 @@ namespace oto1
 
         private async void btnSearch_Clicked(object sender, EventArgs e)
         {
-            int PartId = -1, manufacturerid = -1, carid = -1, vendorid = -1, partlevel1id = -1, partlevel2id = -1, partlevel3id = -1, batteryamperage = -1, batteryvoltage = -1, tireyear = -1;
+            int PartId = -1, manufacturerid = -1, vendorid = -1, partlevel1id = -1, partlevel2id = -1, partlevel3id = -1, batteryamperage = -1, batteryvoltage = -1, tireyear = -1, cityid = -1;
             string partname = "", partcode = "", viscosity = "", performancelevel = "", tireringsize = "", tirewheels = "", partcolor = "", partattribute = "";
 
             activityIndicator.IsRunning = true;
@@ -236,15 +239,12 @@ namespace oto1
             }
             */
 
+
             if (pickerManufacturer.SelectedIndex >= 0)
             {
                 manufacturerid = ((ManufacturerModel)pickerManufacturer.ItemsSource[pickerManufacturer.SelectedIndex]).ManufacturerId;
             }
-            if (pickerCar.SelectedIndex >= 0)
-            {
-                carid = ((CarModel)pickerCar.ItemsSource[pickerCar.SelectedIndex]).CarId;
-
-            }
+     
 
             if (_vendor != null)
                 vendorid = _vendor.VendorId;
@@ -274,7 +274,9 @@ namespace oto1
             //partcolor = txtColor.Text;
             partattribute = txtAttribute.Text;
 
-
+            cityid = GlobalClass.m_CityId;
+            ///به طور موقت
+            //cityid = 96;
 
             switch (GlobalClass.m_CustomerServiceItemView.ServiceItemType)
             {
@@ -320,7 +322,7 @@ namespace oto1
                 MyServiceController.GetPart(
                     partid: PartId,
                     manufacturerid: manufacturerid,
-                    carid: carid,
+                    
                     vendorid: vendorid,
                     partlevel1id: partlevel1id,
                     partlevel2id: partlevel2id,
@@ -336,6 +338,7 @@ namespace oto1
                     tirewheels: tirewheels,
                     partcolor: partcolor,
                     partattribute: partattribute,
+                    cityid: cityid,
                     pagenumber: pageNumber,
                     pagesize: pageSize
                 );

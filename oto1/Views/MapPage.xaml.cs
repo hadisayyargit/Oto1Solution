@@ -5,6 +5,7 @@ using oto1.Services;
 using Microsoft.Maui.Controls.PlatformConfiguration;
 using System.Diagnostics;
 using oto1.Models;
+using System.Threading.Tasks;
 
 namespace oto1;
 
@@ -13,7 +14,9 @@ public partial class MapPage : ContentPage
     public ServiceController MyServiceController { get; set; }
 
     List<LocationAddressModel> myLocationList = new List<LocationAddressModel>();
-
+    List<ProvinceModel> allprovinces = new List<ProvinceModel>();
+    List<CityModel> allcities=new List<CityModel>();
+    List<CityModel> filteredcities = new List<CityModel>();
     public long? LocationAddressId { get; set; }
 
 
@@ -32,6 +35,7 @@ public partial class MapPage : ContentPage
         base.OnAppearing();
 
         FillLocationCollection();
+        LoadProvinces();
     }
 
     private void ImageButtonRefreshMap_Clicked(object sender, EventArgs e)
@@ -241,7 +245,7 @@ private async void InitmyMap()
         }
         else
         {
-            myLocationList = await MyServiceController.GetAllLocationAddressess(GlobalClass.m_CustomerId, 0, true);
+            myLocationList = await MyServiceController.GetAllLocationAddressess(GlobalClass.m_CustomerId, -1, -1);
             collectionviewLocations.ItemsSource = myLocationList;
         }
 
@@ -418,5 +422,43 @@ private async void InitmyMap()
     {
         await Navigation.PopAsync();
 
+    }
+
+    private async Task LoadProvinces()
+    {
+        allprovinces = await MyServiceController.GetAllProvince();
+        allcities = await MyServiceController.GetAllCity();
+        pickerProvince.ItemsSource = allprovinces;
+        pickerCity.ItemsSource = new List<CityModel>(); // در ابتدا خالی باشد
+    }
+
+    
+    private async  void pickerProvince_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        var selectedProvince = pickerProvince.SelectedItem as ProvinceModel;
+
+        
+
+        filteredcities =await MyServiceController.GetFilterCitiesByProvince(allcities, selectedProvince.ProvinceId);
+        pickerCity.ItemsSource = filteredcities;
+        pickerCity.SelectedIndex = -1; // ریست کردن شهر
+        /*
+        if (!string.IsNullOrEmpty(selectedProvince) && citiesByProvince.ContainsKey(selectedProvince))
+        {
+            pickerCity.ItemsSource = citiesByProvince[selectedProvince];
+            pickerCity.SelectedIndex = -1; // ریست کردن شهر
+        }
+        */
+    }
+
+    private void pickerCity_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        // اینجا می‌توانید بر اساس شهر انتخاب شده، نقشه را به آن نقطه ببرید یا فیلتر کنید
+        var selectedCity = pickerCity.SelectedItem as CityModel;
+        if (selectedCity != null)
+        {
+            GlobalClass.m_CityId = selectedCity.CityId;
+            // logic for city selection...
+        }
     }
 }

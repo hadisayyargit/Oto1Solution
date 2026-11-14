@@ -38,7 +38,7 @@ public partial class myLocationAddresses : ContentPage
         }
         else
         {
-            myLocationList = await MyServiceController.GetAllLocationAddressess(0, 0, true);
+            myLocationList = await MyServiceController.GetAllLocationAddressess(-1, -1, GlobalClass.m_PersonId);
             collectionviewLocations.ItemsSource = myLocationList;
         }
 

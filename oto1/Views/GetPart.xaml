@@ -50,14 +50,8 @@
 
             </VerticalStackLayout>
 
-
-
-
-            <Picker Title="نام خودرو:"                     Grid.Row="2" Grid.Column="0" x:Name="pickerCar"  ItemsSource="{Binding cars}" ItemDisplayBinding="{Binding PName}"  SelectedIndexChanged="pickerCar_SelectedIndexChanged" ></Picker>
-        <Picker Title="نام سازنده:"                    Grid.Row="2" Grid.Column="1" x:Name="pickerManufacturer" ItemsSource="{Binding Manufacturers}" ItemDisplayBinding="{Binding PName}" SelectedIndexChanged="pickerManufacturer_SelectedIndexChanged" ></Picker>
-
-        <Label Text="انتخاب تامین کننده"  Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" />
-        <Grid  Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" >
+        <Label Text="انتخاب تامین کننده"  Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" />
+        <Grid  Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" >
             <SearchBar x:Name="searchbarVendor" 
                          Placeholder="جستجو در نام تامین کننده..."
                          TextChanged="OnVendorSearchTextChanged"
@@ -81,21 +75,26 @@
             </CollectionView>
         </Grid>
 
+            <Picker Title="نام سازنده:"                    Grid.Row="3" Grid.Column="0" x:Name="pickerManufacturer" ItemsSource="{Binding Manufacturers}" ItemDisplayBinding="{Binding PName}" SelectedIndexChanged="pickerManufacturer_SelectedIndexChanged" ></Picker>
+            <Entry  Placeholder="کد محصول:"                Grid.Row="3" Grid.Column="1" x:Name="txtPartCode"></Entry>
 
-        <Border Grid.Row="4" Grid.ColumnSpan="2" IsVisible="False" x:Name="frameLubricant" >
-            <HorizontalStackLayout Padding="5">
-            <Entry  Placeholder="درجه گرانروی(ویسکوزیته):" x:Name="txtViscosity"></Entry>
-            <Entry  Placeholder="سطح کارایی:"              x:Name="txtPerformanceLevel"></Entry>
-            </HorizontalStackLayout>
-        </Border>
+            <Entry  Placeholder="نام محصول:"               Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" x:Name="txtPartName"></Entry>
+             <Entry  Placeholder="ویژگی:"                   Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" x:Name="txtAttribute"></Entry>
 
-        <Border Grid.Row="4" Grid.ColumnSpan="2" IsVisible="True" x:Name="frameBattery" >
+            <Border Grid.Row="6" Grid.ColumnSpan="2" IsVisible="False" x:Name="frameLubricant" >
+                <HorizontalStackLayout Padding="5">
+                    <Entry  Placeholder="درجه گرانروی(ویسکوزیته):" x:Name="txtViscosity" MaxLength="10"></Entry>
+                <Entry  Placeholder="سطح کارایی:"              x:Name="txtPerformanceLevel"></Entry>
+                </HorizontalStackLayout>
+             </Border>
+
+        <Border Grid.Row="6" Grid.ColumnSpan="2" IsVisible="True" x:Name="frameBattery" >
             <HorizontalStackLayout Padding="5" >
                 <Entry  Placeholder="ولتاژ" x:Name="txtVoltage" WidthRequest="200"></Entry>
                 <Entry  Placeholder="آمپراژ:"              x:Name="txtAmperage"></Entry>
             </HorizontalStackLayout>
         </Border>
-        <Border Grid.Row="4" Grid.ColumnSpan="2" IsVisible="False" x:Name="frameTire" >
+        <Border Grid.Row="6" Grid.ColumnSpan="2" IsVisible="False" x:Name="frameTire" >
             <HorizontalStackLayout Padding="5">
                 <Entry  Placeholder="سال ساخت:"    x:Name="txtTireYear" WidthRequest="100"></Entry>
                 <Entry  Placeholder="اندازه رینگ:" x:Name="txtTireRingSize" WidthRequest="100"></Entry>
@@ -103,16 +102,13 @@
             </HorizontalStackLayout>
         </Border>
         
-        <Entry  Placeholder="نام محصول:"               Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" x:Name="txtPartName"></Entry>
-        <Entry  Placeholder="کد محصول:"                Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2" x:Name="txtPartCode"></Entry>
-        <Entry  Placeholder="ویژگی:"                   Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="2" x:Name="txtAttribute"></Entry>
 
         <Button  Text="فیلترها رو پاک کن" x:Name="btnClear"  Grid.Row="7" Grid.Column="1"  Clicked="btnClear_Clicked"></Button>
         <Button Text="پیدا کن" x:Name="btnSearch"      Grid.Row="7" Grid.Column="0"  Clicked="btnSearch_Clicked"  />
 
 
             <CollectionView x:Name="collectionviewProducts" Grid.Row="8" Grid.ColumnSpan="2" SelectionMode="None" RemainingItemsThreshold="5"
-RemainingItemsThresholdReached="collectionviewProducts_RemainingItemsThresholdReached" >
+                            RemainingItemsThresholdReached="collectionviewProducts_RemainingItemsThresholdReached" >
             <CollectionView.ItemsLayout>
                 <GridItemsLayout Orientation="Vertical" Span="1" VerticalItemSpacing="8" HorizontalItemSpacing="8" />
             </CollectionView.ItemsLayout>

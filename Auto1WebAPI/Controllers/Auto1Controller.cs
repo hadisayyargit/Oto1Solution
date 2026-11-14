@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis.Operations;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using oto1API.Models;
 using System.Drawing.Printing;
 
 
@@ -161,11 +162,11 @@ namespace Auto1API.Controllers
         }
 
         [HttpGet(Name = "GetPart")]
-        public IEnumerable<PartCarVendorModel> GetPart(int partid = -1, int manufacturerid = -1, int carid = -1, int vendorid = -1
+        public IEnumerable<PartCarVendorModel> GetPart(int partid = -1, int manufacturerid = -1,  int vendorid = -1
             , int partlevel1id = -1, int partlevel2id = -1, int partlevel3id = -1, string partname = "", string partcode = ""
-            , string viscosity = "", string performancelevel = ""   , int batteryamperage = -1, int batteryvoltage = -1, int tireyear = -1, string tireringsize = "", string tirewheels = "", string partcolor = "", string partattribute = "", int pagenumber  = 1 , int pagesize  = 10)
+            , string viscosity = "", string performancelevel = ""   , int batteryamperage = -1, int batteryvoltage = -1, int tireyear = -1, string tireringsize = "", string tirewheels = "", string partcolor = "", string partattribute = "",int cityid=-1, int pagenumber  = 1 , int pagesize  = 10)
         {
-            System.FormattableString s3 = $"sp_GetPart @partid ={partid}, @manufacturerid={manufacturerid},@carid={carid} ,@vendorid={vendorid} ,@partlevel1id={partlevel1id} ,@partlevel2id={partlevel2id} ,@partlevel3id={partlevel3id} ,@partname={partname} ,@partcode={partcode} , @viscosity={viscosity},@performancelevel={performancelevel}  ,@batteryamperage={batteryamperage} ,@batteryvoltage={batteryvoltage} ,@tireyear={tireyear} ,@tireringsize={tireringsize} ,@tirewheels={tirewheels} ,@partcolor={partcolor} ,@partattribute={partattribute},@pagenumber={pagenumber},@pagesize={pagesize}";
+            System.FormattableString s3 = $"sp_GetPart @partid ={partid}, @manufacturerid={manufacturerid},@cityid={cityid} ,@vendorid={vendorid} ,@partlevel1id={partlevel1id} ,@partlevel2id={partlevel2id} ,@partlevel3id={partlevel3id} ,@partname={partname} ,@partcode={partcode} , @viscosity={viscosity},@performancelevel={performancelevel}  ,@batteryamperage={batteryamperage} ,@batteryvoltage={batteryvoltage} ,@tireyear={tireyear} ,@tireringsize={tireringsize} ,@tirewheels={tirewheels} ,@partcolor={partcolor} ,@partattribute={partattribute},@pagenumber={pagenumber},@pagesize={pagesize}";
 
 
             List<PartCarVendorModel> res = this.Auto1Context.Set<PartCarVendorModel>().FromSql(s3).ToList();
@@ -202,17 +203,21 @@ namespace Auto1API.Controllers
 
 
         [HttpGet(Name = "GetAllLocationAddresses")]
-        public IEnumerable<LocationAddressModel> GetAllLocationAddresses(Int64 customerid, int vendorid, bool iscustomeraddress)
+        public IEnumerable<LocationAddressModel> GetAllLocationAddresses(Int64 customerid, int vendorid, int personid)
         {
             
-            if (iscustomeraddress)
+            if (customerid!=-1)
             {
                 return this.Auto1Context.LocationAddress.Where(a=>a.CustomerId==customerid).ToList();
 
             }
-            else
+            else if (vendorid != -1)
             {
                 return this.Auto1Context.LocationAddress.Where(a => a.VendorId == vendorid).ToList();
+            }
+            else 
+            {
+                return this.Auto1Context.LocationAddress.Where(a => a.PersonId == personid).ToList();
             }
         }
 
@@ -245,6 +250,7 @@ namespace Auto1API.Controllers
                 mylocation.CustomerId=newlocation.CustomerId;
                 mylocation.Latitude=newlocation.Latitude;
                 mylocation.Longitude=newlocation.Longitude;
+                mylocation.CityId=newlocation.CityId;
 
                 this.Auto1Context.LocationAddress.Entry(mylocation).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
                 this.Auto1Context.SaveChanges();
@@ -263,7 +269,32 @@ namespace Auto1API.Controllers
             }
         }
 
-        
+
+        [HttpGet(Name = "GetAllProvince")]
+        public IEnumerable<ProvinceModel> GetAllProvince()
+        {
+            var provinces = (from c in Auto1Context.City
+                              select new ProvinceModel { ProvinceId=c.ProvinceId, ProvinceName=c.ProvinceName}).Distinct().ToList();
+
+
+            return provinces;
+        }
+
+
+        [HttpGet(Name = "GetAllCity")]
+        public IEnumerable<CityModel> GetAllCity()
+        {
+            return this.Auto1Context.City.ToList();
+        }
+
+        /*
+        [HttpGet(Name = "GetCitiesOfProvince")]
+        public IEnumerable<CityModel> GetCitiesOfProvince(int provinceid)
+        {
+            return this.Auto1Context.City.Where(p => p.ProvinceId == provinceid).ToList();
+        }
+        */
+
         /////////////////////////////////////////////////////////////////////
 
         [HttpGet(Name = "GetAllManufacturers")]
@@ -460,7 +491,6 @@ namespace Auto1API.Controllers
             return user1;
         }
 
-  
-
     }
+
 }

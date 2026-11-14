@@ -3,34 +3,15 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:maps="clr-namespace:Microsoft.Maui.Controls.Maps;assembly=Microsoft.Maui.Controls.Maps"
              x:Class="oto1.MapPage"
-             
              Title="نقشه"
-               FlowDirection="RightToLeft"           
-             >
+             FlowDirection="RightToLeft"
+             BackgroundColor="#F0F2F5">
 
-    <Grid RowDefinitions="50,*,50,50,auto"   ColumnDefinitions=".25*,0.25*,.25*,.25*" Padding="5" Margin="5" ColumnSpacing="5" RowSpacing="10" VerticalOptions="Start"     >
+    <Grid RowDefinitions="40,50, *, auto " ColumnDefinitions="*, *" Padding="10" RowSpacing="10" ColumnSpacing="10">
         <Label  Text="کجا هستی؟" HorizontalTextAlignment="Center"   Grid.Row="0" FontSize="Title" Grid.ColumnSpan="4"></Label>
 
-
-        <StackLayout x:Name="stack1" Grid.Row="1" Grid.ColumnSpan="4" >
-
-            <maps:Map x:Name="mymap"  MapClicked="mymap_MapClicked" HorizontalOptions="CenterAndExpand"  />
-            <!--<ImageButton Source="pin_8_xxl.png" WidthRequest="32" HeightRequest="48" Clicked="ImageButtonRefreshMap_Clicked"></ImageButton>-->
-
-            <SearchBar Placeholder="جستجو" SearchButtonPressed="SearchBar_SearchButtonPressed"></SearchBar>
-        </StackLayout>
-
-        <Entry x:Name="txtPName"    Placeholder="عنوان"  Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" ></Entry>
-        <Entry x:Name="txtAddress"  Placeholder="نشانی"  Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="1" ></Entry>
-        <ImageButton x:Name="btnAddLocation"             Grid.Row="2" Grid.Column="3" Grid.ColumnSpan="1" Source="star7_32.png" Background="transparent"    Clicked="btnAddLocation_Clicked" ></ImageButton>
-
-       
-        <!--<Label Text="X"   BackgroundColor="Black"   TextColor="White"     HorizontalTextAlignment="Center"   VerticalTextAlignment="Center"     Grid.Row="3" Grid.Column="2" FontSize="Medium">
-            <Label.GestureRecognizers>
-                <TapGestureRecognizer x:Name="TapNavigateBack" Tapped="TapNavigateBack_Tapped"/>
-            </Label.GestureRecognizers>
-        </Label>-->
-        <CollectionView  Grid.Row="3"  Grid.Column="0" Grid.ColumnSpan="4" x:Name="collectionviewLocations" SelectionMode="Single"  SelectionChanged="collectionviewLocations_SelectionChanged">
+        <!-- لیست مکان‌های ذخیره شده -->
+        <CollectionView   Grid.Row="1"  Grid.Column="0" Grid.ColumnSpan="4" x:Name="collectionviewLocations" SelectionMode="Single"  SelectionChanged="collectionviewLocations_SelectionChanged">
             <CollectionView.ItemsLayout>
                 <GridItemsLayout Orientation="Horizontal"  VerticalItemSpacing="5" HorizontalItemSpacing="5" />
             </CollectionView.ItemsLayout>
@@ -51,9 +32,47 @@
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
-        <Button x:Name="btnBeforeStep"  Grid.Row="4" Grid.Column="0" Text="بازگشت" Grid.ColumnSpan="2" Clicked="btnBeforeStep_Clicked"></Button>
-        <Button x:Name="btnNextStep"    Grid.Row="4" Grid.Column="2" Text="ادامه" Grid.ColumnSpan="2" Clicked="btnNextStep_Clicked"></Button>
+        <!-- بخش نقشه -->
+        <StackLayout x:Name="stack1" Grid.Row="2" Grid.ColumnSpan="4" >
+
+            <maps:Map x:Name="mymap"  MapClicked="mymap_MapClicked" HorizontalOptions="CenterAndExpand"  />
+            <!--<ImageButton Source="pin_8_xxl.png" WidthRequest="32" HeightRequest="48" Clicked="ImageButtonRefreshMap_Clicked"></ImageButton>-->
+
+            <SearchBar Placeholder="جستجو در نقشه" SearchButtonPressed="SearchBar_SearchButtonPressed"></SearchBar>
+        </StackLayout>
+
+        <!-- بخش انتخاب استان و شهر -->
+        <Frame  Grid.Row="3" Grid.ColumnSpan="2" Padding="10" CornerRadius="15" HasShadow="True" BackgroundColor="White" BorderColor="#E0E0E0">
+            <Grid RowDefinitions="auto,auto" ColumnDefinitions=".25*,0.25*,.25*,.25*" ColumnSpacing="10">
+                <!-- انتخاب استان -->
+                <VerticalStackLayout Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="0">
+                    <Label Text="استان" FontSize="12" TextColor="Gray" Margin="5,0"/>
+                    <Picker x:Name="pickerProvince" Title="انتخاب استان"  ItemsSource="{Binding allprovinces}" ItemDisplayBinding="{Binding ProvinceName}"
+                            FontSize="14" TextColor="Black"           SelectedIndexChanged="pickerProvince_SelectedIndexChanged" />
+                </VerticalStackLayout>
+
+                <!-- انتخاب شهر -->
+                <VerticalStackLayout Grid.Column="2" Grid.Row="0" Grid.ColumnSpan="2">
+                    <Label Text="شهر" FontSize="12" TextColor="Gray" Margin="5,0"/>
+                    <Picker x:Name="pickerCity" Title="انتخاب شهر" ItemsSource="{Binding filteredcities}" ItemDisplayBinding="{Binding CityName}"
+                            FontSize="14" TextColor="Black"    SelectedIndexChanged="pickerCity_SelectedIndexChanged" />
+                </VerticalStackLayout>
+
+                <!-- بخش اطلاعات نشانی -->
+
+                <Entry x:Name="txtPName" Placeholder="عنوان" Grid.Row="1" Grid.Column="0"  />
+                <Entry x:Name="txtAddress"   Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" Placeholder="نشانی دقیق" Margin="0,5,0,0"/>
+                <ImageButton x:Name="btnAddLocation"  Grid.Row="1" Grid.Column="3"   Source="star7_32.png" BackgroundColor="Transparent" Clicked="btnAddLocation_Clicked" />
+            </Grid>
+        </Frame>
+
+        <!-- دکمه‌های کنترلی پایین صفحه -->
+        <HorizontalStackLayout Grid.Row="4" Grid.ColumnSpan="2" HorizontalOptions="Center" Spacing="20">
+            <Button x:Name="btnBeforeStep" Text="بازگشت" WidthRequest="140" CornerRadius="25"
+                    BackgroundColor="#E0E0E0" TextColor="Black" Clicked="btnBeforeStep_Clicked" />
+            <Button x:Name="btnNextStep" Text="ادامه" WidthRequest="140" CornerRadius="25"
+                    BackgroundColor="#1A237E" TextColor="White" Clicked="btnNextStep_Clicked" />
+        </HorizontalStackLayout>
 
     </Grid>
-
 </ContentPage>

@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using oto1API.Models;
 
 namespace Auto1API.Models
 {
@@ -15,6 +16,8 @@ namespace Auto1API.Models
         public DbSet<ManufacturerModel> Manufacturer { get; set; }
         public DbSet<VendorModel> Vendor { get; set; }
         public DbSet<LocationAddressModel> LocationAddress { get; set; } = null!;
+        public DbSet<CityModel> City { get; set; }
+        public DbSet<ProvinceModel> Province { get; set; }
 
         public DbSet<Customer_CarModel> Customer_Car { get; set; } = null!;
 

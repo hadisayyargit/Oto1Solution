@@ -215,7 +215,7 @@ private async void InitmyMap()
         }
         else
         {
-            myLocationList = await MyServiceController.GetAllLocationAddressess(GlobalClass.m_PersonId, 0, true);
+            myLocationList = await MyServiceController.GetAllLocationAddressess(-1,-1,GlobalClass.m_PersonId);
             collectionviewLocations.ItemsSource = myLocationList;
         }
 

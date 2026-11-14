@@ -16,7 +16,7 @@ namespace oto1.Models
         public long Id { get; set; }
         public long RankNo { get; set; }
 
-        public int? CarId { get; set; }
+       // public int? CarId { get; set; }
         public int? VendorId { get; set; }
         public int PriceAmount { get; set; }
         public int NetAmount { get; set; }

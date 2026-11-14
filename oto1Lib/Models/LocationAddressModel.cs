@@ -20,6 +20,7 @@ namespace oto1.Models
         public decimal? Latitude { get; set; }
         public decimal? Longitude { get; set; }
         public byte[] GeoLocation { get; set; }
+        public int? CityId { get; set; }
         public bool IsFavorite { get; set; }
 
         [Column(TypeName = "timestamp")]
