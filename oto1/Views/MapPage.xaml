@@ -3,12 +3,12 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:maps="clr-namespace:Microsoft.Maui.Controls.Maps;assembly=Microsoft.Maui.Controls.Maps"
              x:Class="oto1.MapPage"
-             Title="نقشه"
+             Title="نقشه" 
              FlowDirection="RightToLeft"
              BackgroundColor="#F0F2F5">
 
-    <Grid RowDefinitions="40,50, *, auto " ColumnDefinitions="*, *" Padding="10" RowSpacing="10" ColumnSpacing="10">
-        <Label  Text="کجا هستی؟" HorizontalTextAlignment="Center"   Grid.Row="0" FontSize="Title" Grid.ColumnSpan="4"></Label>
+    <Grid RowDefinitions="30,50, *, auto ,auto" ColumnDefinitions="*, *" Padding="10" RowSpacing="10" ColumnSpacing="10">
+        <Label Grid.Row="0" Text="کجا هستی؟" HorizontalTextAlignment="Center"    FontSize="15"  Grid.ColumnSpan="4"></Label>
 
         <!-- لیست مکان‌های ذخیره شده -->
         <CollectionView   Grid.Row="1"  Grid.Column="0" Grid.ColumnSpan="4" x:Name="collectionviewLocations" SelectionMode="Single"  SelectionChanged="collectionviewLocations_SelectionChanged">
