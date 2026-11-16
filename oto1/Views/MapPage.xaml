@@ -7,72 +7,105 @@
              FlowDirection="RightToLeft"
              BackgroundColor="#F0F2F5">
 
-    <Grid RowDefinitions="30,50, *, auto ,auto" ColumnDefinitions="*, *" Padding="10" RowSpacing="10" ColumnSpacing="10">
-        <Label Grid.Row="0" Text="کجا هستی؟" HorizontalTextAlignment="Center"    FontSize="15"  Grid.ColumnSpan="4"></Label>
+    <!-- اضافه کردن ScrollView برای قابلیت اسکرول در تبلت و گوشی‌های کوچک -->
+    <ScrollView>
+        <VerticalStackLayout Padding="10" Spacing="10">
 
-        <!-- لیست مکان‌های ذخیره شده -->
-        <CollectionView   Grid.Row="1"  Grid.Column="0" Grid.ColumnSpan="4" x:Name="collectionviewLocations" SelectionMode="Single"  SelectionChanged="collectionviewLocations_SelectionChanged">
-            <CollectionView.ItemsLayout>
-                <GridItemsLayout Orientation="Horizontal"  VerticalItemSpacing="5" HorizontalItemSpacing="5" />
-            </CollectionView.ItemsLayout>
-            <CollectionView.ItemTemplate>
-                <DataTemplate>
-                    <SwipeView >
-                        <SwipeView.BottomItems >
-                            <SwipeItems >
-                                <SwipeItem BackgroundColor="Red" IconImageSource="delete_xxl" Clicked="SwipeItem_Clicked" ></SwipeItem>
-                            </SwipeItems>
-                        </SwipeView.BottomItems>
-                        <FlexLayout Margin="10">
-                            <Label Text="{Binding PName}"  MinimumWidthRequest="150"></Label>
-                            <BoxView WidthRequest="1" Color="Silver"/>
-                        </FlexLayout>
-                    </SwipeView>
+            <Label Text="کجا هستی؟" 
+                   HorizontalTextAlignment="Center" 
+                   FontSize="18" 
+                   FontAttributes="Bold"
+                   TextColor="#333" />
 
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
-        <!-- بخش نقشه -->
-        <StackLayout x:Name="stack1" Grid.Row="2" Grid.ColumnSpan="4" >
+            <!-- لیست مکان‌های ذخیره شده -->
+            <!-- نکته: در اسکرول، CollectionView بهتر است ارتفاع مشخص داشته باشد یا در یک StackLayout قرار گیرد -->
+            <CollectionView BackgroundColor="Bisque" 
+                            x:Name="collectionviewLocations" 
+                            HeightRequest="50" 
+                            SelectionMode="Single"  
+                            SelectionChanged="collectionviewLocations_SelectionChanged">
+                <CollectionView.ItemsLayout>
+                    <GridItemsLayout Orientation="Horizontal" VerticalItemSpacing="5" HorizontalItemSpacing="5" />
+                </CollectionView.ItemsLayout>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <SwipeView>
+                            <SwipeView.BottomItems>
+                                <SwipeItems>
+                                    <SwipeItem BackgroundColor="Red" IconImageSource="delete_xxl" Clicked="SwipeItem_Clicked" />
+                                </SwipeItems>
+                            </SwipeView.BottomItems>
+                            <FlexLayout Margin="10">
+                                <Label Text="{Binding PName}" MinimumWidthRequest="150" VerticalOptions="Center"/>
+                                <BoxView WidthRequest="1" Color="DarkRed" Margin="5,0"/>
+                            </FlexLayout>
+                        </SwipeView>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
 
-            <maps:Map x:Name="mymap"  MapClicked="mymap_MapClicked" HorizontalOptions="CenterAndExpand"  />
-            <!--<ImageButton Source="pin_8_xxl.png" WidthRequest="32" HeightRequest="48" Clicked="ImageButtonRefreshMap_Clicked"></ImageButton>-->
+            <!-- بخش نقشه و جستجو -->
+            <Frame Padding="0" CornerRadius="15" HasShadow="True" IsClippedToBounds="True">
+                <VerticalStackLayout x:Name="stack1">
+                    <maps:Map x:Name="mymap" 
+                             
+                              HeightRequest="360" 
+                              MapClicked="mymap_MapClicked" />
 
-            <SearchBar Placeholder="جستجو در نقشه" SearchButtonPressed="SearchBar_SearchButtonPressed"></SearchBar>
-        </StackLayout>
-
-        <!-- بخش انتخاب استان و شهر -->
-        <Frame  Grid.Row="3" Grid.ColumnSpan="2" Padding="10" CornerRadius="15" HasShadow="True" BackgroundColor="White" BorderColor="#E0E0E0">
-            <Grid RowDefinitions="auto,auto" ColumnDefinitions=".25*,0.25*,.25*,.25*" ColumnSpacing="10">
-                <!-- انتخاب استان -->
-                <VerticalStackLayout Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="0">
-                    <Label Text="استان" FontSize="12" TextColor="Gray" Margin="5,0"/>
-                    <Picker x:Name="pickerProvince" Title="انتخاب استان"  ItemsSource="{Binding allprovinces}" ItemDisplayBinding="{Binding ProvinceName}"
-                            FontSize="14" TextColor="Black"           SelectedIndexChanged="pickerProvince_SelectedIndexChanged" />
+                    <SearchBar Placeholder="جستجو در نقشه" 
+                               SearchButtonPressed="SearchBar_SearchButtonPressed" 
+                               Margin="5" />
                 </VerticalStackLayout>
+            </Frame>
 
-                <!-- انتخاب شهر -->
-                <VerticalStackLayout Grid.Column="2" Grid.Row="0" Grid.ColumnSpan="2">
-                    <Label Text="شهر" FontSize="12" TextColor="Gray" Margin="5,0"/>
-                    <Picker x:Name="pickerCity" Title="انتخاب شهر" ItemsSource="{Binding filteredcities}" ItemDisplayBinding="{Binding CityName}"
-                            FontSize="14" TextColor="Black"    SelectedIndexChanged="pickerCity_SelectedIndexChanged" />
-                </VerticalStackLayout>
+            <!-- بخش انتخاب استان و شهر (فرم ورودی) -->
+            <Frame Padding="15" CornerRadius="15" HasShadow="True" BackgroundColor="White" BorderColor="#E0E0E0">
+                <Grid RowDefinitions="50,50" ColumnDefinitions=".25*,0.25*,.25*,.25*"  ColumnSpacing="10" RowSpacing="10">
 
-                <!-- بخش اطلاعات نشانی -->
+                    <!-- استان -->
+                    <VerticalStackLayout Grid.Row="0" Grid.Column="0">
+                        <Label Text="استان" FontSize="12" TextColor="Gray" Margin="5,0"/>
+                        <Picker x:Name="pickerProvince" Title="انتخاب استان" 
+                                ItemsSource="{Binding allprovinces}" 
+                                ItemDisplayBinding="{Binding ProvinceName}"
+                                FontSize="14" TextColor="Black"
+                                SelectedIndexChanged="pickerProvince_SelectedIndexChanged" />
+                    </VerticalStackLayout>
 
-                <Entry x:Name="txtPName" Placeholder="عنوان" Grid.Row="1" Grid.Column="0"  />
-                <Entry x:Name="txtAddress"   Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" Placeholder="نشانی دقیق" Margin="0,5,0,0"/>
-                <ImageButton x:Name="btnAddLocation"  Grid.Row="1" Grid.Column="3"   Source="star7_32.png" BackgroundColor="Transparent" Clicked="btnAddLocation_Clicked" />
-            </Grid>
-        </Frame>
+                    <!-- شهر -->
+                    <VerticalStackLayout Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="3">
+                        <Label Text="شهر" FontSize="12" TextColor="Gray" Margin="5,0"/>
+                        <Picker x:Name="pickerCity" Title="انتخاب شهر" 
+                                ItemsSource="{Binding filteredcities}" 
+                                ItemDisplayBinding="{Binding CityName}"
+                                FontSize="14" TextColor="Black"
+                                SelectedIndexChanged="pickerCity_SelectedIndexChanged" />
+                    </VerticalStackLayout>
 
-        <!-- دکمه‌های کنترلی پایین صفحه -->
-        <HorizontalStackLayout Grid.Row="4" Grid.ColumnSpan="2" HorizontalOptions="Center" Spacing="20">
-            <Button x:Name="btnBeforeStep" Text="بازگشت" WidthRequest="140" CornerRadius="25"
-                    BackgroundColor="#E0E0E0" TextColor="Black" Clicked="btnBeforeStep_Clicked" />
-            <Button x:Name="btnNextStep" Text="ادامه" WidthRequest="140" CornerRadius="25"
-                    BackgroundColor="#1A237E" TextColor="White" Clicked="btnNextStep_Clicked" />
-        </HorizontalStackLayout>
+                    <!-- عنوان -->
+                    <Entry x:Name="txtPName" Placeholder="عنوان" 
+                           Grid.Row="1" Grid.Column="0" Margin="0,5"/>
 
-    </Grid>
+                    <!-- نشانی -->
+                    <Entry x:Name="txtAddress" Placeholder="نشانی دقیق" 
+                           Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" Margin="0,5"/>
+
+                    <!-- دکمه افزودن -->
+                    <ImageButton x:Name="btnAddLocation" Grid.Row="1" Grid.Column="3" 
+                                 Source="star7_32.png" BackgroundColor="Transparent" 
+                                 VerticalOptions="End" Margin="5,0"
+                                 Clicked="btnAddLocation_Clicked" />
+                </Grid>
+            </Frame>
+
+            <!-- دکمه‌های کنترلی پایین -->
+            <HorizontalStackLayout HorizontalOptions="Center" Spacing="20" Margin="0,10,0,20">
+                <Button x:Name="btnBeforeStep" Text="بازگشت" WidthRequest="140" CornerRadius="25"
+                        BackgroundColor="#E0E0E0" TextColor="Black" Clicked="btnBeforeStep_Clicked" />
+                <Button x:Name="btnNextStep" Text="ادامه" WidthRequest="140" CornerRadius="25"
+                        BackgroundColor="#1A237E" TextColor="White" Clicked="btnNextStep_Clicked" />
+            </HorizontalStackLayout>
+
+        </VerticalStackLayout>
+    </ScrollView>
 </ContentPage>
