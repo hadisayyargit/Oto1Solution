@@ -687,15 +687,37 @@ namespace oto1.Services
             }
         }
 
-        public async Task<List<CityModel>> GetFilterCitiesByProvince(List<CityModel> allcities,int provinceid)
+        public async Task<List<CityModel>> GetCitiesOfProvince(int provinceid)
         {
             List<CityModel> myList = new List<CityModel>();
 
-            myList = allcities.Where(p => p.ProvinceId == provinceid).ToList();
+            myList = GlobalClass.m_AllCities.Where(p => p.ProvinceId == provinceid).ToList();
 
             return myList;
         }
 
+        public async Task<ProvinceModel> GetProvinceOfCity(int cityid)
+        {
+            ProvinceModel  myprovince = new ProvinceModel();
+            CityModel mycity= new CityModel();
+
+            mycity = GlobalClass.m_AllCities.Where(p => p.CityId == cityid).FirstOrDefault();
+
+            myprovince.ProvinceId = mycity.ProvinceId; 
+            myprovince.ProvinceName = mycity.ProvinceName;
+
+            return myprovince;
+        }
+
+        public async Task<CityModel> GetCity(int cityid)
+        {
+            CityModel mycity = new CityModel();
+
+            mycity = GlobalClass.m_AllCities.Where(p => p.CityId == cityid).FirstOrDefault();
+
+
+            return mycity;
+        }
 
         public async Task<LocationAddressModel> AddLocationAddress(LocationAddressModel mylocation)
         {

@@ -6,6 +6,8 @@ using Microsoft.Maui.Controls.PlatformConfiguration;
 using System.Diagnostics;
 using oto1.Models;
 using System.Threading.Tasks;
+using Microsoft.Maui.ApplicationModel;
+
 
 namespace oto1;
 
@@ -14,8 +16,6 @@ public partial class MapPage : ContentPage
     public ServiceController MyServiceController { get; set; }
 
     List<LocationAddressModel> myLocationList = new List<LocationAddressModel>();
-    List<ProvinceModel> allprovinces = new List<ProvinceModel>();
-    List<CityModel> allcities=new List<CityModel>();
     List<CityModel> filteredcities = new List<CityModel>();
     public long? LocationAddressId { get; set; }
 
@@ -28,14 +28,15 @@ public partial class MapPage : ContentPage
 
         InitmyMap();
 
+     
     }
 
-    protected override void OnAppearing()
+    protected async override void OnAppearing()
     {
         base.OnAppearing();
 
         FillLocationCollection();
-        LoadProvinces();
+        await LoadProvinces();
     }
 
     private void ImageButtonRefreshMap_Clicked(object sender, EventArgs e)
@@ -282,29 +283,47 @@ private async void InitmyMap()
         FillLocationCollection();
     }
 
-    private void collectionviewLocations_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    private async void collectionviewLocations_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
         LocationAddressModel loc = (LocationAddressModel)e.CurrentSelection.FirstOrDefault();
         if (loc == null) return;
-        //DisplayAlert("", loc.Id.ToString(), "ok");
 
+        if (loc.CityId != null)
+        {
+            // ۱. دریافت استان از سرویس
+            ProvinceModel myprovince = await MyServiceController.GetProvinceOfCity(loc.CityId.Value);
 
+            //pickerProvince.SelectedIndex = 4;
+            
+            if (myprovince != null)
+            {
+                int provinceIndex = GlobalClass.m_AllProvinces.FindIndex(p => p.ProvinceId == myprovince.ProvinceId);
 
+                if (provinceIndex != -1)
+                {
+                    pickerProvince.SelectedIndex = provinceIndex;
+
+                    var cities = await MyServiceController.GetCitiesOfProvince(myprovince.ProvinceId);
+                    pickerCity.ItemsSource = cities;
+
+                    CityModel city = cities.FirstOrDefault(c => c.CityId == loc.CityId.Value);
+                    if (city != null)
+                    {
+                        pickerCity.SelectedItem = city;
+                    }
+                }
+            }
+            
+        }
 
         this.LocationAddressId = loc.LocationAddressId;
-        //GlobalClass.m_LocationAddressId = loc.LocationAddressId;
-
         txtPName.Text = loc.PName;
         txtAddress.Text = loc.Address;
         GlobalClass.m_Latitude = loc.Latitude;
         GlobalClass.m_Longitude = loc.Longitude;
 
-        // ((CollectionView)sender).SelectedItem = null;
-        double latitude1 = Convert.ToDouble( GlobalClass.m_Latitude)
-           , longitude1 = Convert.ToDouble(GlobalClass.m_Longitude);
-
-
-        
+        double latitude1 = Convert.ToDouble(GlobalClass.m_Latitude);
+        double longitude1 = Convert.ToDouble(GlobalClass.m_Longitude);
 
         Pin pin = new Pin
         {
@@ -312,16 +331,13 @@ private async void InitmyMap()
             Address = "The city with a boardwalk",
             Type = PinType.Place,
             Location = new Location(latitude1, longitude1)
-
         };
-
 
         mymap.Pins.Clear();
         mymap.Pins.Add(pin);
-
         goToMap(latitude1, longitude1);
-
     }
+
 
 
     private void btnNextStep_Clicked(object sender, EventArgs e)
@@ -348,7 +364,7 @@ private async void InitmyMap()
 
         }
         */
-        
+
 
         if (GlobalClass.m_CustomerServiceItemView == null)
         {
@@ -374,49 +390,58 @@ private async void InitmyMap()
 
     private async void SearchBar_SearchButtonPressed(object sender, EventArgs e)
     {
-
         var searchBar = (SearchBar)sender;
         string query = searchBar.Text;
 
-        /*
+        if (string.IsNullOrWhiteSpace(query))
+            return;
+
         try
         {
+            // ۱. تلاش برای پیدا کردن مختصات از روی متن (Geocoding)
             var locations = await Geocoding.GetLocationsAsync(query);
-            var location = locations?.FirstOrDefault();
-        }
-        catch(Exception ex) 
-        {
-            await DisplayAlert("", ex.Message, "ok");
-        }
-        */
+            var foundLocation = locations?.FirstOrDefault();
 
-        try
-        {
-            Location mylocation = new Location();
-
-           // var locations = await Geocoding.GetLocationsAsync(query);
-           // mylocation = locations?.FirstOrDefault();
-
-             mylocation = await Geolocation.Default.GetLastKnownLocationAsync();
-
-            if (mylocation != null)
+            if (foundLocation != null)
             {
-                await DisplayAlert("", $"Latitude: {mylocation.Latitude}, Longitude: {mylocation.Longitude}, Altitude: {mylocation.Altitude}", "ok");
+                // ۲. نمایش یک پیام کوچک یا فقط حرکت به سمت مقصد (اختیاری)
+                // در اینجا مستقیم به نقشه می‌رویم
 
-                goToMap(mylocation.Latitude, mylocation.Longitude);
+                // ۳. حرکت به سمت مختصات پیدا شده
+                goToMap(foundLocation.Latitude, foundLocation.Longitude);
 
+                // ۴. اضافه کردن یک Pin برای مشخص شدن محل دقیق روی نقشه
+                // ابتدا پین‌های قبلی را پاک می‌کنیم تا نقشه شلوغ نشود
+                mymap.Pins.Clear();
+
+                Pin searchPin = new Pin
+                {
+                    Label = "محل جستجو شده",
+                    Address = query,
+                    Type = PinType.Place,
+                    Location = foundLocation
+                };
+
+                mymap.Pins.Add(searchPin);
+
+                // پاک کردن متن جستجو برای جستجوی بعدی
+                searchBar.Text = string.Empty;
+            }
+            else
+            {
+                // اگر هیچ مکانی پیدا نشد
+                await DisplayAlert("خطا", "مکان مورد نظر پیدا نشد. لطف‌تر نام یا آدرس را وارد کنید.", "باشه");
             }
         }
-     
         catch (Exception ex)
         {
-            // Unable to get location
+            // مدیریت خطاهای احتمالی مثل نبود اینترنت یا خطای سرویس نقشه‌
+            await DisplayAlert("خطای سیستم", "خطایی در جستجو رخ داد. لطفا اتصال اینترنت خود را بررسی کنید.", "باشه");
+            // برای دیباگ خودتان می‌توانید در کنسول هم چاپ کنید:
+            System.Diagnostics.Debug.WriteLine($"Search Error: {ex.Message}");
         }
-
-
-
-
     }
+
 
     private async void btnBeforeStep_Clicked(object sender, EventArgs e)
     {
@@ -426,9 +451,9 @@ private async void InitmyMap()
 
     private async Task LoadProvinces()
     {
-        allprovinces = await MyServiceController.GetAllProvince();
-        allcities = await MyServiceController.GetAllCity();
-        pickerProvince.ItemsSource = allprovinces;
+        GlobalClass.m_AllProvinces = await MyServiceController.GetAllProvince();
+        GlobalClass.m_AllCities = await MyServiceController.GetAllCity();
+        pickerProvince.ItemsSource = GlobalClass.m_AllProvinces;
         pickerCity.ItemsSource = new List<CityModel>(); // در ابتدا خالی باشد
     }
 
@@ -439,16 +464,11 @@ private async void InitmyMap()
 
         
 
-        filteredcities =await MyServiceController.GetFilterCitiesByProvince(allcities, selectedProvince.ProvinceId);
+        filteredcities =await MyServiceController.GetCitiesOfProvince( selectedProvince.ProvinceId);
         pickerCity.ItemsSource = filteredcities;
         pickerCity.SelectedIndex = -1; // ریست کردن شهر
-        /*
-        if (!string.IsNullOrEmpty(selectedProvince) && citiesByProvince.ContainsKey(selectedProvince))
-        {
-            pickerCity.ItemsSource = citiesByProvince[selectedProvince];
-            pickerCity.SelectedIndex = -1; // ریست کردن شهر
-        }
-        */
+        txtAddress.Text = "";
+        txtPName.Text = "";
     }
 
     private void pickerCity_SelectedIndexChanged(object sender, EventArgs e)
@@ -458,7 +478,11 @@ private async void InitmyMap()
         if (selectedCity != null)
         {
             GlobalClass.m_CityId = selectedCity.CityId;
+            goToMap(decimal.ToDouble( selectedCity.Latitude.Value), decimal.ToDouble( selectedCity.Longitude.Value));
             // logic for city selection...
+
+            txtAddress.Text = "";
+            txtPName.Text = "";
         }
     }
 }

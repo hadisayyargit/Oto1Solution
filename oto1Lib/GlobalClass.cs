@@ -55,5 +55,8 @@ namespace oto1
         public static string m_PersonName;
 
         public static CustomerServiceItemViewModel m_CustomerServiceItemView;
+
+        public static List<CityModel> m_AllCities = new List<CityModel>();
+        public static List<ProvinceModel> m_AllProvinces = new List<ProvinceModel>();
     }
 }
