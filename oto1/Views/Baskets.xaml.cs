@@ -1,4 +1,5 @@
-﻿using MauiPersianToolkit;
+﻿using CommunityToolkit.Mvvm.Messaging;
+using MauiPersianToolkit;
 using Microsoft.Maui.Controls;
 using oto1.Models;
 using oto1.Services;
@@ -72,7 +73,17 @@ public partial class Baskets : ContentPage
 
 
         collectionviewBasket.ItemsSource = myGroupServices;
-       
+
+
+        List<CustomerServiceItemViewModel> myOrdersItems2 = await myCustomerServiceController.GetCustomerServiceItem(customerid: GlobalClass.m_CustomerId, servicestatus: (byte)GlobalClass.enumServiceStatus.servicestatus_Ticketing);
+        int partCount = myOrdersItems2
+                .Select(x => x.PartId)
+                .Distinct()
+                .Count();
+
+        WeakReferenceMessenger.Default.Send(new AppShell.UserToolbarMessage($"basket:{partCount.ToString()}"));
+
+
         activityIndicator.IsRunning = false;
         activityIndicator.IsVisible = false;
     }

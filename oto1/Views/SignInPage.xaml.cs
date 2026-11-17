@@ -51,6 +51,18 @@ public partial class SignInPage : ContentPage
 
                 WeakReferenceMessenger.Default.Send(new AppShell.UserToolbarMessage("updateUserToolbarItem"));
 
+
+                CustomerServiceController myCustomerServiceController = new CustomerServiceController();
+
+                List<CustomerServiceItemViewModel> myOrdersItems = await myCustomerServiceController.GetCustomerServiceItem(customerid: GlobalClass.m_CustomerId, servicestatus: (byte)GlobalClass.enumServiceStatus.servicestatus_Ticketing);
+                int partCount = myOrdersItems
+                        .Select(x => x.PartId)
+                        .Distinct()
+                        .Count();
+
+                WeakReferenceMessenger.Default.Send(new AppShell.UserToolbarMessage($"basket:{partCount.ToString()}"));
+
+
                 myactivityIndicator.IsRunning = false;
                 await Navigation.PopAsync();
             }

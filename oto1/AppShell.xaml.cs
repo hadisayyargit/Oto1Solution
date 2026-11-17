@@ -44,7 +44,11 @@ public partial class AppShell : Shell
                 else if (m.Value.StartsWith("basket:"))
                 {
                     string count = m.Value.Replace("basket:", "");
-                    toolbaritemBasket.Text = $"🛒 {count}";
+                    if (count != "0" && count != "")
+                        toolbaritemBasket.Text = $"🛒 {count}";
+                    else
+                        toolbaritemBasket.Text = $"🛒";
+
                 }
             });
         });
@@ -146,6 +150,8 @@ public partial class AppShell : Shell
             DisplayAlert("هشدار", "به عنوان کاربر معتبر وارد برنامه نشده ای", "ok");
             return;
         }
+
+
         // Shell.Current.GoToAsync(nameof(Baskets));
         Navigation.PushAsync(new Baskets());
     }
@@ -174,6 +180,8 @@ public partial class AppShell : Shell
     {
         GlobalClass.m_UserId = "";
         toolbaritemUser.IconImageSource = "user1.png";
+
+        toolbaritemBasket.Text = $"🛒";
     }
 
     public void SwitchtoTab(string tabname)
