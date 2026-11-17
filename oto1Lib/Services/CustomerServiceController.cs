@@ -212,13 +212,13 @@ namespace oto1.Services
             }
 
         }
-        public async Task<List<CustomerServiceItemViewModel>> GetCustomerServiceItem(long serviceid = -1, long customerid = -1, int manufacturerid = -1, int vendorid = -1, int postmanid = -1, string ticketdatetime = "2000-1-1", string servicedatetime = "2000-1-1", byte servicestatus = 255)
+        public async Task<List<CustomerServiceItemViewModel>> GetCustomerServiceItem(long serviceid = -1, long customerid = -1, int manufacturerid = -1, int vendorid = -1, int postmanid = -1, string ticketdatetime = "2000-1-1", string servicedatetime = "2000-1-1", byte servicestatus = 255, int partid=-1)
         {
 
             try
             {
                 List<CustomerServiceItemViewModel> myCustomerServices = new List<CustomerServiceItemViewModel>();
-                string fullurl = this.baseUrl + "/GetCustomerServiceItem?serviceid="+serviceid+"&customerid=" + customerid+ "&manufacturerid="+manufacturerid+"&vendorid="+ vendorid + "&postmanid=" + postmanid + "&ticketdatetime="+ticketdatetime+"&servicedatetime="+ servicedatetime+"&servicestatus="+ servicestatus;
+                string fullurl = this.baseUrl + "/GetCustomerServiceItem?serviceid="+serviceid+"&customerid=" + customerid+ "&manufacturerid="+manufacturerid+"&vendorid="+ vendorid + "&postmanid=" + postmanid + "&ticketdatetime="+ticketdatetime+"&servicedatetime="+ servicedatetime+"&servicestatus="+ servicestatus + "&partid=" +partid.ToString();
                 HttpClient myhttpclient = new HttpClient();
 
                 myhttpclient.BaseAddress = new Uri(fullurl);
@@ -227,16 +227,12 @@ namespace oto1.Services
                 if (myhttpresponsemessage.IsSuccessStatusCode)
                 {
                     string contentResponse = await myhttpresponsemessage.Content.ReadAsStringAsync();
-
                     myCustomerServices = JsonConvert.DeserializeObject<List<CustomerServiceItemViewModel>>(contentResponse);
-
-
                 }
 
                 return await Task.FromResult(myCustomerServices.ToList());
-
-
             }
+
             catch (Exception ex)
             {
                 throw;

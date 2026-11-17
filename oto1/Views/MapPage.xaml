@@ -9,7 +9,7 @@
 
     <!-- اضافه کردن ScrollView برای قابلیت اسکرول در تبلت و گوشی‌های کوچک -->
     <ScrollView>
-        <VerticalStackLayout Padding="10" Spacing="10">
+        <VerticalStackLayout Padding="5" Spacing="5">
 
             <Label Text="کجا هستی؟" 
                    HorizontalTextAlignment="Center" 
@@ -60,7 +60,7 @@
 
             <!-- بخش انتخاب استان و شهر (فرم ورودی) -->
             <Frame Padding="15" CornerRadius="15" HasShadow="True" BackgroundColor="White" BorderColor="#E0E0E0">
-                <Grid RowDefinitions="50,50" ColumnDefinitions=".25*,0.25*,.25*,.25*"  ColumnSpacing="10" RowSpacing="10">
+                <Grid RowDefinitions="50,50" ColumnDefinitions=".25*,0.25*,.25*,.25*"  ColumnSpacing="5" RowSpacing="5">
 
                     <!-- استان -->
                     <VerticalStackLayout Grid.Row="0" Grid.Column="0">

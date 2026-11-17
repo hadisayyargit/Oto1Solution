@@ -34,11 +34,11 @@ namespace Auto1API.Controllers
         }
 
         [HttpGet(Name = "GetCustomerServiceItem")]
-        public IEnumerable<CustomerServiceItemViewModel> GetCustomerServiceItem(long serviceid = -1, long customerid = -1, int manufacturerid = -1, int vendorid = -1, int postmanid = -1, string ticketdatetime="2000-1-1" , string servicedatetime= "2000-1-1", byte servicestatus = 255)
+        public IEnumerable<CustomerServiceItemViewModel> GetCustomerServiceItem(long serviceid = -1, long customerid = -1, int manufacturerid = -1, int vendorid = -1, int postmanid = -1, string ticketdatetime="2000-1-1" , string servicedatetime= "2000-1-1", byte servicestatus = 255, int partid=-1)
         {
      
             ///stored procedure 
-            System.FormattableString s3 = $"sp_GetCustomerServiceItem @serviceid = {serviceid}, @customerid={customerid}, @manufacturerid={manufacturerid}, @vendorid={vendorid}, @postmanid={postmanid},@ticketdatetime={ticketdatetime},@servicedatetime={servicedatetime}";
+            System.FormattableString s3 = $"sp_GetCustomerServiceItem @serviceid = {serviceid}, @customerid={customerid}, @manufacturerid={manufacturerid}, @vendorid={vendorid}, @postmanid={postmanid},@ticketdatetime={ticketdatetime},@servicedatetime={servicedatetime}, @partid={partid}";
 
             List<CustomerServiceItemViewModel> res=new List<CustomerServiceItemViewModel> ();
 
@@ -102,6 +102,7 @@ namespace Auto1API.Controllers
 
                     foreach (var item in newitems1)
                     {
+
                         item1 = new CustomerServiceItemModel();
                         item1.ServiceId = serviceid;
                         item1.Quantity = item.Quantity;
@@ -110,7 +111,11 @@ namespace Auto1API.Controllers
                         item1.ServiceItemStatus = item.ServiceItemStatus;
                         item1.NetAmount = item.NetAmount;
                         item1.PriceAmount = item.PriceAmount;
-                        newserviceitem.Add(item1);
+
+                        //List<CustomerServiceItemViewModel> myOrdersItems = new List<CustomerServiceItemViewModel>();
+                          var myOrdersItems = GetCustomerServiceItem(serviceid: serviceid, partid: item.PartId.Value);
+                        if (myOrdersItems == null || myOrdersItems.Count()==0)
+                            newserviceitem.Add(item1);
 
                     }
 

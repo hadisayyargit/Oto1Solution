@@ -1,4 +1,5 @@
-﻿using oto1.Models;
+﻿using CommunityToolkit.Mvvm.Messaging;
+using oto1.Models;
 using oto1.Services;
 using System;
 using System.Collections.ObjectModel;
@@ -42,12 +43,16 @@ namespace oto1
         {
             InitializeComponent();
             collectionviewProducts.ItemsSource = displayedProducts;
+
+            WeakReferenceMessenger.Default.Send(new AppShell.UserToolbarMessage("basket:6"));
         }
 
 
         protected override async void OnAppearing()
         {
             base.OnAppearing();
+
+            WeakReferenceMessenger.Default.Send(new AppShell.UserToolbarMessage("basket:7"));
 
             if (_isLoading)
                 return;
@@ -147,6 +152,12 @@ namespace oto1
                 activityIndicator.IsRunning = false;
                 _isLoading = false;
             }
+
+
+
+            
+
+
         }
 
         private async Task LoadMenuAsync(MenuViewModel vm)
@@ -377,8 +388,16 @@ namespace oto1
 
 
                 res = await MyCustomerServiceController.AddCustomerService(myServices);
-                msg = "درخواست شما ثبت شد با شماره‌های: " + res;
+
+                if (res.Contains("error"))
+                    msg = "محصول قبلا افزوده شده است";
+                else
+                    msg = "درخواست شما ثبت شد با شماره‌های: " + res;
+
                 await DisplayAlert("", msg, "ok");
+
+
+                //WeakReferenceMessenger.Default.Send(new AppShell.UserToolbarMessage("UpdateToolbarItemBasket"));
             }
 
         }

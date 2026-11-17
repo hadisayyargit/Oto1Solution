@@ -13,6 +13,9 @@ public partial class AppShell : Shell
         public UserToolbarMessage(string value) : base(value) { }
     }
 
+
+
+
     public AppShell()
     {
         InitializeComponent();
@@ -23,19 +26,29 @@ public partial class AppShell : Shell
         Routing.RegisterRoute(nameof(MapPage), typeof(MapPage));
         Routing.RegisterRoute(nameof(Requests), typeof(Requests));
 
-   
+
         // ثبت‌نام برای دریافت پیام (داخل سازنده)
+        // در فایل AppShell.xaml.cs بخش Register را اینگونه اصلاح کن:
+
         WeakReferenceMessenger.Default.Register<UserToolbarMessage>(this, (r, m) =>
         {
-            // از MainThread استفاده می‌کنیم تا UI حتماً به‌روز شود
+
             MainThread.BeginInvokeOnMainThread(() =>
             {
+                // 1. اگر پیام برای آپدیت پروفایل کاربر بود
                 if (m.Value == "updateUserToolbarItem")
                 {
                     updateUserToolbarItem(m.Value);
                 }
+                // 2. اگر پیام حاوی عدد یا متن برای سبد خرید بود (مثلاً هر چیزی که "updateBasket:" با آن شروع شود)
+                else if (m.Value.StartsWith("basket:"))
+                {
+                    string count = m.Value.Replace("basket:", "");
+                    toolbaritemBasket.Text = $"🛒 {count}";
+                }
             });
         });
+
 
     }
 
@@ -78,11 +91,6 @@ public partial class AppShell : Shell
         // انجام عملیات مورد نظر با استفاده از currentTab
     }
 
-    private void UpdateToolbarItem(string s)
-    {
-
-        toolbaritemBasket.Text = s;
-    }
 
     private async void updateUserToolbarItem(string s)
     {

@@ -10,8 +10,10 @@
 
     <Shell.ToolbarItems   >
         <ToolbarItem IconImageSource="user1.png"  Order="Default" Priority="0"  x:Name="toolbaritemUser" Clicked="toolbaritemUser_Clicked" />
-        <ToolbarItem IconImageSource="basket1.png" Text="1" Order="Primary" Priority="1" x:Name="toolbaritemBasket" Clicked="toolbaritemBasket_Clicked"/>
-        <ToolbarItem Text="3"                     Order="Primary" Priority="2"  />
+        <!--<ToolbarItem IconImageSource="basket1.png" Text="1" Order="Primary" Priority="1" x:Name="toolbaritemBasket" Clicked="toolbaritemBasket_Clicked"/>-->
+        <ToolbarItem  Text="🛒 1"      Order="Primary"      x:Name="toolbaritemBasket"      Clicked="toolbaritemBasket_Clicked"/>
+
+
         <ToolbarItem IconImageSource="dotnet_bot.svg" Text="یاور هوشمند" Order="Primary" Priority="3" x:Name="toolbaritemSmartChat"  Clicked="toolbaritemSmartChat_Clicked"/>
         <ToolbarItem Text="خروج"     Order="Secondary" Priority="4" x:Name="toolbaritemLogoff"  Clicked="toolbaritemLogoff_Clicked"    />
 

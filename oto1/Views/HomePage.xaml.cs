@@ -1,6 +1,8 @@
 ﻿namespace oto1;
-using oto1.Services;
+using CommunityToolkit.Mvvm.Messaging;
 using oto1.Models;
+using oto1.Services;
+
 public partial class HomePage : ContentPage
 {
     public ServiceController MyServiceController { get; set; }
@@ -9,6 +11,9 @@ public partial class HomePage : ContentPage
     public HomePage()
 	{
 		InitializeComponent();
+
+        //WeakReferenceMessenger.Default.Send(new AppShell.UserToolbarMessage("basket:7"));
+        WeakReferenceMessenger.Default.Send(new AppShell.UserToolbarMessage("basket:"));
         this.MyServiceController = new ServiceController();
 
         CreateOfferCollection();
@@ -69,6 +74,8 @@ public partial class HomePage : ContentPage
     protected override void OnDisappearing()
     {
         base.OnDisappearing();
+
+        
     }
 
     private async void btnAutoPartsSales_Clicked(object sender, EventArgs e)
