@@ -70,7 +70,9 @@ namespace oto1.Models
         public byte? DiscountPercent { get; set; }
         public int? Existance { get; set; }
 
-
+        public string User_Name { get; set; }
+        public string Host_Name { get; set; }
+        public DateTime ModifiedTime { get; set; }
 
     }
     public class PartVendorViewModel

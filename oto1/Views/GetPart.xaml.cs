@@ -96,6 +96,7 @@ namespace oto1
 
                     case (byte)GlobalClass.enumServiceItemType.serviceitemtype_PartSale:
                         stacklayoutPartClass.IsVisible = true;
+                        await LoadMenuAsync(_menuViewModel);
                         break;
 
                     case (byte)GlobalClass.enumServiceItemType.serviceitemtype_BatterySale:
@@ -107,14 +108,6 @@ namespace oto1
                         break;
                 }
 
-                // حتماً با await اجرا شود
-                await LoadMenuAsync(_menuViewModel);
-
-                /*
-                cars = await MyServiceController.GetAllCarsView()
-                       ?? new List<CarModel>();
-                pickerCar.ItemsSource = cars;
-                */
 
 
                 manufacturers = await MyServiceController.GetAllManufacturers()
@@ -149,10 +142,6 @@ namespace oto1
                 activityIndicator.IsRunning = false;
                 _isLoading = false;
             }
-
-
-
-            
 
 
         }

@@ -60,8 +60,9 @@ public partial class AllCars : ContentPage
             {
 
                 //pr.PhotoFileName = "https://khordadnet.ir/mysites/oto1/assets/part/prt" + pr.PartId.ToString() + ".png";
-               // car.ThumbnailPhotoFile = "Resources/images/car/" + car.ThumbnailPhotoFile;
-                car.ThumbnailPhotoFile = "https://khordadnet.ir/mysites/oto1/assets/car/car" + car.CarId.ToString() + ".png";
+                // car.ThumbnailPhotoFile = "Resources/images/car/" + car.ThumbnailPhotoFile;
+                //  car.ThumbnailPhotoFile = "https://khordadnet.ir/mysites/oto1/assets/car/car" + car.CarId.ToString() + ".png";
+                car.ThumbnailPhotoFile = $"https://khordadnet.ir/mysites/oto1/assets/car/{car.ThumbnailPhotoFile}";
 
             }
         }
