@@ -38,7 +38,7 @@ namespace Auto1API.Controllers
         {
      
             ///stored procedure 
-            System.FormattableString s3 = $"sp_GetCustomerServiceItem @serviceid = {serviceid}, @customerid={customerid}, @manufacturerid={manufacturerid}, @vendorid={vendorid}, @postmanid={postmanid},@ticketdatetime={ticketdatetime},@servicedatetime={servicedatetime}, @partid={partid}";
+            System.FormattableString s3 = $"sp_GetCustomerServiceItem @serviceid = {serviceid}, @customerid={customerid}, @manufacturerid={manufacturerid}, @vendorid={vendorid}, @postmanid={postmanid},@ticketdatetime={ticketdatetime},@servicedatetime={servicedatetime}, @partid={partid}, @servicestatus={servicestatus}";
 
             List<CustomerServiceItemViewModel> res=new List<CustomerServiceItemViewModel> ();
 

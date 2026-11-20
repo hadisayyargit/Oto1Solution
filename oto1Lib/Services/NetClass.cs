@@ -10,22 +10,9 @@ namespace oto1.Services
     {
         public static bool CheckNetConnection()
         {
-            bool res;
+         
 
-            if (Connectivity.Current.NetworkAccess != NetworkAccess.Internet)
-            {
-                res = false;
-
-
-            }
-            else
-            {
-                res = true;
-                //DisplayAlert("پیام", "درود", "ok");
-            }
-
-
-            return res;
+            return Connectivity.Current.NetworkAccess == NetworkAccess.Internet;
         }
 
     public static async Task<bool> CheckNetFileExists(string url)

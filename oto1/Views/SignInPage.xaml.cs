@@ -27,9 +27,16 @@ public partial class SignInPage : ContentPage
         string username = txtUsername.Text;
         string password = txtPassword.Text;
 
-        // اینجا میتوانید کد احراز هویت خود را اضافه کنید
-        myactivityIndicator.IsRunning = true;
-        MyServiceController = new ServiceController();
+        // اینجا میتوانید کد احراز هویت خود را اضافه کنیدmyactivityIndicator.IsRunning = true;
+
+        if (NetClass.CheckNetConnection() == false)
+        {
+            myactivityIndicator.IsRunning = false;
+            await DisplayAlert("پیام", "خطا در اتصال", "ok");
+            return;
+        }
+
+            MyServiceController = new ServiceController();
         myUser = await MyServiceController.AuthenticateUser(username, password);
 
         if (myUser != null)

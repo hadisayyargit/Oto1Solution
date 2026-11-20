@@ -17,14 +17,8 @@ namespace oto1
                 .UseMauiApp<App>()
                 .UseMauiCommunityToolkit()
                 .UsePersianUIControls()
-#if ANDROID || IOS
-                .UseMauiMaps()   ///for android        : google map        
-#endif
 
-#if WINDOWS7_0_OR_GREATER
-                   .UseMauiCommunityToolkitMaps("pppptertrddsxdg")  /// for windows machine  : bing 
 
-#endif
 
                 .ConfigureFonts(fonts =>
                 {
@@ -33,9 +27,9 @@ namespace oto1
                     fonts.AddFont("iconfont.ttf", "IconFont");
                 });
 
-#if DEBUG
-            builder.Logging.AddDebug();
-#endif
+//#if DEBUG
+//            builder.Logging.AddDebug();
+//#endif
 
             return builder.Build();
         }

@@ -44,15 +44,12 @@ namespace oto1
             InitializeComponent();
             collectionviewProducts.ItemsSource = displayedProducts;
 
-            WeakReferenceMessenger.Default.Send(new AppShell.UserToolbarMessage("basket:6"));
         }
 
 
         protected override async void OnAppearing()
         {
             base.OnAppearing();
-
-            WeakReferenceMessenger.Default.Send(new AppShell.UserToolbarMessage("basket:7"));
 
             if (_isLoading)
                 return;
@@ -397,7 +394,13 @@ namespace oto1
                 await DisplayAlert("", msg, "ok");
 
 
-                //WeakReferenceMessenger.Default.Send(new AppShell.UserToolbarMessage("UpdateToolbarItemBasket"));
+                List<CustomerServiceItemViewModel> myOrdersItems = await MyCustomerServiceController.GetCustomerServiceItem(customerid: GlobalClass.m_CustomerId, servicestatus: (byte)GlobalClass.enumServiceStatus.servicestatus_Ticketing);
+                int partCount = myOrdersItems
+                        .Select(x => x.PartId)
+                        .Distinct()
+                        .Count();
+
+                WeakReferenceMessenger.Default.Send(new AppShell.UserToolbarMessage($"basket:{partCount.ToString()}"));
             }
 
         }

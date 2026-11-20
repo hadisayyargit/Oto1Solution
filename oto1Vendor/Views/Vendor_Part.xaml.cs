@@ -15,6 +15,7 @@ public partial class Vendor_Part : ContentPage
     public Command RefreshCommand { get; set; }
     public Vendor_Part()
     {
+        /*
         RefreshCommand = new Command(async () =>
         {
             IsRefreshing = true;
@@ -25,6 +26,7 @@ public partial class Vendor_Part : ContentPage
             //OnPropertyChanged(nameof(IsRefreshing));
 
         });
+        */
 
         //BindingContext = this;
         InitializeComponent();

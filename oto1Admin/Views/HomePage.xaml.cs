@@ -3,13 +3,13 @@ using oto1.Services;
 using oto1.Models;
 public partial class HomePage : ContentPage
 {
-    public ServiceController MyServiceController { get; set; }
+  //  public ServiceController MyServiceController { get; set; }
     //public List<ProductModel> SlideList;
 
     public HomePage()
     {
         InitializeComponent();
-        this.MyServiceController = new ServiceController();
+       // this.MyServiceController = new ServiceController();
 
     }
 

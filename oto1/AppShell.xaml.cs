@@ -80,6 +80,13 @@ public partial class AppShell : Shell
             e.Cancel();
             tabbarShell.CurrentItem = tabProfile;
         }
+        else if (e.Target.Location.OriginalString.Contains("FlyoutSignInRoute"))
+        {
+            e.Cancel();
+            tabbarShell.CurrentItem = tabHome;
+            toolbaritemUser_Clicked(this, null);
+        }
+
 
         //MainThread.BeginInvokeOnMainThread(() =>
         //{

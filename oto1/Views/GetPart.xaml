@@ -110,12 +110,12 @@
             <CollectionView x:Name="collectionviewProducts" Grid.Row="8" Grid.ColumnSpan="2" SelectionMode="None" RemainingItemsThreshold="5"
                             RemainingItemsThresholdReached="collectionviewProducts_RemainingItemsThresholdReached" >
             <CollectionView.ItemsLayout>
-                <GridItemsLayout Orientation="Vertical" Span="1" VerticalItemSpacing="8" HorizontalItemSpacing="8" />
+                <GridItemsLayout Orientation="Vertical" Span="1" VerticalItemSpacing="2" HorizontalItemSpacing="2" />
             </CollectionView.ItemsLayout>
             <CollectionView.ItemTemplate>
                 <DataTemplate>
-                    <Border Padding="4">
-                            <Grid RowDefinitions="*,30,30,30,30" ColumnDefinitions=".3*,.7*"  BackgroundColor="Transparent"  Padding="5" Margin="5" >
+                    <Border Padding="5" >
+                            <Grid RowDefinitions="*,30,30,40,30" ColumnDefinitions=".3*,.7*"  BackgroundColor="Transparent" ColumnSpacing="5"  Padding="5" Margin="5" >
                             <Image Source="{Binding PhotoFileName}" Grid.Row="0" Grid.Column="0" Grid.RowSpan="4" BackgroundColor="Transparent" VerticalOptions="Start" ></Image>
                             <Label Text="{Binding PName}"           Grid.Row="0" Grid.Column="1" FontSize="Small" TextColor="Blue"></Label>
                             <Label Text="{Binding VendorName}"      Grid.Row="1" Grid.Column="1" FontSize="Micro" ></Label>

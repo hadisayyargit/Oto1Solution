@@ -180,10 +180,25 @@ namespace Auto1API.Controllers
 
 
         [HttpGet(Name = "GetVendor_Part")]
-        public IEnumerable<PartVendorViewModel> GetVendor_Part(int vendorid = -1)
+        public IEnumerable<PartVendorViewModel> GetVendor_Part(int vendorid = -1, int pagenumber=1, int pagesize=10)
         {
 
-            System.FormattableString s3 = $"select vp.Id,vp.PartId, vp.VendorId,vp.PriceAmount,vp.DiscountPercent,vp.Existance, p.PName from Vendor_Part vp inner join Part p on p.PartId=vp.PartId where vp.VendorId={vendorid}";
+
+            System.FormattableString s3 = $@" SELECT vp.Id, vp.PartId, vp.VendorId, vp.PriceAmount, vp.DiscountPercent, vp.Existance, p.PName 
+                    FROM Vendor_Part vp 
+                    INNER JOIN Part p ON p.PartId = vp.PartId 
+                    WHERE vp.VendorId = {vendorid}
+                    ORDER BY vp.Id 
+                    OFFSET ({pagenumber} - 1) * {pagesize} ROWS 
+                    FETCH NEXT 10 ROWS ONLY";
+
+            /*
+             *  Emoji / Icon Font 
+             *  winkey + : 
+            🫆
+            😁 
+            🛒🔔🔑🗝️🔒⚙️🪪🚗🚗🚗⛽⛽⛔❌✔️🔜🔚
+            */
 
             List<PartVendorViewModel> res = new List<PartVendorViewModel>();
 

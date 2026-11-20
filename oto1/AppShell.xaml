@@ -61,8 +61,14 @@
 
 
     </FlyoutItem>
+    <FlyoutItem Title="ورود/ثبت نام 🗝️"             Icon="user3.png">
+
+        <ShellContent   Route="FlyoutSignInRoute"  Icon="user3.png"   x:Name="rightmenuLogin"  />
+
+
+    </FlyoutItem>
     <FlyoutItem Title="درباره..."
-                Icon="oto1icon.png">
+               Icon="logo28.png">
         <ShellContent  Title="پروفایل"   Icon="user2.png"     Route="FlyoutAboutRoute" x:Name="rightmenuAbout"  />
     </FlyoutItem>
 </Shell>

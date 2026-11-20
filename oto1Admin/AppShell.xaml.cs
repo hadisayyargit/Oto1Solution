@@ -66,42 +66,6 @@ public partial class AppShell : Shell
         // انجام عملیات مورد نظر با استفاده از currentTab
     }
 
-    /*
-    private async void updateUserToolbarItem(string s)
-    {
-        if (string.IsNullOrEmpty(GlobalClass.m_UserId) || GlobalClass.m_PersonId == null)
-        {
-            toolbaritemUser.IconImageSource = "user5.png";
-        }
-        else
-        {
-            // اضافه کردن Cache Buster برای اطمینان بیشتر
-            string fileUrl = $"https://khordadnet.ir/mysites/oto1/assets/person/a{GlobalClass.m_PersonId}.png?v={Guid.NewGuid().ToString().Substring(0, 8)}";
-
-            try
-            {
-                using (HttpClient client = new HttpClient())
-                {
-                    // دریافت فایل به صورت Byte Array برای دور زدن تمام انواع کش
-                    var imageBytes = await client.GetByteArrayAsync(fileUrl);
-
-                    // تبدیل بایت‌ها به ImageSource
-                    using (var stream = new MemoryStream(imageBytes))
-                    {
-                        toolbaritemUser.IconImageSource = ImageSource.FromStream(() => stream);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                // اگر دانلود با خطا مواجه شد (مثلاً فایل نبود)، از عکس پیش‌فرض استفاده کن
-                System.Diagnostics.Debug.WriteLine($"Error loading image: {ex.Message}");
-                toolbaritemUser.IconImageSource = "user5.png";
-            }
-        }
-    }
-    */
-
 
     
     private async void updateUserToolbarItem(string s)

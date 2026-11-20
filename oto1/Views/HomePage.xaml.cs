@@ -43,12 +43,15 @@ public partial class HomePage : ContentPage
         {
             PName = "خرید روغن موتور",
             ThumbnailPhotoFile = "https://khordadnet.ir/mysites/oto1/assets/cms/prt6.png"
+            ,PartAttribute=((byte)GlobalClass.enumServiceItemType.serviceitemtype_LubricantSale).ToString()
         });
 
         SlideList.Add(new PartModel
         {
             PName = "خرید باتری خودرو همراه با ارسال و نصب رایگان",
             ThumbnailPhotoFile = "https://khordadnet.ir/mysites/oto1/assets/cms/battery1.png"
+           ,
+            PartAttribute =((byte) GlobalClass.enumServiceItemType.serviceitemtype_BatterySale).ToString()
         });
 
 
@@ -57,18 +60,60 @@ public partial class HomePage : ContentPage
             PName = "خرید لاستیک به قیمت دولتی",
             //ImageUrl = "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fc/Papio_anubis_%28Serengeti%2C_2009%29.jpg/200px-Papio_anubis_%28Serengeti%2C_2009%29.jpg"
             ThumbnailPhotoFile = "https://khordadnet.ir/mysites/oto1/assets/cms/tire1.png"
+           ,
+            PartAttribute =((byte)GlobalClass.enumServiceItemType.serviceitemtype_tiresale).ToString()
         });
 
         SlideList.Add(new PartModel
         {
             PName = "خرید انواع قطعات یدکی اصلی خودرو",
             ThumbnailPhotoFile = "https://khordadnet.ir/mysites/oto1/assets/cms/prt30.png"
+           ,
+            PartAttribute = ((byte)GlobalClass.enumServiceItemType.serviceitemtype_PartSale).ToString()
         });
     }
 
     private void ImageButton_Clicked(object sender, EventArgs e)
     {
-        DisplayAlert("پیام", sender.ToString(), "ok");
+        //var a = (PartModel)sender;
+        var button = sender as ImageButton;
+        if (button != null)
+        {
+            var clickedSlide = button.BindingContext as PartModel;
+
+            if (clickedSlide != null)
+            {
+                byte partattr =Convert.ToByte( clickedSlide.PartAttribute);
+
+                /*
+                switch (partattr)
+                {
+                    case (byte)GlobalClass.enumServiceItemType.serviceitemtype_LubricantSale:
+                        //DisplayAlert("پیام", partattr.ToString(), "ok");
+
+
+                        break;
+                    case (byte)GlobalClass.enumServiceItemType.serviceitemtype_BatterySale:
+                        DisplayAlert("پیام", partattr.ToString(), "ok");
+                        break;
+                    case (byte)GlobalClass.enumServiceItemType.serviceitemtype_tiresale:
+                        DisplayAlert("پیام", partattr.ToString(), "ok");
+                        break;
+                    case (byte)GlobalClass.enumServiceItemType.serviceitemtype_PartSale:
+                        DisplayAlert("پیام", partattr.ToString(), "ok");
+                        break;
+                }
+                */
+
+                if (GlobalClass.m_CustomerServiceItemView == null)
+                    GlobalClass.m_CustomerServiceItemView = new CustomerServiceItemViewModel();
+
+                GlobalClass.m_CustomerServiceItemView.ServiceType = (byte)GlobalClass.enumServiceType.servicetype_Part;
+                GlobalClass.m_CustomerServiceItemView.ServiceItemType = partattr;
+                ((AppShell)App.Current.MainPage).SwitchtoTab("tabRequests");
+
+            }
+        }
     }
 
     protected override void OnDisappearing()

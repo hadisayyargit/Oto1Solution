@@ -23,7 +23,12 @@ public static class MauiProgram
         builder.UseMauiMaps();
 #endif
 
-#if WINDOWS
+//#if WINDOWS
+//                               .UseMauiCommunityToolkitMaps("pppptertrddsxdg")  /// for windows machine  : bing 
+
+//#endif
+
+#if WINDOWS7_0_OR_GREATER
    builder.UseMauiCommunityToolkitMaps("pppptertrddsxdg");  /// for windows machine  : bing 
         // در ویندوز، UseMauiMaps همان هندلر را بارگذاری می‌کند 
         // و کلید Bing باید از طریق متد ConfigureMauiHandlers یا تنظیمات پلتفرم اعمال شود.

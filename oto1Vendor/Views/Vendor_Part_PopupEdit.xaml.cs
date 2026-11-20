@@ -125,6 +125,10 @@ public partial class Vendor_Part_PopupEdit : Popup
                 PriceAmount = _part.PriceAmount,
                 DiscountPercent = _part.DiscountPercent,
                 Existance = _part.Existance
+                ,
+                ModifiedTime = DateTime.Now
+                ,Host_Name = Environment.MachineName
+                ,User_Name = Environment.UserName
 
 
             };
