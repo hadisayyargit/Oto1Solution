@@ -272,6 +272,41 @@ namespace Auto1API.Controllers
             }
         }
 
+
+        /// <summary>
+        /// 
+        /// </summary>
+        ///
+        [HttpPut("{locationaddressid}")]
+        public async Task<IActionResult> SetCurrentAddress(long locationaddressid)
+        {
+            try
+            {
+                var mylocation = await Auto1Context.LocationAddress
+                    .FirstOrDefaultAsync(a => a.LocationAddressId == locationaddressid);
+                if (mylocation == null)
+                    return NotFound();
+
+                var query = Auto1Context.LocationAddress.AsQueryable();
+                if (mylocation.CustomerId != null)
+                    query = query.Where(a => a.CustomerId == mylocation.CustomerId);
+                if (mylocation.VendorId != null)
+                    query = query.Where(a => a.VendorId == mylocation.VendorId);
+                if (mylocation.PersonId != null)
+                    query = query.Where(a => a.PersonId == mylocation.PersonId);
+                await query.ExecuteUpdateAsync(s => s.SetProperty(a => a.IsCurrentAddress, false));
+
+                mylocation.IsCurrentAddress = true;
+                this.Auto1Context.LocationAddress.Entry(mylocation).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                await Auto1Context.SaveChangesAsync();
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);  
+            }
+        }
+
         // DELETE api/<Auto1Controller>/5
         [HttpDelete("{id}")]
         public void DeleteLocationAddress(Int64 id)
@@ -283,6 +318,7 @@ namespace Auto1API.Controllers
                 this.Auto1Context.SaveChanges();
             }
         }
+
 
 
         [HttpGet(Name = "GetAllProvince")]

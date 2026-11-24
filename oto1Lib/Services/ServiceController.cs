@@ -511,6 +511,7 @@ namespace oto1.Services
                 myhttpclient.BaseAddress = new Uri(fullurl);
                 myhttpclient.Timeout = TimeSpan.FromSeconds(300);
                 HttpResponseMessage myhttpresponsemessage = await myhttpclient.GetAsync("");
+
                 if (myhttpresponsemessage.IsSuccessStatusCode)
                 {
                     string contentResponse = await myhttpresponsemessage.Content.ReadAsStringAsync();
@@ -777,6 +778,39 @@ namespace oto1.Services
             catch (Exception ex)
             {
                 return null;
+            }
+
+        }
+
+
+        public async Task<string> SetCurrentAddress(long locationaddressid)
+        {
+
+            try
+            {
+
+                string fullurl = this.baseUrl + $"/SetCurrentAddress/{locationaddressid}";
+                HttpClient myhttpclient = new HttpClient();
+
+ 
+                myhttpclient.BaseAddress = new Uri(fullurl);
+                myhttpclient.Timeout = TimeSpan.FromSeconds(300);
+                HttpResponseMessage myhttpresponsemessage = await myhttpclient.PutAsync("", null);
+
+                if (myhttpresponsemessage.IsSuccessStatusCode)
+                {
+                    return await Task.FromResult("ok");
+
+
+                }
+
+                return await Task.FromResult("error");
+
+
+            }
+            catch (Exception ex)
+            {
+                return ex.Message;
             }
 
         }

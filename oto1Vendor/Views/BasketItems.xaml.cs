@@ -125,6 +125,7 @@ public partial class BasketItems : ContentPage
                     ServicesDesc = txtRemark.Text,
                     ServiceStatus = (byte)GlobalClass.enumServiceStatus.servicestatus_Sending
                     ,PostmanId =  ((PersonModel)pickerCourier.ItemsSource[pickerCourier.SelectedIndex]).PersonId
+                    
                 };
 
                 bool res = await myCustomerServiceController.UpdateCustomerService(newcustomerServiceModel);

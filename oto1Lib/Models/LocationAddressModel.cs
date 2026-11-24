@@ -21,7 +21,7 @@ namespace oto1.Models
         public decimal? Longitude { get; set; }
         public byte[] GeoLocation { get; set; }
         public int? CityId { get; set; }
-        public bool IsFavorite { get; set; }
+        public bool? IsCurrentAddress { get; set; }
 
         [Column(TypeName = "timestamp")]
         [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
