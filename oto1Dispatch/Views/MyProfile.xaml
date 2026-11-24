@@ -5,7 +5,7 @@
              Title="پروفایل" FlowDirection="RightToLeft">
 
     <ContentPage.ToolbarItems>
-
+        <ToolbarItem Text="نشانی من"               Order="Secondary" Priority="3" Clicked="mnuMyLocation_Clicked"/>
         <ToolbarItem Text="آگاهیها"  Order="Secondary" Priority="5" />
         <ToolbarItem Text="اصلاح مشخصات من"            Order="Secondary" Priority="6" Clicked="mnuProfileEdit_Clicked"/>
         <ToolbarItem Text="تغییر گذرواژه"             Order="Secondary" Priority="7" Clicked="mnuPassword_Clicked"/>

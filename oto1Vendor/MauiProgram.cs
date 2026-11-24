@@ -1,8 +1,6 @@
 ﻿using CommunityToolkit.Maui;
 using MauiPersianToolkit;
 
-
-
 #if WINDOWS7_0_OR_GREATER
 using CommunityToolkit.Maui.Maps;
 #endif
@@ -14,8 +12,6 @@ namespace oto1
     {
         public static MauiApp CreateMauiApp()
         {
-            ///if (DeviceInfo.Platform == DevicePlatform.Android)
-
             var builder = MauiApp.CreateBuilder();
             builder
                 .UseMauiApp<App>()

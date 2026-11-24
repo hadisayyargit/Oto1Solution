@@ -22,9 +22,9 @@ public partial class MyProfile : ContentPage
 
         RefreshForm();
     }
-    private void mnuMyLocation_Clicked(object sender, EventArgs e)
+    private async void mnuMyLocation_Clicked(object sender, EventArgs e)
     {
-        // Navigation.PushAsync(new myLocations());
+        await Navigation.PushAsync(new MapPage());
 
     }
 
