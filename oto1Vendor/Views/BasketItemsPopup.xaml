@@ -52,7 +52,7 @@
 
                             <StackLayout Orientation="Horizontal" Grid.Row="3" Grid.Column="1" >
 
-                                <CheckBox IsChecked="{Binding IsCheckBoxChecked}" x:Name="chkHasQuantity" CheckedChanged="chkHasQuantity_CheckedChanged"></CheckBox>
+                                <CheckBox IsChecked="{Binding IsCheckBoxChecked}" x:Name="chkHasQuantity" ></CheckBox>
                                 <Label Text="{Binding CheckboxTitle}" VerticalOptions="Center" x:Name="lblCheckTitle"></Label>
                             </StackLayout>
                         </Grid>
