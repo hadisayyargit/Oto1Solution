@@ -94,6 +94,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Compile Update="Views\BasketItemsPopup.xaml.cs">
+	    <DependentUpon>BasketItemsPopup.xaml</DependentUpon>
+	  </Compile>
 	  <Compile Update="Views\Vendor_Part_PopupEdit.xaml.cs">
 	    <DependentUpon>Vendor_Part_PopupEdit.xaml</DependentUpon>
 	  </Compile>
@@ -106,7 +109,7 @@
 	  <MauiXaml Update="Views\Basket.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Views\BasketItems.xaml">
+	  <MauiXaml Update="Views\BasketItemsPopup.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\Vendor_Part.xaml">

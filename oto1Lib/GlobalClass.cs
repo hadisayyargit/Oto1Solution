@@ -44,15 +44,19 @@ namespace oto1
         public static decimal? m_Latitude;
         public static decimal? m_Longitude;
         public static string m_Address;
+        public static int m_CityId;
+        public static LocationAddressModel m_CurrentAddress;
+
         public static bool m_MapSelected;
         public static string m_UserId;
         public static string m_VendorName;
         public static int m_VendorId;
-        public static int m_CityId;
+        
         public static long m_CustomerId;
         public static string m_CustomerName;
         public static int m_PersonId;
         public static string m_PersonName;
+
 
         public static CustomerServiceItemViewModel m_CustomerServiceItemView;
 

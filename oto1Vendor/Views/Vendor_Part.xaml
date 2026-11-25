@@ -1,70 +1,70 @@
-<?xml version="1.0" encoding="utf-8" ?>
-
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:dg="clr-namespace:Maui.DataGrid;assembly=Maui.DataGrid"
              x:Class="oto1.Vendor_Part"
              Title="موجودیها">
 
-    <Grid RowDefinitions="30,50,*" >
-        <ActivityIndicator x:Name="activityIndicator" IsVisible="False" Grid.Row="0" IsRunning="False" Color="BlueViolet"/>
-   
-        <Button x:Name="btnAdd" Text="افزودن"
-                Grid.Row="1" Clicked="btnAdd_Clicked" />
-        
-        <dg:DataGrid x:Name="grdVendorPart" Grid.Row="2" ItemsSource="{Binding}"  >
+    <Grid RowDefinitions="Auto,Auto,*,Auto"
+      RowSpacing="6"
+      Padding="8">
+
+        <ActivityIndicator x:Name="activityIndicator"
+                       Grid.Row="0"
+                       IsVisible="False"
+                       IsRunning="False"
+                       Color="BlueViolet" />
+
+        <Grid Grid.Row="1"
+          ColumnDefinitions="*,Auto"
+          ColumnSpacing="8">
+
+            <SearchBar x:Name="sbSearch"
+                   Grid.Column="0"
+                   Placeholder="جستجو بر اساس نام یا کد قطعه"
+                   TextChanged="sbSearch_TextChanged" />
+
+            <Button x:Name="btnAdd"
+                Grid.Column="1"
+                Text="افزودن"
+                Clicked="btnAdd_Clicked" />
+        </Grid>
+
+        <dg:DataGrid x:Name="grdVendorPart"                  Grid.Row="2" PullToRefreshCommand="{Binding RefreshCommand}"
+IsRefreshing="{Binding IsRefreshing, Mode=TwoWay}">
+
             <dg:DataGrid.Columns>
 
                 <dg:DataGridColumn Title="شناسه"   PropertyName="Id" />
 
                 <dg:DataGridColumn Title="قطعه"                     PropertyName="PName" />
                 <!--<dg:DataGridColumn Title="از تاریخ" 
-               PropertyName="jalaliBeginDate"
-               Width="70" />
+    PropertyName="jalaliBeginDate"
+    Width="70" />
 
-                <dg:DataGridColumn Title="تا تاریخ"
-               PropertyName="JalaliEndDate"-->
+     <dg:DataGridColumn Title="تا تاریخ"
+    PropertyName="JalaliEndDate"-->
 
 
-                <dg:DataGridColumn Title="تعداد"
-               PropertyName="Existance" />
+                <dg:DataGridColumn Title="تعداد"     PropertyName="Existance" />
 
-                <dg:DataGridColumn Title="قیمت"
-                       PropertyName="PriceAmount" />
+                <dg:DataGridColumn Title="قیمت"             PropertyName="PriceAmount" />
 
-        
+                <dg:DataGridColumn Title="تخفیف٪"             PropertyName="DiscountPercent"             Width="70"             StringFormat="{}{0:0.00}" />
 
-                <dg:DataGridColumn Title="تخفیف٪"
-                       PropertyName="DiscountPercent"
-                       Width="70"
-                       StringFormat="{}{0:0.00}" />
-
-                <dg:DataGridColumn Title=""
-                   PropertyName="ThumbnailPhotoFile"
-                   SortingEnabled="False">
+                <dg:DataGridColumn Title=""         PropertyName="ThumbnailPhotoFile"          SortingEnabled="False">
 
                     <dg:DataGridColumn.CellTemplate>
                         <DataTemplate>
-                            <Image Source="{Binding}"
-                   HorizontalOptions="Center"
-                   VerticalOptions="Center"
-                   Aspect="AspectFit"
-                   HeightRequest="60" />
+                            <Image Source="{Binding}"   HorizontalOptions="Center"         VerticalOptions="Center"         Aspect="AspectFit"         HeightRequest="60" />
                         </DataTemplate>
                     </dg:DataGridColumn.CellTemplate>
 
                 </dg:DataGridColumn>
 
 
-                <dg:DataGridColumn PropertyName="."
-                   Width="0.75*"
-                   FilteringEnabled="False">
-
-                    <dg:DataGridColumn.CellTemplate>
+                <dg:DataGridColumn Title="" PropertyName="."         Width="0.75*"         FilteringEnabled="False">  <dg:DataGridColumn.CellTemplate>
                         <DataTemplate>
-                            <Button Text="Edit"
-                    BackgroundColor="LightSkyBlue"
-                    Clicked="btnEdit_Clicked" />
+                            <Button Text="Edit"          BackgroundColor="LightSkyBlue"          Clicked="btnEdit_Clicked" />
                         </DataTemplate>
                     </dg:DataGridColumn.CellTemplate>
 
@@ -75,6 +75,21 @@
 
         </dg:DataGrid>
 
+        <HorizontalStackLayout Grid.Row="3"
+                           HorizontalOptions="Center"
+                           Spacing="12">
+            <Button x:Name="btnPrevious"
+                Text="قبلی"
+                Clicked="btnPrevious_Clicked" />
+
+            <Label x:Name="lblPage"
+               Text="صفحه ۱"
+               VerticalOptions="Center" />
+
+            <Button x:Name="btnNext"
+                Text="بعدی"
+                Clicked="btnNext_Clicked" />
+        </HorizontalStackLayout>
     </Grid>
 
 </ContentPage>

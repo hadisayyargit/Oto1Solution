@@ -265,12 +265,14 @@ namespace oto1.Services
 
         }
 
-        public async Task<List<PersonModel>> GetAllPersonsByUserRole(byte userrole)
+
+
+        public async Task<List<PersonModel>> GetAllPersonsByUserRole(byte userrole, int cityid)
         {
             try
             {
                 List<PersonModel> personlist = new List<PersonModel>();
-                string fullurl = this.baseUrl + $"/GetAllPersonsByUserRole/{userrole}";
+                string fullurl = this.baseUrl + $"/GetAllPersonsByUserRole?userrole={userrole}&cityid={cityid}";
                 HttpClient myhttpclient = new HttpClient();
 
 
@@ -330,12 +332,8 @@ namespace oto1.Services
 
         }
 
-
-
-
         public async Task<List<CarModel>> GetAllCars()
         {
-
             try
             {
                 List<CarModel> carlist = new List<CarModel>();
@@ -350,7 +348,6 @@ namespace oto1.Services
                     string contentResponse = await myhttpresponsemessage.Content.ReadAsStringAsync();
 
                     carlist = JsonConvert.DeserializeObject<List<CarModel>>(contentResponse);
-
 
                 }
 
@@ -782,6 +779,16 @@ namespace oto1.Services
 
         }
 
+
+        public async Task<LocationAddressModel> GetCurrentAddress(long customerid, int vendorid, int personid)
+        {
+            var myLocation =(await GetAllLocationAddressess(customerid, vendorid, personid))
+                .Where(P=>P.IsCurrentAddress==true)
+                .FirstOrDefault();
+
+
+            return myLocation;
+        }
 
         public async Task<string> SetCurrentAddress(long locationaddressid)
         {

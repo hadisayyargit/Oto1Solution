@@ -45,6 +45,8 @@ public partial class SignInPage : ContentPage
                 await toast.Show();
                 WeakReferenceMessenger.Default.Send(new AppShell.UserToolbarMessage("updateUserToolbarItem"));
 
+                GlobalClass.m_CurrentAddress = await MyServiceController.GetCurrentAddress(-1, GlobalClass.m_VendorId, -1);
+
                 myactivityIndicator.IsRunning = false;
                 await Navigation.PopAsync();
             }

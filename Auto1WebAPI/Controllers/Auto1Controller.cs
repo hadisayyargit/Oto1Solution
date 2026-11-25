@@ -369,18 +369,21 @@ namespace Auto1API.Controllers
         }
 
 
-        [HttpGet("{userrole}")]
-        public IEnumerable<PersonModel> GetAllPersonsByUserRole(byte userrole)
+        [HttpGet(Name = "GetAllPersonsByUserRole")]
+        public IEnumerable<PersonModel> GetAllPersonsByUserRole(byte userrole, int cityid)
         {
-            //return this.Auto1Context.Person.ToList();
+            var result = (from p in Auto1Context.Person
+                          join u in Auto1Context.AppUser
+                              on p.UserId equals u.UserId
+                          join l in Auto1Context.LocationAddress
+                              on p.PersonId equals l.PersonId
+                          where u.UserRole == userrole
+                             && l.IsCurrentAddress == true
+                             && l.CityId == cityid
+                          select p).ToList();
 
-            var personusers = (from p in Auto1Context.Person
-                                      join u in Auto1Context.AppUser on p.UserId equals u.UserId
-                                      where u.UserRole == userrole
-                                      select p).ToList();
-            
 
-            return personusers;
+            return result;
         }
 
         [HttpGet("{groupcode}")]

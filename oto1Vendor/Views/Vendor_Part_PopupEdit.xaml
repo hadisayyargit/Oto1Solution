@@ -4,10 +4,9 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:persian="clr-namespace:MauiPersianToolkit.Controls;assembly=MauiPersianToolkit"
     xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
-    x:Class="oto1.Vendor_Part_PopupEdit">
+    x:Class="oto1.Vendor_Part_PopupEdit" FlowDirection="RightToLeft">
 
 
-    <Border WidthRequest="350" StrokeThickness="0" BackgroundColor="White" StrokeShape="RoundRectangle 20">
         <ScrollView>
 
             <VerticalStackLayout Padding="20" Spacing="12">
@@ -63,6 +62,5 @@
 
             </VerticalStackLayout>
         </ScrollView>
-    </Border>
    
 </toolkit:Popup>

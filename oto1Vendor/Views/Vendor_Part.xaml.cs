@@ -2,6 +2,7 @@
 using oto1.Models;
 using oto1.Services;
 using System.ComponentModel;
+using System.Globalization;
 
 
 namespace oto1;
@@ -10,27 +11,36 @@ public partial class Vendor_Part : ContentPage
 {
     ServiceController MyServiceController = new ServiceController();
     public List<PartVendorViewModel> PartVendorList { get; set; } = new ();
-    public bool IsRefreshing { get; set; }
     public PartVendorViewModel SelectedPartVendor { get; set; } 
     public Command RefreshCommand { get; set; }
+
+    private const int PageSize = 10;
+    private int currentPage = 0;
+
+    private List<PartVendorViewModel> filteredPartVendorList = new();
+
+    private bool _isRefreshing;
+
+    public bool IsRefreshing
+    {
+        get => _isRefreshing;
+        set
+        {
+            if (_isRefreshing != value)
+            {
+                _isRefreshing = value;
+                OnPropertyChanged(nameof(IsRefreshing));
+            }
+        }
+    }
+
     public Vendor_Part()
     {
-        /*
-        RefreshCommand = new Command(async () =>
-        {
-            IsRefreshing = true;
-            await Task.Delay(2000);
-          //  await RefreshForm();
-
-            IsRefreshing = false;
-            //OnPropertyChanged(nameof(IsRefreshing));
-
-        });
-        */
-
-        //BindingContext = this;
         InitializeComponent();
-	}
+
+        RefreshCommand = new Command(async () => await RefreshForm());
+        BindingContext = this;
+    }
 
     private async void ClearForm()
     {
@@ -39,23 +49,41 @@ public partial class Vendor_Part : ContentPage
 
     private async Task RefreshForm()
     {
+        IsRefreshing = true;
+
         activityIndicator.IsRunning = true;
         activityIndicator.IsVisible = true;
 
-        PartVendorList = await MyServiceController.GetVendor_Part(GlobalClass.m_VendorId);
-        foreach (var item in PartVendorList)
+        try
         {
-            item.ThumbnailPhotoFile = "https://khordadnet.ir/mysites/oto1/assets/part/prt" + item.PartId.ToString() + ".png";
+            var data = await MyServiceController.GetVendor_Part(GlobalClass.m_VendorId);
+
+            PartVendorList = data ?? new List<PartVendorViewModel>();
+
+
+            foreach (var item in PartVendorList)
+            {
+                item.ThumbnailPhotoFile =
+                    "https://khordadnet.ir/mysites/oto1/assets/part/prt"
+                    + item.PartId
+                    + ".png";
+            }
+
+            ApplyFilter();
         }
-        
-        await Task.Delay(2000);
-
-        BindingContext = PartVendorList;
-
-        //BindingContext = this;
-        activityIndicator.IsRunning = false;
-        activityIndicator.IsVisible = false;
+        catch (Exception ex)
+        {
+            // برای اینکه متوجه شوید خطا چیست، این لاگ را در کنسول ببینید
+           // System.Diagnostics.Debug.WriteLine($"Error in RefreshForm: {ex.Message}");
+        }
+        finally
+        {
+            IsRefreshing = false;
+            activityIndicator.IsRunning = false;
+            activityIndicator.IsVisible = false;
+        }
     }
+
 
     private void btnClear_Clicked(object sender, EventArgs e)
     {
@@ -86,7 +114,9 @@ public partial class Vendor_Part : ContentPage
             //grdVendorPart.ItemsSource = PartVendorList;
             await Task.Delay(2000);
 
-            BindingContext = PartVendorList;
+            //BindingContext = PartVendorList;
+            await RefreshForm();
+
         }
     }
 
@@ -106,6 +136,93 @@ public partial class Vendor_Part : ContentPage
         //grdVendorPart.ItemsSource = null;
         //grdVendorPart.ItemsSource = PartVendorList;
         await Task.Delay(2000);
-        BindingContext = PartVendorList;
+        //BindingContext = PartVendorList;
+
+        await RefreshForm();
+
     }
+
+    private void ApplyFilter()
+    {
+        string searchText = sbSearch.Text?.Trim() ?? string.Empty;
+
+        if (string.IsNullOrWhiteSpace(searchText))
+        {
+            filteredPartVendorList = PartVendorList.ToList();
+        }
+        else
+        {
+            filteredPartVendorList = PartVendorList
+          .Where(x =>
+            (!string.IsNullOrWhiteSpace(x.PName) &&
+             x.PName.Contains(searchText, StringComparison.OrdinalIgnoreCase))
+            ||
+                (x.PartId != null && x.PartId.ToString(CultureInfo.InvariantCulture)
+                    .Contains(searchText, StringComparison.OrdinalIgnoreCase))).ToList();
+        }
+
+        currentPage = 0;
+        ShowCurrentPage();
+    }
+
+    private void ShowCurrentPage()
+    {
+        int pageCount = (int)Math.Ceiling(
+            filteredPartVendorList.Count / (double)PageSize);
+
+        var pageItems = filteredPartVendorList
+            .Skip(currentPage * PageSize)
+            .Take(PageSize)
+            .ToList();
+
+        grdVendorPart.ItemsSource = pageItems;
+
+        lblPage.Text = pageCount == 0
+            ? "صفحه ۰ از ۰"
+            : $"صفحه {currentPage + 1} از {pageCount}";
+
+        btnPrevious.IsEnabled = currentPage > 0;
+        btnNext.IsEnabled = pageCount > 0 && currentPage < pageCount - 1;
+    }
+
+    private void sbSearch_TextChanged(object sender, TextChangedEventArgs e)
+    {
+        ApplyFilter();
+    }
+
+    private void btnPrevious_Clicked(object sender, EventArgs e)
+    {
+        activityIndicator.IsRunning = true;
+        activityIndicator.IsVisible = true;
+
+        if (currentPage > 0)
+        {
+            currentPage--;
+            ShowCurrentPage();
+        }
+
+        activityIndicator.IsRunning = false;
+        activityIndicator.IsVisible = false;
+    }
+
+    private void btnNext_Clicked(object sender, EventArgs e)
+    {
+        activityIndicator.IsRunning = true;
+        activityIndicator.IsVisible = true;
+        
+
+        int pageCount = (int)Math.Ceiling(
+            filteredPartVendorList.Count / (double)PageSize);
+
+        if (currentPage < pageCount - 1)
+        {
+            currentPage++;
+            ShowCurrentPage();
+        }
+
+
+        activityIndicator.IsRunning = false;
+        activityIndicator.IsVisible = false;
+    }
+
 }

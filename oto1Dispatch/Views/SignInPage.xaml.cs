@@ -22,7 +22,6 @@ public partial class SignInPage : ContentPage
 
     private async void btnSignIn_Clicked(object sender, EventArgs e)
     {
-
         AppUserModel myUser = new AppUserModel();
         string username = txtUsername.Text;
         string password = txtPassword.Text;
@@ -50,6 +49,7 @@ public partial class SignInPage : ContentPage
                 // MessagingCenter.Send(this, "updateUserToolbarItem", "");
                 WeakReferenceMessenger.Default.Send(new AppShell.UserToolbarMessage("updateUserToolbarItem"));
 
+                GlobalClass.m_CurrentAddress = await MyServiceController.GetCurrentAddress(-1, -1, GlobalClass.m_PersonId);
 
                 myactivityIndicator.IsRunning = false;
                 await Navigation.PopAsync();
@@ -68,7 +68,6 @@ public partial class SignInPage : ContentPage
             myactivityIndicator.IsRunning = false;
 
         }
-
 
     }
 

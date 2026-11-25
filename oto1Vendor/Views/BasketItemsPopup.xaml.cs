@@ -1,46 +1,48 @@
-﻿using MauiPersianToolkit;
+﻿using CommunityToolkit.Maui.Views;
+using MauiPersianToolkit;
 using Microsoft.Maui.Controls;
 using oto1.Models;
 using oto1.Services;
+using System.Collections.ObjectModel;
 
 namespace oto1;
 
-public partial class BasketItems : ContentPage
+public partial class BasketItemsPopup : Popup
 {
+
+
     public long ServiceId { get; set; }
     public CustomerServiceController myCustomerServiceController { get; set; }
     List<CustomerServiceGroupModel> myGroupServices = new List<CustomerServiceGroupModel>();
-    List<PersonModel> persons = new List<PersonModel>();
     ServiceController MyServiceController = new ServiceController();
 
-    public BasketItems(long serviceid)
-	{
-		InitializeComponent();
+    public List<PersonModel> allcouriers { get; set; } = new List<PersonModel>();
+
+    private PersonModel _courier;
+
+    // لیست جدید برای نمایش در CollectionView
+    public ObservableCollection<PersonModel> FilteredCouriers { get; set; } = new ObservableCollection<PersonModel>();
+
+    public BasketItemsPopup(long serviceid)
+    {
+        InitializeComponent();
 
         this.ServiceId = serviceid;
         RefreshForm();
     }
-
-    protected async override void OnAppearing()
-    {
-        base.OnAppearing();
-
-        ServiceController MyServiceController = new ServiceController();
-
-        persons = await MyServiceController.GetAllPersonsByUserRole((byte)GlobalClass.enumUserRole.userrole_postman);
-        
-        RefreshForm();
-        
-    }
-
 
     private async void RefreshForm()
     {
         activityIndicator.IsRunning = true;
         activityIndicator.IsVisible = true;
 
-        pickerCourier.ItemsSource = persons;
+        //pickerCourier.ItemsSource = persons;
 
+
+        ServiceController MyServiceController = new ServiceController();
+
+
+        cvCourierResults.ItemsSource = FilteredCouriers;
 
         this.myCustomerServiceController = new CustomerServiceController();
 
@@ -71,6 +73,12 @@ public partial class BasketItems : ContentPage
 
         collectionviewBasket.ItemsSource = myOrdersItems;
 
+
+        //myCustomerServiceController.GetCustomerService
+
+        await LoadCouriersAsync();
+
+
         activityIndicator.IsRunning = false;
         activityIndicator.IsVisible = false;
     }
@@ -78,23 +86,24 @@ public partial class BasketItems : ContentPage
 
     private void TapNavigateBack_Tapped(object sender, TappedEventArgs e)
     {
-        Navigation.PopAsync();
+        btnCancel_Clicked(this, null);
     }
 
 
     private async void btnSend_Clicked(object sender, EventArgs e)
     {
-        bool answer = await DisplayAlert("هشدار", "سفارش ارسال شود؟", "بله", "خیر");
+        bool answer = await Shell.Current.DisplayAlert("هشدار", "سفارش ارسال شود؟", "بله", "خیر");
 
         if (answer)
         {
-            if (pickerCourier.SelectedIndex<0)
+            if (string.IsNullOrEmpty(sbCourier.Text))
             {
-                await DisplayAlert("تایید", "لطفا پیک را انتخاب کن", "قبول");
+                await Shell.Current.DisplayAlert("تایید", "لطفا پیک را از لیست انتخاب کن", "قبول");
                 return;
             }
 
-        
+
+
             var servicesitems = collectionviewBasket.ItemsSource;
             this.myCustomerServiceController = new CustomerServiceController();
 
@@ -124,8 +133,10 @@ public partial class BasketItems : ContentPage
                     Longitude = myCustomerService.Longitude,
                     ServicesDesc = txtRemark.Text,
                     ServiceStatus = (byte)GlobalClass.enumServiceStatus.servicestatus_Sending
-                    ,PostmanId =  ((PersonModel)pickerCourier.ItemsSource[pickerCourier.SelectedIndex]).PersonId
-                    
+                    ,
+                    PostmanId = _courier.PersonId
+                    //PostmanId =  ((PersonModel)pickerCourier.ItemsSource[pickerCourier.SelectedIndex]).PersonId
+
                 };
 
                 bool res = await myCustomerServiceController.UpdateCustomerService(newcustomerServiceModel);
@@ -137,15 +148,15 @@ public partial class BasketItems : ContentPage
                     {
                         MyServiceController = new ServiceController();
                         await MyServiceController.UpdateVendorPartExistance(serviceitem.VendorId.Value, serviceitem.PartId, -serviceitem.Quantity);
-                     
+
                     }
-                    catch (Exception ex) 
+                    catch (Exception ex)
                     {
                     }
                 }
 
 
-                        await DisplayAlert("تایید", "سفارش به پیک سپرده شد", "قبول");
+                await Shell.Current.DisplayAlert("تایید", "سفارش به پیک سپرده شد", "قبول");
                 /*
                 foreach (CustomerServiceItemViewModel serviceitem in servicesitems)
                 {
@@ -178,21 +189,21 @@ public partial class BasketItems : ContentPage
             catch (Exception ex)
             {
             }
-            await Navigation.PopAsync();
+            btnCancel_Clicked(this, null);
         }
     }
-    
+
 
     private async void btnRefused_Clicked(object sender, EventArgs e)
     {
 
-        bool answer = await DisplayAlert("هشدار", "سفارش رد شود؟", "بله", "خیر");
+        bool answer = await Shell.Current.DisplayAlert("هشدار", "سفارش رد شود؟", "بله", "خیر");
 
         if (answer)
         {
-            if (txtRemark.Text == ""||  txtRemark.Text ==null)
+            if (txtRemark.Text == "" || txtRemark.Text == null)
             {
-                await DisplayAlert("تایید", "لطفا توضیحات را وارد کن", "قبول");
+                await Shell.Current.DisplayAlert("تایید", "لطفا توضیحات را وارد کن", "قبول");
             }
             else
             {
@@ -212,7 +223,7 @@ public partial class BasketItems : ContentPage
                         TicketDateTime = myCustomerService.TicketDateTime,
                         DiscountCode = myCustomerService.DiscountCode,
                         DiscountAmount = myCustomerService.DiscountAmount,
-                         ExtraAmount = myCustomerService.ExtraAmount,
+                        ExtraAmount = myCustomerService.ExtraAmount,
                         ShippingAmount = myCustomerService.ShippingAmount,
                         TotalAmount = myCustomerService.TotalAmount,
                         ServiceDateTime = DateTime.Now,
@@ -226,9 +237,10 @@ public partial class BasketItems : ContentPage
 
                     bool res = await myCustomerServiceController.UpdateCustomerService(newcustomerServiceModel);
 
-                    await DisplayAlert("تایید", "سفارش رد شد", "قبول");
-                    await Navigation.PopAsync();
+                    await Shell.Current.DisplayAlert("تایید", "سفارش رد شد", "قبول");
+                    btnCancel_Clicked(this, null);
                 }
+
                 catch
                 {
 
@@ -239,14 +251,71 @@ public partial class BasketItems : ContentPage
 
     }
 
-    private void chkHasQuantity_CheckedChanged(object sender, CheckedChangedEventArgs e)
+
+    public async Task LoadCouriersAsync()
     {
-        //string s=e.Value.ToString();
-          
+        allcouriers = await MyServiceController.GetAllPersonsByUserRole((byte)GlobalClass.enumUserRole.userrole_postman, GlobalClass.m_CurrentAddress.CityId.Value);
+
+
+
+        // مقداردهی اولیه لیست فیلتر شده
+        FilteredCouriers.Clear();
+        foreach (var item in allcouriers)
+            FilteredCouriers.Add(item);
+
+
+        if (_courier != null)
+        {
+            var selectedCourier = allcouriers.FirstOrDefault(x => x.PersonId == _courier.PersonId);
+            if (selectedCourier != null)
+            {
+                _courier.PersonId = selectedCourier.PersonId;
+                //_courier.PName = selectedCourier.PName;
+                sbCourier.Text = selectedCourier.FullName; // نمایش نام در سرچ‌بار
+            }
+        }
     }
 
-    private void pickerCourier_SelectedIndexChanged(object sender, EventArgs e)
+    private void OnCourierSearchTextChanged(object sender, TextChangedEventArgs e)
     {
+        string searchText = e.NewTextValue;
 
+        if (string.IsNullOrWhiteSpace(searchText))
+        {
+            FilteredCouriers.Clear();
+            foreach (var item in allcouriers) FilteredCouriers.Add(item);
+            cvCourierResults.IsVisible = false;
+        }
+        else
+        {
+            var filtered = allcouriers
+                .Where(x => x.FullName.Contains(searchText, StringComparison.OrdinalIgnoreCase))
+                .ToList();
+
+            FilteredCouriers.Clear();
+            foreach (var item in filtered) FilteredCouriers.Add(item);
+
+            cvCourierResults.IsVisible = filtered.Any();
+        }
     }
+
+    // وقتی کاربر از لیست انتخاب می‌کند
+    private void OnCourierSelected(object sender, SelectionChangedEventArgs e)
+    {
+        if (e.CurrentSelection.FirstOrDefault() is PersonModel selectedCourier)
+        {
+            _courier = new PersonModel();
+
+            _courier.PersonId = selectedCourier.PersonId;
+            //_courier.FullName = selectedCourier.FullName;
+
+            sbCourier.Text = selectedCourier.FullName;
+
+            cvCourierResults.IsVisible = false;
+            cvCourierResults.SelectedItem = null;
+        }
+    }
+
+    private async void btnCancel_Clicked(object sender, EventArgs e) => await CloseAsync();
+
 }

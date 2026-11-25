@@ -1,4 +1,5 @@
-﻿using oto1;
+﻿using CommunityToolkit.Maui.Extensions;
+using oto1;
 using oto1.Models;
 using oto1.Services;
 
@@ -130,7 +131,14 @@ public partial class Basket : ContentPage
         long id = servicesitems.ServiceId;
 
 
-        Navigation.PushAsync(new BasketItems(id));
+        //Navigation.PushAsync(new BasketItemsPopup(id));
+
+        var popup = new BasketItemsPopup(id);
+        //await popup.LoadPartsAsync();
+        this.ShowPopupAsync(popup);
+
+        Task.Delay(2000);
+        //BindingContext = PartVendorList;
     }
 
 }

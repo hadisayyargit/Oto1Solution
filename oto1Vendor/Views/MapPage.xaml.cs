@@ -361,6 +361,10 @@ public partial class MapPage : ContentPage
 
             await Task.Delay(1000);
 
+            GlobalClass.m_CurrentAddress = await MyServiceController.GetCurrentAddress(-1, GlobalClass.m_VendorId, -1);
+
+            await Task.Delay(1000);
+
             if (res != null)
             {
                 await DisplayAlert("پیام", "نشانی فعلی ذخیره شد", "ok");
