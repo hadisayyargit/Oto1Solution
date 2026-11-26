@@ -29,6 +29,16 @@ public partial class SignInPage : ContentPage
 
         // اینجا میتوانید کد احراز هویت خود را اضافه کنید
         myactivityIndicator.IsRunning = true;
+        myactivityIndicator.IsVisible = true;
+
+        if (NetClass.CheckNetConnection() == false)
+        {
+            myactivityIndicator.IsRunning = false;
+            myactivityIndicator.IsVisible = false;
+            await DisplayAlert("پیام", "خطا در اتصال", "ok");
+            return;
+        }
+
         MyServiceController = new ServiceController();
         myUser = await MyServiceController.AuthenticateUser(username, password);
 
@@ -47,13 +57,15 @@ public partial class SignInPage : ContentPage
 
                 WeakReferenceMessenger.Default.Send(new AppShell.UserToolbarMessage("updateUserToolbarItem"));
 
-                myactivityIndicator.IsRunning = false;
+                myactivityIndicator.IsRunning = false; 
+                myactivityIndicator.IsVisible = false;
                 await Navigation.PopAsync();
             }
             else
             {
                 await DisplayAlert("Error", "به این برنامه دسترسی نداری", "OK");
                 myactivityIndicator.IsRunning = false;
+                myactivityIndicator.IsVisible = false;
             }
         }
         else
@@ -62,7 +74,7 @@ public partial class SignInPage : ContentPage
             GlobalClass.m_PersonId = 0;
             await DisplayAlert("Error", "شناسه یا گذرواژه نادرست است", "OK");
             myactivityIndicator.IsRunning = false;
-
+            myactivityIndicator.IsVisible = false;
         }
     }
 

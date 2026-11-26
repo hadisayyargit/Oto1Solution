@@ -13,8 +13,6 @@ public partial class SignInPage : ContentPage
 {
     public ServiceController MyServiceController { get; set; }
 
-
-
     public SignInPage()
     {
         InitializeComponent();
@@ -25,6 +23,17 @@ public partial class SignInPage : ContentPage
         AppUserModel myUser = new AppUserModel();
         string username = txtUsername.Text;
         string password = txtPassword.Text;
+
+        myactivityIndicator.IsRunning = true;
+        myactivityIndicator.IsVisible = true;
+
+        if (NetClass.CheckNetConnection() == false)
+        {
+            myactivityIndicator.IsRunning = false;
+            myactivityIndicator.IsVisible = false;
+            await DisplayAlert("پیام", "خطا در اتصال", "ok");
+            return;
+        }
 
         // اینجا میتوانید کد احراز هویت خود را اضافه کنید
         myactivityIndicator.IsRunning = true;
@@ -48,12 +57,14 @@ public partial class SignInPage : ContentPage
                 GlobalClass.m_CurrentAddress = await MyServiceController.GetCurrentAddress(-1, GlobalClass.m_VendorId, -1);
 
                 myactivityIndicator.IsRunning = false;
+                myactivityIndicator.IsVisible = false;
                 await Navigation.PopAsync();
             }
             else
             {
                 await DisplayAlert("Error", "به این برنامه دسترسی نداری", "OK");
                 myactivityIndicator.IsRunning = false;
+                myactivityIndicator.IsVisible = false;
             }
         }
         else
@@ -62,15 +73,13 @@ public partial class SignInPage : ContentPage
             GlobalClass.m_VendorId = 0;
             await DisplayAlert("Error", "شناسه یا گذرواژه نادرست است", "OK");
             myactivityIndicator.IsRunning = false;
-
+            myactivityIndicator.IsVisible = false;
         }
 
     }
 
-
     private async Task<VendorModel> AuthorizeUser(string username)
     {
-
         MyServiceController = new ServiceController();
         VendorModel myvendor = new VendorModel();
 
@@ -89,11 +98,8 @@ public partial class SignInPage : ContentPage
             GlobalClass.m_VendorId = 0;
         }
 
-
         return await Task.FromResult(myvendor);
     }
-
-
 
     private void OnSignUpTapped(object sender, TappedEventArgs e)
     {

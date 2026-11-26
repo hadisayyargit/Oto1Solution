@@ -15,7 +15,7 @@
 
 
         <ToolbarItem IconImageSource="dotnet_bot.svg" Text="یاور هوشمند" Order="Primary" Priority="3" x:Name="toolbaritemSmartChat"  Clicked="toolbaritemSmartChat_Clicked"/>
-        <ToolbarItem Text="خروج"     Order="Secondary" Priority="4" x:Name="toolbaritemLogoff"  Clicked="toolbaritemLogoff_Clicked"    />
+        <ToolbarItem Text="خروج"     Order="Secondary" Priority="14" x:Name="toolbaritemLogoff"  Clicked="toolbaritemLogoff_Clicked"    />
 
     </Shell.ToolbarItems>
 

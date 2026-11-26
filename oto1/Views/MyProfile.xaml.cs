@@ -29,7 +29,7 @@ public partial class MyProfile : ContentPage
     }
     private void mnuMyLocation_Clicked(object sender, EventArgs e)
     {
-        // Navigation.PushAsync(new myLocations());
+         Navigation.PushAsync(new MapPage());
 
     }
 

@@ -68,10 +68,6 @@
 
         <Button x:Name="btnNextStep"  Text="ادامه"  Grid.Row="6" Grid.Column="1" Clicked="btnNextStep_Clicked" WidthRequest="100" ></Button>
 
-
-
-
-    
     </Grid>
   
     </ScrollView>

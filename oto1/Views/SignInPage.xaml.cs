@@ -27,11 +27,13 @@ public partial class SignInPage : ContentPage
         string username = txtUsername.Text;
         string password = txtPassword.Text;
 
-        // اینجا میتوانید کد احراز هویت خود را اضافه کنیدmyactivityIndicator.IsRunning = true;
+        myactivityIndicator.IsRunning = true;
+        myactivityIndicator.IsVisible = true;
 
         if (NetClass.CheckNetConnection() == false)
         {
             myactivityIndicator.IsRunning = false;
+            myactivityIndicator.IsVisible = false;
             await DisplayAlert("پیام", "خطا در اتصال", "ok");
             return;
         }
@@ -71,12 +73,14 @@ public partial class SignInPage : ContentPage
 
 
                 myactivityIndicator.IsRunning = false;
+                myactivityIndicator.IsVisible = false;
                 await Navigation.PopAsync();
             }
             else
             {
                 await DisplayAlert("Error", "به این برنامه دسترسی نداری", "OK");
                 myactivityIndicator.IsRunning = false;
+                myactivityIndicator.IsVisible = false;
             }
         }
         else
@@ -85,7 +89,7 @@ public partial class SignInPage : ContentPage
             GlobalClass.m_CustomerId = 0;
             await DisplayAlert("Error", "شناسه یا گذرواژه نادرست است", "OK");
             myactivityIndicator.IsRunning = false;
-
+            myactivityIndicator.IsVisible = false;
         }
 
 

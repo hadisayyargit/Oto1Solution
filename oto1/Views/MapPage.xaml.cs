@@ -34,7 +34,12 @@ public partial class MapPage : ContentPage
     protected async override void OnAppearing()
     {
         base.OnAppearing();
+        string currentPath = Shell.Current.CurrentState.Location.ToString();
 
+        if (currentPath.ToLower().Contains("myprofile"))
+        {
+            btnNextStep.IsVisible = false;
+        }
         FillLocationCollection();
         await LoadProvinces();
     }
@@ -67,7 +72,7 @@ map.PinDragEnd += (_, e) => labelDragStatus.Text = $"DragEnd - {PrintPin(e.Pin)}
          */
 
 
-        Content = stack1;
+       // Content = stack1;
     }
 
     void goToMap(double Latitude, double Longitude)
@@ -346,15 +351,16 @@ private async void InitmyMap()
 
         //var m2 = Shell.Current.CurrentItem.CurrentItem.CurrentItem.Route;
 
-            //Navigation.PushAsync(new Lubricant());
-            //Shell.Current.GoToAsync("//Lubricant");
-     
+        //Navigation.PushAsync(new Lubricant());
+        //Shell.Current.GoToAsync("//Lubricant");
+
 
         if (GlobalClass.m_UserId == "" || GlobalClass.m_UserId == null)
         {
             DisplayAlert("هشدار", "به عنوان کاربر معتبر وارد برنامه نشده‌ای", "ok");
             return;
         }
+
 
         /*
         if (GlobalClass.m_LocationAddressId == 0 )
@@ -371,6 +377,12 @@ private async void InitmyMap()
             DisplayAlert("هشدار", "نوع خدمت را انتخاب نکرده‌ای", "ok");
             return;
 
+        }
+
+        if (GlobalClass.m_CityId == null || GlobalClass.m_CityId == 0)
+        {
+            DisplayAlert("هشدار", "شهر نامشخص است", "ok");
+            return;
         }
 
         switch (GlobalClass.m_CustomerServiceItemView.ServiceType)

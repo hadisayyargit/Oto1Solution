@@ -26,11 +26,11 @@ namespace oto1
         ObservableCollection<PartCarVendorModel> myItems { get; set; }
 
         private int _pageNumber = 1;
-        private const int _pageSize = 10;
+        private const int _pageSize = 4;
         private bool _isLoading = false;
         private bool _hasMoreData = true;
 
-        private const int PageSize = 10;
+        private const int PageSize = 4;
 
         private bool _isLoadingPage = false;
 
@@ -348,6 +348,7 @@ namespace oto1
 
             await LoadNextPageAsync();
 
+            activityIndicator.IsRunning = false;
         }
 
         private async void btnAddToBasket_Clicked(object sender, EventArgs e)

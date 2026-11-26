@@ -46,11 +46,11 @@
                     <Frame CornerRadius="15" HasShadow="True" Padding="0" IsClippedToBounds="True" BorderColor="#DDD">
                         <VerticalStackLayout Spacing="0">
                             <!-- تصویر خودرو -->
-                            <Frame Padding="0" IsClippedToBounds="True" CornerRadius="15,15,0,0">
-                                <Image Source="{Binding ThumbnailPhotoString}" 
-                                       Aspect="AspectFill"
+                            <Frame Padding="0" IsClippedToBounds="True" >
+                                <Image Source="{Binding ThumbnailPhotoFile}" 
+                                       Aspect="AspectFit"
                                        HeightRequest="120" 
-                                       WidthRequest="150" 
+                                       WidthRequest="150"  
                                        HorizontalOptions="Center" />
                             </Frame>
 

@@ -133,7 +133,8 @@ namespace Auto1API.Controllers
                           PName = mt2.PName
                           ,
                           Plaque = m.Plaque
-                          //,  ThumbnailPhoto = mt2.ThumbnailPhotoFile
+                          ,  ThumbnailPhotoFile = mt2.ThumbnailPhotoFile
+                          ,IsDefault=m.IsDefault
 
                       }).Where(m => m.CustomerId == customerid).ToList();
 

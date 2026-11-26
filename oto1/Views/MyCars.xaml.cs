@@ -34,14 +34,14 @@ public partial class MyCars : ContentPage
 
 
 
-        List<Customer_CarModel>  mycarlist = await MyServiceController.GetMyCars(1);
+        List<Customer_CarModel>  mycarlist = await MyServiceController.GetMyCars(GlobalClass.m_CustomerId);
 
-
+       
         if (mycarlist != null && mycarlist.Count > 0)
         {
             foreach (var car in mycarlist)
             {
-
+                /*
 
                 string s = "";
                 try
@@ -52,10 +52,11 @@ public partial class MyCars : ContentPage
                 {
                 }
                 car.ThumbnailPhotoString = string.Format("data:image/jpeg;base64,{0}", s);
-
+                */
+                car.ThumbnailPhotoFile = $"https://khordadnet.ir/mysites/oto1/assets/car/{car.ThumbnailPhotoFile}";
             }
         }
-     
+    
 
         collectionviewCars.ItemsSource = mycarlist;
 

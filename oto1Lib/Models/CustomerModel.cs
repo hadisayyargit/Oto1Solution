@@ -36,9 +36,9 @@ namespace oto1.Models
         public int CarId { get; set; }
         public string PName { get; set; }
         public string Plaque { get; set; }
-        //public bool IsActive { get; set; }
+        public bool? IsDefault { get; set; }
         public byte[] ThumbnailPhoto { get; set; }
-
+        public string? ThumbnailPhotoFile { get; set; }
         public string ThumbnailPhotoString { get; set; }
     }
 }

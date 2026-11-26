@@ -28,8 +28,8 @@ namespace Auto1API.Models
         public int CarId { get; set; }
         public required string PName { get; set; }
         public required string Plaque { get; set; }
-        public bool ? IsActive { get; set; }
-        //public string? ThumbnailPhoto { get; set; }
+        public bool ? IsDefault { get; set; }
+        public string? ThumbnailPhotoFile { get; set; }
     }
 
 
